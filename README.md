@@ -21,5 +21,5 @@ gulp build
 If this is a project that will be a static flat site:
 
 ```bash
-gulp build-glat
+gulp build-flat
 ```
