@@ -1,0 +1,31 @@
+//- -----------------------------------------------------------------|
+//- INDEX
+//- -----------------------------------------------------------------|
+//- Contains all blocks/variables & HTML for the index page
+//- This includes the page title, meta tags, and all content.
+
+extends /layouts/default/_default
+
+//- -----------------------------------------------------------------|
+//- PAGE SPECIFIC VARIABLES
+//- -----------------------------------------------------------------|
+block variables
+
+	//- PAGE META
+	//- -----------------------------|
+	- var pageTitle = 'PageTitle'
+	- var pageName = 'pagename'
+	- var pageDesc = 'PageDescription'
+	- var pageUrl = siteUrl + '/' + pageName + '.html'
+	- var pageImage = siteUrl + '/images/share/' + pageName + '.jpg'
+
+
+//- -----------------------------------------------------------------|
+//- CONTENT
+//- -----------------------------------------------------------------|
+block content
+	main#content(role='main')
+		.container
+			.row
+				.col-sm-12
+					+kitchenSink
