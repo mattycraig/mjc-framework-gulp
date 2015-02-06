@@ -23,3 +23,13 @@ If this is a project that will be a static flat site:
 ```bash
 gulp build-flat
 ```
+
+To view our dist files locally to ensure all tasks are working properly, simply:
+
+```bash
+gulp serve:dist
+```
+
+### Todo
+
+* Add reponsive images

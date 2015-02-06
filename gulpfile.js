@@ -2,51 +2,79 @@
 'use strict';
 
 var gulp = require('gulp');
-var $ = require('gulp-load-plugins')();
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var cmq = require('gulp-combine-media-queries');
+var lazypipe = require('lazypipe');
+var scsslint = require('gulp-scss-lint');
+var $ = require('gulp-load-plugins')();
+
+// -----------------------------------------------------------------|
+// GULP TASK STATISTICS
+// -----------------------------------------------------------------|
+require('gulp-stats')(gulp);
+
+// -----------------------------------------------------------------|
+// ERROR NOTIFICATIONS
+// -----------------------------------------------------------------|
+function handleError(task){
+	return function(err) {
+		$.util.log($.util.colors.red(err));
+		$.notify.onError(task + ' failed!')(err);
+		this.emit('end');
+	};
+};
 
 // -----------------------------------------------------------------|
 // STYLES (LIBSASS [NODESASS] + COMBINE MQ + AUTOPREFIXER + SOURCEMAPS)
 // -----------------------------------------------------------------|
 gulp.task('styles', function () {
+
+	// Sass Options
+	var optsSass = {
+		outputStyle: 'nested', // libsass doesn't support expanded yet
+		precision: 10,
+		includePaths: ['.'],
+		onError: console.error.bind(console, 'Sass error:')
+	}
+
+	// Autoprefixer Options
+	var optsAutoprefixer = {
+		browsers: [
+			'> 1%',
+			'last 2 versions',
+			'Firefox ESR',
+			'Opera 12.1',
+			'ie 9',
+			'Safari 6'
+		]
+	}
+
+	// Sourcemap + will be minified (.tmp)
 	gulp.src('app/css/**/*.scss')
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
-		.pipe($.sass({
-			outputStyle: 'nested', // libsass doesn't support expanded yet
-			precision: 10,
-			includePaths: ['.'],
-			onError: console.error.bind(console, 'Sass error:')
-		}))
-		.pipe($.autoprefixer({
-			browsers: [
-				'> 1%',
-				'last 2 versions',
-				'Firefox ESR',
-				'Opera 12.1',
-				'ie 9',
-				'Safari 6'
-			]
-		}))
+		.pipe($.sass(optsSass))
+		.on('error', handleError('Sass'))
+		.pipe($.autoprefixer(optsAutoprefixer))
 		.pipe(cmq())
 		.pipe($.sourcemaps.write())
 		.pipe(gulp.dest('.tmp/css'));
+
+	// Unminified + no sourcemap (dist)
+	gulp.src('app/css/**/*.scss')
+		.pipe($.plumber())
+		.pipe($.sass(optsSass))
+		.pipe($.autoprefixer(optsAutoprefixer))
+		.pipe(cmq())
+		.pipe($.rename({
+			extname: '.unmin.css'
+		}))
+		.pipe(gulp.dest('dist/css'));
 });
 
 // -----------------------------------------------------------------|
-// JSHINT (LINT OUR JS)
-// -----------------------------------------------------------------|
-gulp.task('jshint', function () {
-	return gulp.src('app/js/**/*.js')
-		.pipe($.jshint())
-		.pipe($.jshint.reporter('jshint-stylish'))
-		.pipe($.jshint.reporter('fail'));
-});
-
-// -----------------------------------------------------------------|
-// VIEWS (COMPILE OUR JADE VIEWS)
+// VIEWS (COMPILE OUR JADE VIEWS + HTMLHINT)
 // -----------------------------------------------------------------|
 gulp.task('views', function () {
 	return gulp.src('app/jade/*.jade')
@@ -54,19 +82,52 @@ gulp.task('views', function () {
 			pretty: true,
 			basedir: 'app/jade',
 		}))
-		.pipe(gulp.dest('.tmp'));
+		.pipe(gulp.dest('.tmp'))
+		.on('error', handleError('Jade'))
+		.pipe($.htmlhint())
+		.pipe($.htmlhint.reporter())
+		.on('error', handleError('HTML Hint'));
+});
+
+// -----------------------------------------------------------------|
+// SCSS-LINT (LINT OUR SCSS FILES)
+// -----------------------------------------------------------------|
+gulp.task('scss-lint', function() {
+	gulp.src([
+			'app/css/**/*.scss',
+			'!app/css/vendor/*.scss'
+		])
+		.pipe(scsslint({
+			'config': '.scss-lint.yml',
+			'endless': true
+		}))
+		.on('error', handleError('SCSS Lint'));
+});
+
+// -----------------------------------------------------------------|
+// JSHINT (LINT OUR JS)
+// -----------------------------------------------------------------|
+gulp.task('jshint', function () {
+	return gulp.src('app/js/**/*.js')
+		.pipe(reload({
+			stream: true,
+			once: true
+		}))
+		.pipe($.jshint())
+		.pipe($.jshint.reporter('jshint-stylish'))
+		.pipe($.if(!browserSync.active, $.jshint.reporter('fail')))
+		.on('error', handleError('JSHint'));
 });
 
 // -----------------------------------------------------------------|
 // HTML (MINIFY CSS, MINIFY JS
 // -----------------------------------------------------------------|
-gulp.task('html', ['views', 'styles'], function () {
-	var lazypipe = require('lazypipe');
-	var cssChannel = lazypipe()
-		.pipe($.csso)
-		.pipe($.replace, '../bower_components/font-awesome/fonts', 'fonts/font-awesome');
-	var assets = $.useref.assets({searchPath: '{.tmp,app}'});
+var cssChannel = lazypipe()
+	.pipe($.csso)
+	.pipe($.replace, '../bower_components/font-awesome/fonts', 'fonts/font-awesome');
+var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
+gulp.task('html', ['views', 'styles'], function () {
 	return gulp.src(['app/*.html', '.tmp/*.html'])
 		.pipe(assets)
 		.pipe($.if('*.js', $.uglify()))
@@ -80,12 +141,6 @@ gulp.task('html', ['views', 'styles'], function () {
 // HTMLFLAT (MINIFY CSS, MINIFY JS, MINIFY HTML, ASSET REVISION)
 // -----------------------------------------------------------------|
 gulp.task('htmlFlat', ['views', 'styles'], function () {
-	var lazypipe = require('lazypipe');
-	var cssChannel = lazypipe()
-		.pipe($.csso)
-		.pipe($.replace, '../bower_components/font-awesome/fonts', 'fonts/font-awesome');
-	var assets = $.useref.assets({searchPath: '{.tmp,app}'});
-
 	return gulp.src(['app/*.html', '.tmp/*.html'])
 		.pipe(assets)
 		.pipe($.if('*.js', $.uglify()))
@@ -105,7 +160,7 @@ gulp.task('htmlFlat', ['views', 'styles'], function () {
 // IMAGES (MINIFY OUR IMAGES + CREATE RESPONSIVE IMAGES)
 // -----------------------------------------------------------------|
 gulp.task('images', function () {
-	return gulp.src('app/images/**/*')
+	return gulp.src('app/images/**/*{jpg,gif,png}')
 		.pipe($.cache($.imagemin({
 			progressive: true,
 			interlaced: true
@@ -113,7 +168,7 @@ gulp.task('images', function () {
 		.pipe(gulp.dest('dist/images'));
 
 	// Responsive images - needs more research
-	// return gulp.src('app/images/**/*.{jpg,gif,png}')
+	// gulp.src('app/images/**/*.{jpg,gif,png}')
 	// 	.pipe($.responsive([{
 	// 		'*.{jpg,gif,png}' : [{
 	// 			width: 320,
@@ -182,13 +237,6 @@ gulp.task('extras', function () {
 			extname: '.unmin.js'
 		}))
 		.pipe(gulp.dest('dist/js'));
-
-	// Create unminified CSS files
-	// gulp.src('.tmp/unmin/*.css')
-	// 	.pipe($.rename({
-	// 		extname: '.unmin.css'
-	// 	}))
-	// 	.pipe(gulp.dest('dist/css'));
 });
 
 // -----------------------------------------------------------------|
@@ -223,10 +271,23 @@ gulp.task('serve', ['styles', 'views', 'fonts'], function () {
 		'app/images/**/*'
 	]).on('change', reload);
 
-	gulp.watch('app/css/**/*.scss', ['styles', reload]);
+	gulp.watch('app/css/**/*.scss', ['scss-lint', 'styles', reload]);
 	gulp.watch('app/js/**/*.js', ['jshint']);
 	gulp.watch('app/jade/**/*.jade', ['views']);
 	gulp.watch('bower.json', ['wiredep', 'fonts', reload]);
+});
+
+// -----------------------------------------------------------------|
+// SERVE:DIST (SERVE UP OUR DIST FOLDER)
+// -----------------------------------------------------------------|
+gulp.task('serve:dist', ['styles', 'views', 'fonts'], function () {
+	browserSync({
+		notify: false,
+		port: 9000,
+		server: {
+			baseDir: ['dist']
+		}
+	});
 });
 
 // -----------------------------------------------------------------|
@@ -243,7 +304,8 @@ gulp.task('wiredep', function () {
 			],
 			ignorePath: '../../../../'
 		}))
-		.pipe(gulp.dest('app/jade'));
+		.pipe(gulp.dest('app/jade'))
+		.on('error', handleError('Wiredep'));
 });
 
 // -----------------------------------------------------------------|
@@ -270,7 +332,4 @@ gulp.task('default', ['clean'], function () {
 // -----------------------------------------------------------------|
 // TODO
 // -----------------------------------------------------------------|
-// gulp-scsslint
-// gulp-html-validator
 // gulp-responsive
-// unminified css files
