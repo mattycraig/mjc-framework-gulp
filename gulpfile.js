@@ -12,7 +12,7 @@ var $ = require('gulp-load-plugins')();
 // -----------------------------------------------------------------|
 // GULP TASK STATISTICS
 // -----------------------------------------------------------------|
-require('gulp-stats')(gulp);
+// require('gulp-stats')(gulp);
 
 // -----------------------------------------------------------------|
 // ERROR NOTIFICATIONS
@@ -58,8 +58,11 @@ gulp.task('styles', function () {
 		.on('error', handleError('Sass'))
 		.pipe($.autoprefixer(optsAutoprefixer))
 		.pipe(cmq())
-		.pipe($.sourcemaps.write())
-		.pipe(gulp.dest('.tmp/css'));
+		.pipe($.sourcemaps.write('./'))
+		.pipe(gulp.dest('.tmp/css'))
+		.pipe(reload({
+			stream: true
+		}));
 
 	// Unminified + no sourcemap (dist)
 	gulp.src('app/css/**/*.scss')
@@ -70,7 +73,7 @@ gulp.task('styles', function () {
 		.pipe($.rename({
 			extname: '.unmin.css'
 		}))
-		.pipe(gulp.dest('dist/css'));
+		.pipe(gulp.dest('dist/css/dev'));
 });
 
 // -----------------------------------------------------------------|
@@ -163,7 +166,10 @@ gulp.task('images', function () {
 	return gulp.src('app/images/**/*{jpg,gif,png}')
 		.pipe($.cache($.imagemin({
 			progressive: true,
-			interlaced: true
+			interlaced: true,
+			svgoPlugins: [{
+				cleanupIDs: false
+			}]
 		})))
 		.pipe(gulp.dest('dist/images'));
 
@@ -236,7 +242,7 @@ gulp.task('extras', function () {
 		.pipe($.rename({
 			extname: '.unmin.js'
 		}))
-		.pipe(gulp.dest('dist/js'));
+		.pipe(gulp.dest('dist/js/dev'));
 });
 
 // -----------------------------------------------------------------|
@@ -266,12 +272,11 @@ gulp.task('serve', ['styles', 'views', 'fonts'], function () {
 	gulp.watch([
 		'app/*.html',
 		'.tmp/*.html',
-		'.tmp/css/**/*.css',
 		'app/js/**/*.js',
 		'app/images/**/*'
 	]).on('change', reload);
 
-	gulp.watch('app/css/**/*.scss', ['scss-lint', 'styles', reload]);
+	gulp.watch('app/css/**/*.scss', ['styles']);
 	gulp.watch('app/js/**/*.js', ['jshint']);
 	gulp.watch('app/jade/**/*.jade', ['views']);
 	gulp.watch('bower.json', ['wiredep', 'fonts', reload]);

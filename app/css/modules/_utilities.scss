@@ -25,6 +25,49 @@
 .u-textLeft { text-align: left !important; }
 .u-textRight { text-align: right !important; }
 
+// UTILITY FONT SIZES
+// ---------------------------------|
+$e: 10;
+@while $e < 26 {
+	.u-fontSize-#{$e} {
+		$remSize: $e / 16;
+		font-size: #{$e}px !important;
+		font-size: $remSize * 1rem !important;
+	}
+	$e: $e + 2;
+}
+
+// UTILITY DISPLAY
+// ---------------------------------|
+.u-block {
+  display: block !important;
+}
+
+.u-hidden {
+  display: none !important;
+}
+
+.u-inline {
+  display: inline !important;
+}
+
+.u-inlineBlock {
+  display: inline-block !important;
+  max-width: 100%;
+}
+
+.u-table {
+  display: table !important;
+}
+
+.u-tableCell {
+  display: table-cell !important;
+}
+
+.u-tableRow {
+  display: table-row !important;
+}
+
 // UTILITY FLOAT
 // ---------------------------------|
 $floats:
@@ -49,7 +92,7 @@ $types:
 	margin,
 	padding;
 
-@while $i < 6 {
+@while $i < 11 {
 	@each $dir in $dirs {
 		@each $type in $types {
 			.u-#{$type}#{$dir}#{if($i != 1, '-' + $i, '')} {
@@ -171,4 +214,8 @@ $types:
 
 .u-size11of12 {
   width: calc(100% * 11 / 12) !important;
+}
+
+.u-size12of12 {
+  width: 100% !important;
 }
