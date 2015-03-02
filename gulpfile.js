@@ -93,24 +93,9 @@ gulp.task('views', function () {
 });
 
 // -----------------------------------------------------------------|
-// SCSS-LINT (LINT OUR SCSS FILES)
+// SCRIPTS (JSHINT + JSCS)
 // -----------------------------------------------------------------|
-gulp.task('scss-lint', function() {
-	gulp.src([
-			'app/css/**/*.scss',
-			'!app/css/vendor/*.scss'
-		])
-		.pipe(scsslint({
-			'config': '.scss-lint.yml',
-			'endless': true
-		}))
-		.on('error', handleError('SCSS Lint'));
-});
-
-// -----------------------------------------------------------------|
-// JSHINT (LINT OUR JS)
-// -----------------------------------------------------------------|
-gulp.task('jshint', function () {
+gulp.task('scripts', function () {
 	return gulp.src('app/js/**/*.js')
 		.pipe(reload({
 			stream: true,
@@ -119,11 +104,13 @@ gulp.task('jshint', function () {
 		.pipe($.jshint())
 		.pipe($.jshint.reporter('jshint-stylish'))
 		.pipe($.if(!browserSync.active, $.jshint.reporter('fail')))
-		.on('error', handleError('JSHint'));
+		.on('error', handleError('JSHint'))
+		.pipe($.jscs())
+		.on('error', handleError('JSCS'));
 });
 
 // -----------------------------------------------------------------|
-// HTML (MINIFY CSS, MINIFY JS
+// HTML (MINIFY CSS, MINIFY JS)
 // -----------------------------------------------------------------|
 var cssChannel = lazypipe()
 	.pipe($.csso)
@@ -256,7 +243,7 @@ gulp.task('clean', require('del').bind(null, [
 // -----------------------------------------------------------------|
 // SERVE (START LOCAL SERVER + BROWSERSYNC + WATCH)
 // -----------------------------------------------------------------|
-gulp.task('serve', ['styles', 'views', 'fonts'], function () {
+gulp.task('serve', ['styles', 'views', 'fonts', 'scripts', 'jscs'], function () {
 	browserSync({
 		notify: false,
 		port: 9000,
@@ -271,14 +258,14 @@ gulp.task('serve', ['styles', 'views', 'fonts'], function () {
 	// watch for changes
 	gulp.watch([
 		'app/*.html',
-		'.tmp/*.html',
+		// '.tmp/*.html',
 		'app/js/**/*.js',
 		'app/images/**/*'
 	]).on('change', reload);
 
 	gulp.watch('app/css/**/*.scss', ['styles']);
-	gulp.watch('app/js/**/*.js', ['jshint']);
-	gulp.watch('app/jade/**/*.jade', ['views']);
+	gulp.watch('app/js/**/*.js', ['scripts', 'jscs']);
+	gulp.watch('app/jade/**/*.jade', ['views', reload]);
 	gulp.watch('bower.json', ['wiredep', 'fonts', reload]);
 });
 
@@ -316,14 +303,14 @@ gulp.task('wiredep', function () {
 // -----------------------------------------------------------------|
 // BUILD (FOR CMS INTEGRATION)
 // -----------------------------------------------------------------|
-gulp.task('build', ['jshint', 'html', 'images', 'fonts', 'extras'], function () {
+gulp.task('build', ['scripts', 'html', 'images', 'fonts', 'extras'], function () {
 	return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
 });
 
 // -----------------------------------------------------------------|
 // BUILD (FLAT)
 // -----------------------------------------------------------------|
-gulp.task('build-flat', ['jshint', 'htmlFlat', 'images', 'fonts', 'extras'], function () {
+gulp.task('build-flat', ['scripts', 'htmlFlat', 'images', 'fonts', 'extras'], function () {
 	return gulp.src('dist/**/*').pipe($.size({title: 'build-flat', gzip: true}));
 });
 
@@ -337,4 +324,4 @@ gulp.task('default', ['clean'], function () {
 // -----------------------------------------------------------------|
 // TODO
 // -----------------------------------------------------------------|
-// gulp-responsive
+// gulp-responsive (responsive images)
