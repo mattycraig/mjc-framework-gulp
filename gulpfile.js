@@ -6,7 +6,12 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var cmq = require('gulp-combine-media-queries');
 var lazypipe = require('lazypipe');
-var scsslint = require('gulp-scss-lint');
+var jadeInheritance = require('gulp-jade-inheritance');
+var jade = require('gulp-jade');
+var changed = require('gulp-changed');
+var cached = require('gulp-cached');
+var gulpif = require('gulp-if');
+var filter = require('gulp-filter');
 var $ = require('gulp-load-plugins')();
 
 // -----------------------------------------------------------------|
@@ -26,7 +31,7 @@ function handleError(task){
 };
 
 // -----------------------------------------------------------------|
-// STYLES (LIBSASS [NODESASS] + COMBINE MQ + AUTOPREFIXER + SOURCEMAPS)
+// STYLES (LIBSASS + COMBINE MQ + AUTOPREFIXER + SOURCEMAPS)
 // -----------------------------------------------------------------|
 gulp.task('styles', function () {
 
@@ -51,7 +56,9 @@ gulp.task('styles', function () {
 	}
 
 	// Sourcemap + will be minified (.tmp)
-	gulp.src('app/css/**/*.scss')
+	gulp.src([
+			'app/css/**/*.scss'
+		])
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass(optsSass))
@@ -65,7 +72,9 @@ gulp.task('styles', function () {
 		}));
 
 	// Unminified + no sourcemap (dist)
-	gulp.src('app/css/**/*.scss')
+	gulp.src([
+			'app/css/**/*.scss'
+		])
 		.pipe($.plumber())
 		.pipe($.sass(optsSass))
 		.pipe($.autoprefixer(optsAutoprefixer))
@@ -77,26 +86,54 @@ gulp.task('styles', function () {
 });
 
 // -----------------------------------------------------------------|
-// VIEWS (COMPILE OUR JADE VIEWS + HTMLHINT)
+// VIEWS (COMPILE OUR JADE VIEWS)
 // -----------------------------------------------------------------|
 gulp.task('views', function () {
-	return gulp.src('app/jade/*.jade')
-		.pipe($.jade({
-			pretty: true,
-			basedir: 'app/jade',
+	var optsJade = {
+		pretty: true,
+		basedir: 'app/jade'
+	}
+
+	// Jade (only process changed files)
+	return gulp.src([
+			'app/jade/**/*.jade'
+		])
+		.pipe(changed('.tmp', {extension: '.html'}))
+		.pipe(gulpif(global.isWatching, cached('jade')))
+		.pipe(jadeInheritance({basedir: 'app/jade'}))
+		.pipe($.filter(function (file) {
+			return !/\/_/.test(file.path) || !/^_/.test(file.relative);
 		}))
+		.pipe(jade(optsJade))
+		.pipe($.filter([
+			'*',
+			'!app/jade/**/_*.jade'
+		]))
 		.pipe(gulp.dest('.tmp'))
-		.on('error', handleError('Jade'))
-		.pipe($.htmlhint())
+		.on('error', handleError('Jade'));
+
+	// HTMLHint (lint our html to ensure standards)
+	return gulp.src([
+			'.tmp/**/*.html',
+			'!.tmp/**/_*.html'
+		])
+		.pipe($.htmlhint('.htmlhintrc'))
 		.pipe($.htmlhint.reporter())
 		.on('error', handleError('HTML Hint'));
+});
+
+// Setwatch task is required for Jade caching
+gulp.task('setWatch', function() {
+	global.isWatching = true;
 });
 
 // -----------------------------------------------------------------|
 // SCRIPTS (JSHINT + JSCS)
 // -----------------------------------------------------------------|
 gulp.task('scripts', function () {
-	return gulp.src('app/js/**/*.js')
+	return gulp.src([
+			'app/js/**/*.js'
+		])
 		.pipe(reload({
 			stream: true,
 			once: true
@@ -118,7 +155,9 @@ var cssChannel = lazypipe()
 var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
 gulp.task('html', ['views', 'styles'], function () {
-	return gulp.src(['app/*.html', '.tmp/*.html'])
+	return gulp.src([
+			'.tmp/**/*.html'
+		])
 		.pipe(assets)
 		.pipe($.if('*.js', $.uglify()))
 		.pipe($.if('*.css', cssChannel()))
@@ -131,7 +170,9 @@ gulp.task('html', ['views', 'styles'], function () {
 // HTMLFLAT (MINIFY CSS, MINIFY JS, MINIFY HTML, ASSET REVISION)
 // -----------------------------------------------------------------|
 gulp.task('htmlFlat', ['views', 'styles'], function () {
-	return gulp.src(['app/*.html', '.tmp/*.html'])
+	return gulp.src([
+			'.tmp/**/*.html'
+		])
 		.pipe(assets)
 		.pipe($.if('*.js', $.uglify()))
 		.pipe($.if('*.css', cssChannel()))
@@ -243,7 +284,7 @@ gulp.task('clean', require('del').bind(null, [
 // -----------------------------------------------------------------|
 // SERVE (START LOCAL SERVER + BROWSERSYNC + WATCH)
 // -----------------------------------------------------------------|
-gulp.task('serve', ['styles', 'views', 'fonts', 'scripts', 'jscs'], function () {
+gulp.task('serve', ['styles', 'setWatch', 'views', 'fonts', 'scripts'], function () {
 	browserSync({
 		notify: false,
 		port: 9000,
@@ -258,14 +299,14 @@ gulp.task('serve', ['styles', 'views', 'fonts', 'scripts', 'jscs'], function () 
 	// watch for changes
 	gulp.watch([
 		'app/*.html',
-		// '.tmp/*.html',
+		'.tmp/*.html',
 		'app/js/**/*.js',
 		'app/images/**/*'
 	]).on('change', reload);
 
 	gulp.watch('app/css/**/*.scss', ['styles']);
-	gulp.watch('app/js/**/*.js', ['scripts', 'jscs']);
-	gulp.watch('app/jade/**/*.jade', ['views', reload]);
+	gulp.watch('app/js/**/*.js', ['scripts']);
+	gulp.watch('app/jade/**/*.jade', ['views']);
 	gulp.watch('bower.json', ['wiredep', 'fonts', reload]);
 });
 
@@ -291,7 +332,7 @@ gulp.task('wiredep', function () {
 	gulp.src('app/jade/**/*.jade')
 		.pipe(wiredep({
 			exclude: [
-				// 'bootstrap-sass-official',
+				'bootstrap-sass-official/assets/javascripts/bootstrap.js'
 				// 'modernizr'
 			],
 			ignorePath: '../../../../'

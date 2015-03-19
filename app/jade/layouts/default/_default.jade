@@ -19,6 +19,10 @@ html(class='no-js' lang= siteLang)
 		//- -------------------------|
 		title= pageTitle
 
+		//- <HEAD>
+		//- -------------------------|
+		include /layouts/default/inc/_head
+
 		//- META TAGS
 		//- -------------------------|
 		meta(
@@ -50,10 +54,14 @@ html(class='no-js' lang= siteLang)
 			content='summary'
 		)
 
-		//- <HEAD>
+		//- PAGE SPECIFIC <HEAD>
 		//- -------------------------|
-		include /layouts/default/inc/_head
+		block head
 	body
+		//- PAGE SPECIFIC HEADER
+		//- -------------------------|
+		block header
+
 		//- <HEADER> PARTIAL
 		//- -------------------------|
 		include /layouts/default/partials/_header
@@ -66,6 +74,10 @@ html(class='no-js' lang= siteLang)
 		//- -------------------------|
 		include /layouts/default/partials/_footer
 
+		//- PAGE SPECIFIC FOOTER
+		//- -------------------------|
+		block footer
+
 		//- OUTDATED BROWSER
 		//- -------------------------|
 		include /layouts/default/partials/_outdated
@@ -74,6 +86,6 @@ html(class='no-js' lang= siteLang)
 		//- -------------------------|
 		include /layouts/default/inc/_foot
 
-		//- PAGE SPECIFIC FOOTER
+		//- PAGE SPECIFIC FOOT
 		//- -------------------------|
 		block foot
