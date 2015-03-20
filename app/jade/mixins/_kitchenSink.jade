@@ -33,8 +33,7 @@ mixin kitchenSink()
 		li Ordered List Item
 	hr
 	h1 Forms
-	form(action='', method='POST', role='form')
-		legend Form Legend
+	form(action='#' method='POST' role='form')
 		.form-group
 			label(for='input-1') Label Example
 			input#input-1.form-control(type='text', placeholder='Input Placeholder')
@@ -65,7 +64,17 @@ mixin kitchenSink()
 	p
 		button(type="button").btn.btn-link Link Button
 	h1 Tables
-	table.table
+	figure
+		table.table(aria-label='Example normal table')
+			tr
+				th Heading
+				th Heading
+				th Heading
+			tr
+				td Cell
+				td Cell
+				td Cell
+	table.table.table-bordered.table-hover(aria-label='Example bordered table with hover')
 		tr
 			th Heading
 			th Heading
@@ -74,7 +83,7 @@ mixin kitchenSink()
 			td Cell
 			td Cell
 			td Cell
-	table.table.table-bordered.table-hover
+	table.table.table-striped.table-hover(aria-label='Example striped table with hover')
 		tr
 			th Heading
 			th Heading
@@ -83,57 +92,3 @@ mixin kitchenSink()
 			td Cell
 			td Cell
 			td Cell
-	table.table.table-striped.table-hover
-		tr
-			th Heading
-			th Heading
-			th Heading
-		tr
-			td Cell
-			td Cell
-			td Cell
-	h1 Jade Mixin Examples
-	hr
-	.row
-		.col-sm-4
-			+hlpTimes(2)
-				p Repeat this 2 times!
-		.col-sm-4
-			label Years
-			+hlpYears('className')
-		.col-sm-4
-			label Months (EN)
-			+hlpMonths('className')
-	.row
-		.col-sm-4
-			label Months (FR)
-			+hlpMonths('className', 'fr')
-		.col-sm-4
-			label Days
-			+hlpDays('className')
-		.col-sm-4
-			label Weekdays (EN)
-			+hlpWeekdays('className')
-	.row
-		.col-sm-4
-			label Weekdays (FR)
-			+hlpWeekdays('className', 'fr')
-		.col-sm-4
-			label ShareThis (With Icon)
-			+shareThis('facebook', true)
-		.col-sm-4
-			label ShareThis (No Icon)
-			+shareThis('twitter')
-	.row
-		.col-sm-4
-			label FB Sharer (With Icon)
-			+fbSharer(true)
-		.col-sm-4
-			label FB Sharer (No Icon)
-			+fbSharer
-		.col-sm-4
-			//- label Responsive Image (srcset)
-			//- +hlpSrcset('', 'test', 'Alt test', 'img-responsive')
-
-			//- label Responsive Image (picture)
-			//- +hlpPicture('sub/', 'sub-test', 'Alt test', 'img-responsive')

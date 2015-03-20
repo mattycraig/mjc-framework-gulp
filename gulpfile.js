@@ -62,7 +62,6 @@ gulp.task('styles', function () {
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass(optsSass))
-		.on('error', handleError('Sass'))
 		.pipe($.autoprefixer(optsAutoprefixer))
 		.pipe(cmq())
 		.pipe($.sourcemaps.write('./'))
@@ -94,6 +93,8 @@ gulp.task('views', function () {
 		basedir: 'app/jade'
 	}
 
+	var s = $.size();
+
 	// Jade (only process changed files)
 	return gulp.src([
 			'app/jade/**/*.jade'
@@ -109,22 +110,40 @@ gulp.task('views', function () {
 			'*',
 			'!app/jade/**/_*.jade'
 		]))
-		.pipe(gulp.dest('.tmp'))
-		.on('error', handleError('Jade'));
+		.pipe(gulp.dest('.tmp'));
 
-	// HTMLHint (lint our html to ensure standards)
-	return gulp.src([
-			'.tmp/**/*.html',
-			'!.tmp/**/_*.html'
-		])
-		.pipe($.htmlhint('.htmlhintrc'))
-		.pipe($.htmlhint.reporter())
-		.on('error', handleError('HTML Hint'));
 });
 
 // Setwatch task is required for Jade caching
 gulp.task('setWatch', function() {
 	global.isWatching = true;
+});
+
+// -----------------------------------------------------------------|
+// HTMLHINT (HTML LINTING)
+// -----------------------------------------------------------------|
+gulp.task('htmlHint', function () {
+	return gulp.src([
+			'.tmp/**/*.html'
+		])
+		.pipe($.htmlhint('.htmlhintrc'))
+		.pipe($.htmlhint.reporter());
+});
+
+// -----------------------------------------------------------------|
+// ARIALINT (ACCESSIBILITY LINTING)
+// -----------------------------------------------------------------|
+gulp.task('ariaLint', function () {
+	return gulp.src([
+			'.tmp/**/*.html'
+		])
+		.pipe($.arialinter({
+			level: 'A',
+			rules: {
+				uniqueSummaryAttr: false,
+				tableHasSummary: false
+			}
+		}));
 });
 
 // -----------------------------------------------------------------|
@@ -138,12 +157,12 @@ gulp.task('scripts', function () {
 			stream: true,
 			once: true
 		}))
+		.pipe($.jscs())
+		.on('error', handleError('JSCS'))
 		.pipe($.jshint())
 		.pipe($.jshint.reporter('jshint-stylish'))
 		.pipe($.if(!browserSync.active, $.jshint.reporter('fail')))
-		.on('error', handleError('JSHint'))
-		.pipe($.jscs())
-		.on('error', handleError('JSCS'));
+		.on('error', handleError('JSHint'));
 });
 
 // -----------------------------------------------------------------|
@@ -151,7 +170,7 @@ gulp.task('scripts', function () {
 // -----------------------------------------------------------------|
 var cssChannel = lazypipe()
 	.pipe($.csso)
-	.pipe($.replace, '../bower_components/font-awesome/fonts', 'fonts/font-awesome');
+	.pipe($.replace, '../bower_components/font-awesome/fonts', 'fonts');
 var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
 gulp.task('html', ['views', 'styles'], function () {
@@ -191,7 +210,7 @@ gulp.task('htmlFlat', ['views', 'styles'], function () {
 // IMAGES (MINIFY OUR IMAGES + CREATE RESPONSIVE IMAGES)
 // -----------------------------------------------------------------|
 gulp.task('images', function () {
-	return gulp.src('app/images/**/*{jpg,gif,png}')
+	return gulp.src('app/images/**/*')
 		.pipe($.cache($.imagemin({
 			progressive: true,
 			interlaced: true,
@@ -233,15 +252,10 @@ gulp.task('images', function () {
 // FONTS (BOWER FONTS + CUSTOM APP FONTS)
 // -----------------------------------------------------------------|
 gulp.task('fonts', function () {
-	gulp.src(require('main-bower-files')())
-		.pipe($.filter([
-			'**/*.{eot,svg,ttf,woff,woff2}',
-			'!glyphicons-halflings-regular.{eot,svg,ttf,woff,woff2}'
-		]))
-		.pipe($.flatten())
-		.pipe(gulp.dest('dist/css/fonts/font-awesome'));
-
-	gulp.src('app/css/fonts/**/*')
+	return gulp.src(require('main-bower-files')({
+			filter: '**/*.{eot,svg,ttf,woff,woff2}'
+		}).concat('app/css/fonts/**/*'))
+		.pipe(gulp.dest('.tmp/css/fonts'))
 		.pipe(gulp.dest('dist/css/fonts'));
 });
 
@@ -284,7 +298,7 @@ gulp.task('clean', require('del').bind(null, [
 // -----------------------------------------------------------------|
 // SERVE (START LOCAL SERVER + BROWSERSYNC + WATCH)
 // -----------------------------------------------------------------|
-gulp.task('serve', ['styles', 'setWatch', 'views', 'fonts', 'scripts'], function () {
+gulp.task('serve', ['styles', 'setWatch', 'views', 'htmlHint', 'ariaLint', 'fonts', 'scripts'], function () {
 	browserSync({
 		notify: false,
 		port: 9000,
@@ -298,12 +312,12 @@ gulp.task('serve', ['styles', 'setWatch', 'views', 'fonts', 'scripts'], function
 
 	// watch for changes
 	gulp.watch([
-		'app/*.html',
-		'.tmp/*.html',
+		'.tmp/**/*.html',
 		'app/js/**/*.js',
 		'app/images/**/*'
 	]).on('change', reload);
 
+	gulp.watch('.tmp/**/*.html', ['htmlHint', 'ariaLint']);
 	gulp.watch('app/css/**/*.scss', ['styles']);
 	gulp.watch('app/js/**/*.js', ['scripts']);
 	gulp.watch('app/jade/**/*.jade', ['views']);
@@ -332,7 +346,8 @@ gulp.task('wiredep', function () {
 	gulp.src('app/jade/**/*.jade')
 		.pipe(wiredep({
 			exclude: [
-				'bootstrap-sass-official/assets/javascripts/bootstrap.js'
+				'bootstrap-sass-official/assets/javascripts/bootstrap.js',
+				'outdated-browser/outdatedbrowser/outdatedbrowser.min.js'
 				// 'modernizr'
 			],
 			ignorePath: '../../../../'
@@ -344,15 +359,31 @@ gulp.task('wiredep', function () {
 // -----------------------------------------------------------------|
 // BUILD (FOR CMS INTEGRATION)
 // -----------------------------------------------------------------|
+var s = $.size();
+
 gulp.task('build', ['scripts', 'html', 'images', 'fonts', 'extras'], function () {
-	return gulp.src('dist/**/*').pipe($.size({title: 'build', gzip: true}));
+	return gulp.src('dist/**/*')
+		.pipe(s)
+		.pipe($.notify({
+			onLast: true,
+			message: function () {
+				return 'Build complete (' + s.prettySize + ')';
+			}
+		}));
 });
 
 // -----------------------------------------------------------------|
 // BUILD (FLAT)
 // -----------------------------------------------------------------|
 gulp.task('build-flat', ['scripts', 'htmlFlat', 'images', 'fonts', 'extras'], function () {
-	return gulp.src('dist/**/*').pipe($.size({title: 'build-flat', gzip: true}));
+	return gulp.src('dist/**/*')
+		.pipe(s)
+		.pipe($.notify({
+			onLast: true,
+			message: function () {
+				return 'Build complete (' + s.prettySize + ')';
+			}
+		}));
 });
 
 // -----------------------------------------------------------------|
