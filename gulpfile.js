@@ -15,17 +15,20 @@ var filter = require('gulp-filter');
 var $ = require('gulp-load-plugins')();
 
 // -----------------------------------------------------------------|
-// GULP TASK STATISTICS
-// -----------------------------------------------------------------|
-// require('gulp-stats')(gulp);
-
-// -----------------------------------------------------------------|
 // ERROR NOTIFICATIONS
 // -----------------------------------------------------------------|
 function handleError(task){
 	return function(err) {
-		$.util.log($.util.colors.red(err));
-		$.notify.onError(task + ' failed!')(err);
+		$.util.log(err.message);
+		if ( task === 'SASS') {
+			// SASS errors
+			$.notify.onError({
+				message: task + ' failed!\n<%= error.message %>'
+			})(err);
+		} else {
+			// All other errors
+			$.notify.onError(task + ' failed!')(err);
+		}
 		this.emit('end');
 	};
 };
@@ -39,8 +42,7 @@ gulp.task('styles', function () {
 	var optsSass = {
 		outputStyle: 'nested', // libsass doesn't support expanded yet
 		precision: 10,
-		includePaths: ['.'],
-		onError: console.error.bind(console, 'Sass error:')
+		includePaths: ['.']
 	}
 
 	// Autoprefixer Options
@@ -62,6 +64,7 @@ gulp.task('styles', function () {
 		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass(optsSass))
+		.on('error', handleError('SASS'))
 		.pipe($.autoprefixer(optsAutoprefixer))
 		.pipe(cmq())
 		.pipe($.sourcemaps.write('./'))
@@ -93,8 +96,6 @@ gulp.task('views', function () {
 		basedir: 'app/jade'
 	}
 
-	var s = $.size();
-
 	// Jade (only process changed files)
 	return gulp.src([
 			'app/jade/**/*.jade'
@@ -111,7 +112,6 @@ gulp.task('views', function () {
 			'!app/jade/**/_*.jade'
 		]))
 		.pipe(gulp.dest('.tmp'));
-
 });
 
 // Setwatch task is required for Jade caching
@@ -127,7 +127,9 @@ gulp.task('htmlHint', function () {
 			'.tmp/**/*.html'
 		])
 		.pipe($.htmlhint('.htmlhintrc'))
-		.pipe($.htmlhint.reporter());
+		.pipe($.htmlhint.reporter())
+		.pipe($.htmlhint.reporter('fail'))
+		.on('error', handleError('HTML Hint'));
 });
 
 // -----------------------------------------------------------------|
@@ -144,6 +146,8 @@ gulp.task('ariaLint', function () {
 				tableHasSummary: false
 			}
 		}));
+		// this doesnt work - todo
+		// .on('error', handleError('ARIA Lint'));
 });
 
 // -----------------------------------------------------------------|
@@ -161,7 +165,7 @@ gulp.task('scripts', function () {
 		.on('error', handleError('JSCS'))
 		.pipe($.jshint())
 		.pipe($.jshint.reporter('jshint-stylish'))
-		.pipe($.if(!browserSync.active, $.jshint.reporter('fail')))
+		.pipe($.jshint.reporter('fail'))
 		.on('error', handleError('JSHint'));
 });
 
@@ -352,8 +356,7 @@ gulp.task('wiredep', function () {
 			],
 			ignorePath: '../../../../'
 		}))
-		.pipe(gulp.dest('app/jade'))
-		.on('error', handleError('Wiredep'));
+		.pipe(gulp.dest('app/jade'));
 });
 
 // -----------------------------------------------------------------|
