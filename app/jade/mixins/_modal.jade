@@ -3,10 +3,8 @@
 //- -----------------------------------------------------------------|
 //- Contains the template for a page modal overlay.
 
-mixin modal(id, append)
-	- append = append || 'body'
-
-	.modal(id='modal-#{id}' data-mo-append= append)
+mixin modal(id)
+	.modal.fade(id='modal-#{id}')
 		.modal-dialog
 			.modal-content
 				.modal-contain

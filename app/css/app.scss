@@ -6,37 +6,37 @@
 // -----------------------------------------------------------------|
 // CONFIG
 // -----------------------------------------------------------------|
-@import 'config/vars/vars';
-@import 'config/placeholders/placeholders';
-@import 'config/mixins/mixins';
+@import './config/vars/vars';
+@import './config/placeholders/placeholders';
+@import './config/mixins/mixins';
 
 // -----------------------------------------------------------------|
 // VENDOR
 // -----------------------------------------------------------------|
-@import 'vendor/bootstrap';
-@import 'vendor/fontawesome';
-@import 'vendor/outdated';
-// @import 'vendor/flexboxgrid';
-// @import 'vendor/slick';
-// @import 'vendor/animate';
+@import './vendor/bootstrap';
+@import './vendor/fontawesome';
+@import './vendor/outdated';
+// @import './vendor/flexboxgrid';
+// @import './vendor/slick';
+// @import './vendor/animate';
 
 // -----------------------------------------------------------------|
 // MODULES
 // -----------------------------------------------------------------|
-@import 'modules/defaults';
-@import 'modules/typography';
-@import 'modules/buttons';
-@import 'modules/forms';
-@import 'modules/utilities';
-@import 'modules/misc';
+@import './modules/defaults';
+@import './modules/typography';
+@import './modules/buttons';
+@import './modules/forms';
+@import './modules/utilities';
+@import './modules/misc';
 
 // -----------------------------------------------------------------|
 // COMPONENTS
 // -----------------------------------------------------------------|
-// @import 'components/myComponent';
+// @import './components/myComponent';
 
 // -----------------------------------------------------------------|
 // PARTIALS
 // -----------------------------------------------------------------|
-@import 'partials/header';
-@import 'partials/footer';
+@import './partials/header';
+@import './partials/footer';

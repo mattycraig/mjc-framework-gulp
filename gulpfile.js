@@ -42,7 +42,7 @@ gulp.task('styles', function () {
 	var optsSass = {
 		outputStyle: 'nested', // libsass doesn't support expanded yet
 		precision: 10,
-		includePaths: ['.']
+		// includePaths: ['.'] // This causes issues...
 	}
 
 	// Autoprefixer Options
@@ -84,18 +84,28 @@ gulp.task('styles', function () {
 		.pipe($.rename({
 			extname: '.unmin.css'
 		}))
-		.pipe(gulp.dest('dist/css/dev'));
+		.pipe(gulp.dest('dist/dev/css'));
 });
 
 // -----------------------------------------------------------------|
 // VIEWS (COMPILE OUR JADE VIEWS)
 // -----------------------------------------------------------------|
-gulp.task('views', function () {
-	var optsJade = {
-		pretty: true,
-		basedir: 'app/jade'
-	}
 
+// Jade options
+var optsJade = {
+	pretty: true,
+	basedir: 'app/jade'
+}
+
+// HTML Prettify options
+var optsPretty = {
+	indent_inner_html: true,
+	preserve_newlines: true,
+	indent_scripts: 'normal',
+	unformatted: ['sub', 'sup', 'b', 'em', 'u']
+}
+
+gulp.task('views', function () {
 	// Jade (only process changed files)
 	return gulp.src([
 			'app/jade/**/*.jade'
@@ -103,20 +113,39 @@ gulp.task('views', function () {
 		.pipe(changed('.tmp', {extension: '.html'}))
 		.pipe(gulpif(global.isWatching, cached('jade')))
 		.pipe(jadeInheritance({basedir: 'app/jade'}))
-		.pipe($.filter(function (file) {
-			return !/\/_/.test(file.path) || !/^_/.test(file.relative);
-		}))
-		.pipe(jade(optsJade))
 		.pipe($.filter([
 			'*',
 			'!app/jade/**/_*.jade'
 		]))
+		.pipe(jade(optsJade))
+		.pipe($.prettify(optsPretty))
 		.pipe(gulp.dest('.tmp'));
 });
 
 // Setwatch task is required for Jade caching
 gulp.task('setWatch', function() {
 	global.isWatching = true;
+});
+
+// -----------------------------------------------------------------|
+// DIST VIEWS (COMPILE OUR JADE COMPONENTS + PARTIALS)
+// -----------------------------------------------------------------|
+gulp.task('viewsDist', function () {
+	// Compile page partials
+	gulp.src([
+			'app/jade/layouts/default/partials/**/*.jade'
+		])
+		.pipe(jade(optsJade))
+		.pipe($.prettify(optsPretty))
+		.pipe(gulp.dest('dist/dev/partials'));
+
+	// Compile page components
+	gulp.src([
+			'app/jade/layouts/default/components/**/*.jade'
+		])
+		.pipe(jade(optsJade))
+		.pipe($.prettify(optsPretty))
+		.pipe(gulp.dest('dist/dev/components'));
 });
 
 // -----------------------------------------------------------------|
@@ -178,9 +207,15 @@ var cssChannel = lazypipe()
 var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
 gulp.task('html', ['views', 'styles'], function () {
-	return gulp.src([
-			'.tmp/**/*.html'
+	gulp.src([
+			'.tmp/*.html',
+			'!.tmp/index.html'
 		])
+		.pipe($.useref())
+		.pipe(gulp.dest('dist'));
+
+	// Reduces compile time but only searches index file to minify and concat
+	gulp.src('.tmp/index.html')
 		.pipe(assets)
 		.pipe($.if('*.js', $.uglify()))
 		.pipe($.if('*.css', cssChannel()))
@@ -238,12 +273,12 @@ gulp.task('images', function () {
 	// 				suffix: "-md"
 	// 			}
 	// 		}, {
-	// 			width: 1024,
+	// 			width: 1280,
 	// 			rename: {
 	// 				suffix: "-lg"
 	// 			}
 	// 		}, {
-	// 			width: 1800,
+	// 			width: 2560,
 	// 			rename: {
 	// 				suffix: "-lgst"
 	// 			}
@@ -282,13 +317,11 @@ gulp.task('extras', function () {
 	// Create unminfied JS files
 	gulp.src([
 			'app/js/**/*.js'
-		], {
-			dot: true
-		})
+		])
 		.pipe($.rename({
 			extname: '.unmin.js'
 		}))
-		.pipe(gulp.dest('dist/js/dev'));
+		.pipe(gulp.dest('dist/dev/js'));
 });
 
 // -----------------------------------------------------------------|
@@ -364,7 +397,7 @@ gulp.task('wiredep', function () {
 // -----------------------------------------------------------------|
 var s = $.size();
 
-gulp.task('build', ['scripts', 'html', 'images', 'fonts', 'extras'], function () {
+gulp.task('build', ['scripts', 'html', 'images', 'fonts', 'extras', 'viewsDist'], function () {
 	return gulp.src('dist/**/*')
 		.pipe(s)
 		.pipe($.notify({
@@ -378,7 +411,7 @@ gulp.task('build', ['scripts', 'html', 'images', 'fonts', 'extras'], function ()
 // -----------------------------------------------------------------|
 // BUILD (FLAT)
 // -----------------------------------------------------------------|
-gulp.task('build-flat', ['scripts', 'htmlFlat', 'images', 'fonts', 'extras'], function () {
+gulp.task('build:flat', ['scripts', 'htmlFlat', 'images', 'fonts', 'extras'], function () {
 	return gulp.src('dist/**/*')
 		.pipe(s)
 		.pipe($.notify({
@@ -399,4 +432,5 @@ gulp.task('default', ['clean'], function () {
 // -----------------------------------------------------------------|
 // TODO
 // -----------------------------------------------------------------|
-// gulp-responsive (responsive images)
+// responsive images (gulp-responsive)
+// add testing framework (jasmine/mocha)

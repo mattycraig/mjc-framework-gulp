@@ -1,10 +1,18 @@
 //- -----------------------------------------------------------------|
-//- HEADER
+//- PARTIAL: HEADER
 //- -----------------------------------------------------------------|
 //- Contains all HTML for the header partial.
 
-a.sr-only.sr-only-focusable(href='#content') Skip to main content
+- var name = 'header'
+- var type = 'partial'
+
+//- -----------------------------------------------------------------|
+include /mixins/_mixins
++devHead(name, type)
+//- -----------------------------------------------------------------|
+
 header.header(role='banner')
+	a.sr-only.sr-only-focusable(href='#content') Skip to main content
 	nav.header-nav(role='navigation')
 		ul
 			li
@@ -15,3 +23,8 @@ header.header(role='banner')
 				a(href='#') Nav Item
 			li
 				a(href='#') Nav Item
+
+
+//- -----------------------------------------------------------------|
++devFoot(name, type)
+//- -----------------------------------------------------------------|
