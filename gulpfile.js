@@ -64,9 +64,10 @@ gulp.task('styles', function () {
 	];
 
 	// Sourcemap + will be minified (.tmp)
-	var prod = gulp.src([
+	gulp.src([
 			'app/css/**/*.scss'
 		])
+		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass(optsSass))
 		.on('error', handleError('SASS'))
@@ -78,9 +79,10 @@ gulp.task('styles', function () {
 		}));
 
 	// Unminified + no sourcemap (dist)
-	var dev = gulp.src([
+	gulp.src([
 			'app/css/**/*.scss'
 		])
+		.pipe($.plumber())
 		.pipe($.sass(optsSass))
 		.pipe($.postcss(optsPostCSS))
 		.pipe($.rename({
@@ -88,8 +90,8 @@ gulp.task('styles', function () {
 		}))
 		.pipe(gulp.dest('dist/dev/css'));
 
-	// Merge streams
-	return merge(prod, dev);
+	// Merge streams (doesnt work with plumber - look into this)
+	// return merge(prod, dev);
 });
 
 // -----------------------------------------------------------------|
