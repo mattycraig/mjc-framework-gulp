@@ -1,0 +1,119 @@
+// -----------------------------------------------------------------|
+// BOOTSTRAP VARIABLE OVERRIDES
+// -----------------------------------------------------------------|
+// Contains all commonly customized bootstrap variable overrides.
+
+// GRID OVERRIDES
+// ---------------------------------|
+// $grid-columns: 12;
+// $grid-gutter-width: 30px;
+
+// FORM OVERRIDES
+// ---------------------------------|
+// <input> background color
+// $input-bg: #fff;
+
+// <input disabled> background color
+// $input-bg-disabled: $gray-lighter;
+
+// Text color for <input>s
+// $input-color: $gray;
+
+// <input> border color
+// $input-border: #ccc;
+
+// Default .form-control border radius
+// $input-border-radius: $border-radius-base;
+
+// Large .form-control border radius
+// $input-border-radius-large: $border-radius-large;
+
+// Small .form-control border radius
+// $input-border-radius-small: $border-radius-small;
+
+// Border color for inputs on focus
+// $input-border-focus: #66afe9;
+
+// Placeholder text color
+// $input-color-placeholder: #999;
+
+// Default .form-control height
+// $input-height-base: ($line-height-computed + ($padding-base-vertical * 2) + 2);
+
+// Large .form-control height
+// $input-height-large: (ceil($font-size-large * $line-height-large) + ($padding-large-vertical * 2) + 2);
+
+// Small .form-control height
+// $input-height-small: (floor($font-size-small * $line-height-small) + ($padding-small-vertical * 2) + 2);
+
+// Legends
+// $legend-color: $gray-dark;
+// $legend-border-color: #e5e5e5;
+
+// Background color for textual input addons
+// $input-group-addon-bg: $gray-lighter;
+
+// Border color for textual input addons
+// $input-group-addon-border-color: $input-border;
+
+
+// -----------------------------------------------------------------|
+// SLICK.JS VARIABLE OVERRIDES
+// -----------------------------------------------------------------|
+// Contains all commonly customized slick.js variable overrides.
+
+// $slick-font-path: "./fonts/" !default;
+// $slick-font-family: "slick" !default;
+// $slick-loader-path: "./" !default;
+// $slick-arrow-color: white !default;
+// $slick-dot-color: black !default;
+// $slick-dot-color-active: $slick-dot-color !default;
+// $slick-prev-character: '\2190' !default;
+// $slick-next-character: '\2192' !default;
+// $slick-dot-character: '\2022' !default;
+// $slick-dot-size: 6px !default;
+// $slick-opacity-default: .75 !default;
+// $slick-opacity-on-hover: 1 !default;
+// $slick-opacity-not-active: .25 !default;
+
+
+// -----------------------------------------------------------------|
+// FLEXBOX GRID VARIABLE OVERRIDES
+// -----------------------------------------------------------------|
+// Contains all commonly customized animate.css variable overrides.
+// $column-count: 12;
+// $column-selector: '.col';
+// $offset-modifier: 'offset';
+
+// $gutter-width: 1rem;
+// $outer-margin: 2rem;
+// $gutter-compensation: (($gutter-width / 2) * -1);
+// $half-gutter-width: ($gutter-width / 2);
+
+// $width-xs: 30;
+// $width-sm: 48;
+// $width-md: 62;
+// $width-lg: 75;
+
+// $viewport-xs: #{$width-xs}em;
+// $viewport-sm: #{$width-sm}em;
+// $viewport-md: #{$width-md}em;
+// $viewport-lg: #{$width-lg}em;
+
+// $container-sm: #{$width-sm}rem + $gutter-width;
+// $container-md: #{$width-md}rem + $gutter-width;
+// $container-lg: #{$width-lg}rem + $gutter-width;
+
+// $xs: 'xs';
+// $sm: 'sm';
+// $md: 'md';
+// $lg: 'lg';
+
+
+// -----------------------------------------------------------------|
+// ANIMATE.CSS VARIABLE OVERRIDES
+// -----------------------------------------------------------------|
+// Contains all commonly customized animate.css variable overrides.
+
+$AnimateHook: 'is-animated';
+$AnimateDuration: $speed;
