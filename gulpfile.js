@@ -4,8 +4,6 @@
 var gulp = require('gulp');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
-var cmq = require('gulp-combine-media-queries');
-var lazypipe = require('lazypipe');
 var jadeInheritance = require('gulp-jade-inheritance');
 var jade = require('gulp-jade');
 var changed = require('gulp-changed');
@@ -57,16 +55,21 @@ gulp.task('styles', function () {
 		]
 	}
 
+	// PostCSS Options
+	var optsPostCSS = [
+		require('autoprefixer-core')(optsAutoprefixer),
+		require('postcss-zindex'),
+		require('css-mqpacker')
+	];
+
 	// Sourcemap + will be minified (.tmp)
 	gulp.src([
 			'app/css/**/*.scss'
 		])
-		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass(optsSass))
 		.on('error', handleError('SASS'))
-		.pipe($.autoprefixer(optsAutoprefixer))
-		.pipe(cmq())
+		.pipe($.postcss(optsPostCSS))
 		.pipe($.sourcemaps.write('./'))
 		.pipe(gulp.dest('.tmp/css'))
 		.pipe(reload({
@@ -77,10 +80,8 @@ gulp.task('styles', function () {
 	gulp.src([
 			'app/css/**/*.scss'
 		])
-		.pipe($.plumber())
 		.pipe($.sass(optsSass))
-		.pipe($.autoprefixer(optsAutoprefixer))
-		.pipe(cmq())
+		.pipe($.postcss(optsPostCSS))
 		.pipe($.rename({
 			extname: '.unmin.css'
 		}))
@@ -201,9 +202,6 @@ gulp.task('scripts', function () {
 // -----------------------------------------------------------------|
 // HTML (MINIFY CSS, MINIFY JS)
 // -----------------------------------------------------------------|
-var cssChannel = lazypipe()
-	.pipe($.csso)
-	.pipe($.replace, '../bower_components/font-awesome/fonts', 'fonts');
 var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
 gulp.task('html', ['views', 'styles'], function () {
@@ -218,7 +216,7 @@ gulp.task('html', ['views', 'styles'], function () {
 	gulp.src('.tmp/index.html')
 		.pipe(assets)
 		.pipe($.if('*.js', $.uglify()))
-		.pipe($.if('*.css', cssChannel()))
+		.pipe($.if('*.css', $.csso()))
 		.pipe(assets.restore())
 		.pipe($.useref())
 		.pipe(gulp.dest('dist'));
@@ -233,7 +231,7 @@ gulp.task('htmlFlat', ['views', 'styles'], function () {
 		])
 		.pipe(assets)
 		.pipe($.if('*.js', $.uglify()))
-		.pipe($.if('*.css', cssChannel()))
+		.pipe($.if('*.css', $.csso()))
 		.pipe($.rev())
 		.pipe(assets.restore())
 		.pipe($.useref())
