@@ -10,6 +10,7 @@ var changed = require('gulp-changed');
 var cached = require('gulp-cached');
 var gulpif = require('gulp-if');
 var filter = require('gulp-filter');
+var merge = require('merge-stream');
 var $ = require('gulp-load-plugins')();
 
 // -----------------------------------------------------------------|
@@ -63,7 +64,7 @@ gulp.task('styles', function () {
 	];
 
 	// Sourcemap + will be minified (.tmp)
-	gulp.src([
+	var prod = gulp.src([
 			'app/css/**/*.scss'
 		])
 		.pipe($.sourcemaps.init())
@@ -77,7 +78,7 @@ gulp.task('styles', function () {
 		}));
 
 	// Unminified + no sourcemap (dist)
-	gulp.src([
+	var dev = gulp.src([
 			'app/css/**/*.scss'
 		])
 		.pipe($.sass(optsSass))
@@ -86,6 +87,9 @@ gulp.task('styles', function () {
 			extname: '.unmin.css'
 		}))
 		.pipe(gulp.dest('dist/dev/css'));
+
+	// Merge streams
+	return merge(prod, dev);
 });
 
 // -----------------------------------------------------------------|
@@ -133,7 +137,7 @@ gulp.task('setWatch', function() {
 // -----------------------------------------------------------------|
 gulp.task('viewsDist', function () {
 	// Compile page partials
-	gulp.src([
+	var partials = gulp.src([
 			'app/jade/layouts/default/partials/**/*.jade'
 		])
 		.pipe(jade(optsJade))
@@ -141,12 +145,15 @@ gulp.task('viewsDist', function () {
 		.pipe(gulp.dest('dist/dev/partials'));
 
 	// Compile page components
-	gulp.src([
+	var components = gulp.src([
 			'app/jade/layouts/default/components/**/*.jade'
 		])
 		.pipe(jade(optsJade))
 		.pipe($.prettify(optsPretty))
 		.pipe(gulp.dest('dist/dev/components'));
+
+	// Merge streams
+	return merge(partials, components);
 });
 
 // -----------------------------------------------------------------|
@@ -205,7 +212,7 @@ gulp.task('scripts', function () {
 var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
 gulp.task('html', ['views', 'styles'], function () {
-	gulp.src([
+	var doUseref = gulp.src([
 			'.tmp/*.html',
 			'!.tmp/index.html'
 		])
@@ -213,13 +220,16 @@ gulp.task('html', ['views', 'styles'], function () {
 		.pipe(gulp.dest('dist'));
 
 	// Reduces compile time but only searches index file to minify and concat
-	gulp.src('.tmp/index.html')
+	var doAssets = gulp.src('.tmp/index.html')
 		.pipe(assets)
 		.pipe($.if('*.js', $.uglify()))
 		.pipe($.if('*.css', $.csso()))
 		.pipe(assets.restore())
 		.pipe($.useref())
 		.pipe(gulp.dest('dist'));
+
+	// Merge streams
+	return merge(doUseref, doAssets);
 });
 
 // -----------------------------------------------------------------|
@@ -302,7 +312,7 @@ gulp.task('fonts', function () {
 gulp.task('extras', function () {
 
 	// Copy all root assets
-	gulp.src([
+	var copyAssets = gulp.src([
 			'app/*.*',
 			'!app/**/*.html',
 			'!app/**/*.jade',
@@ -313,13 +323,16 @@ gulp.task('extras', function () {
 		.pipe(gulp.dest('dist'));
 
 	// Create unminfied JS files
-	gulp.src([
+	var unminJs = gulp.src([
 			'app/js/**/*.js'
 		])
 		.pipe($.rename({
 			extname: '.unmin.js'
 		}))
 		.pipe(gulp.dest('dist/dev/js'));
+
+	// Merge streams
+	return merge(copyAssets, unminJs);
 });
 
 // -----------------------------------------------------------------|
@@ -378,7 +391,7 @@ gulp.task('serve:dist', ['styles', 'views', 'fonts'], function () {
 gulp.task('wiredep', function () {
 	var wiredep = require('wiredep').stream;
 
-	gulp.src('app/jade/**/*.jade')
+	return gulp.src('app/jade/**/*.jade')
 		.pipe(wiredep({
 			exclude: [
 				'bootstrap-sass-official/assets/javascripts/bootstrap.js',
