@@ -13,13 +13,13 @@
 // -----------------------------------------------------------------|
 // VENDOR
 // -----------------------------------------------------------------|
-@import '../../bower_components/bourbon/app/assets/stylesheets/bourbon';
+@import 'bourbon/app/assets/stylesheets/bourbon';
 @import 'vendor/bootstrap';
 @import 'vendor/fontawesome';
 @import 'vendor/outdated';
 
-// @import '../../bower_components/flexboxgrid/src/sass/flexboxgrid.scss';
-// @import '../../bower_components/animate.css/source/animate.scss';
+// @import 'flexboxgrid/src/sass/flexboxgrid.scss';
+// @import 'animate.css/source/animate.scss';
 
 // -----------------------------------------------------------------|
 // MODULES
@@ -41,3 +41,4 @@
 // -----------------------------------------------------------------|
 @import 'partials/header';
 @import 'partials/footer';
+

@@ -6,17 +6,29 @@
 // -----------------------------------------------------------------|
 // LABELS
 // -----------------------------------------------------------------|
-label {
-	@include fontSize($type-small);
+.form-group {
+	label {
+		@include fontSize($type-small);
 
-	// TABLET
-	// ---------------------------------|
-	@include bp(sm) {
-		@include fontSize($type-base);
+		// TABLET
+		// ---------------------------------|
+		@include bp(sm) {
+			@include fontSize($type-base);
+		}
 	}
 }
 
 // -----------------------------------------------------------------|
 // INPUTS
 // -----------------------------------------------------------------|
+.form-group {
+	.form-control {
+		@include fontSize($type-small);
 
+		// TABLET
+		// ---------------------------------|
+		@include bp(sm) {
+			@include fontSize($type-base);
+		}
+	}
+}

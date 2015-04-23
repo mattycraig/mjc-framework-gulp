@@ -1,4 +1,4 @@
-/* jshint node:true */
+/* global -$ */
 'use strict';
 
 var gulp = require('gulp');
@@ -6,10 +6,10 @@ var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var jadeInheritance = require('gulp-jade-inheritance');
 var jade = require('gulp-jade');
-var changed = require('gulp-changed');
-var cached = require('gulp-cached');
+// var changed = require('gulp-changed');
+// var cached = require('gulp-cached');
+// var filter = require('gulp-filter');
 var gulpif = require('gulp-if');
-var filter = require('gulp-filter');
 var merge = require('merge-stream');
 var $ = require('gulp-load-plugins')();
 
@@ -19,30 +19,31 @@ var $ = require('gulp-load-plugins')();
 function handleError(task){
 	return function(err) {
 		$.util.log(err.message);
-		if ( task === 'SASS') {
-			// SASS errors
-			$.notify.onError({
-				message: task + ' failed!\n<%= error.message %>'
-			})(err);
-		} else {
-			// All other errors
-			$.notify.onError(task + ' failed!')(err);
-		}
+		$.notify.onError(task + ' failed!')(err);
 		this.emit('end');
 	};
-};
+}
 
 // -----------------------------------------------------------------|
 // STYLES (LIBSASS + COMBINE MQ + AUTOPREFIXER + SOURCEMAPS)
 // -----------------------------------------------------------------|
-gulp.task('styles', function () {
+gulp.task('styles', function() {
 
 	// Sass Options
 	var optsSass = {
 		outputStyle: 'nested', // libsass doesn't support expanded yet
 		precision: 10,
-		// includePaths: ['.'] // This causes issues...
-	}
+		includePaths: [
+			'.',
+			'app/css/',
+			'bower_components/'
+		],
+		onError: function(err) {
+			$.notify.onError({
+				message: 'SASS failed!\n' + err.message + ' on line ' + err.line + ' in ' + err.file
+			})(err);
+		}
+	};
 
 	// Autoprefixer Options
 	var optsAutoprefixer = {
@@ -54,55 +55,47 @@ gulp.task('styles', function () {
 			'ie 9',
 			'Safari 6'
 		]
-	}
+	};
 
 	// PostCSS Options
 	var optsPostCSS = [
 		require('autoprefixer-core')(optsAutoprefixer),
 		require('postcss-zindex'),
-		require('css-mqpacker')
+		require('css-mqpacker'),
 	];
 
-	// Sourcemap + will be minified (.tmp)
-	gulp.src([
+	// Compile our styles, create sourcemap
+	var styles = gulp.src([
 			'app/css/**/*.scss'
 		])
-		.pipe($.plumber())
 		.pipe($.sourcemaps.init())
 		.pipe($.sass(optsSass))
-		.on('error', handleError('SASS'))
 		.pipe($.postcss(optsPostCSS))
 		.pipe($.sourcemaps.write('./'))
 		.pipe(gulp.dest('.tmp/css'))
 		.pipe(reload({
 			stream: true
-		}));
-
-	// Unminified + no sourcemap (dist)
-	gulp.src([
-			'app/css/**/*.scss'
-		])
-		.pipe($.plumber())
-		.pipe($.sass(optsSass))
-		.pipe($.postcss(optsPostCSS))
-		.pipe($.rename({
-			extname: '.unmin.css'
 		}))
 		.pipe(gulp.dest('dist/dev/css'));
 
-	// Merge streams (doesnt work with plumber - look into this)
-	// return merge(prod, dev);
+	// Copy sourcemap to dist/dev/css folder
+	var sourcemap = gulp.src([
+			'.tmp/css/**/*.map'
+		])
+		.pipe(gulp.dest('dist/dev/css'));
+
+	// Merge streams
+	return merge(styles, sourcemap);
 });
 
 // -----------------------------------------------------------------|
 // VIEWS (COMPILE OUR JADE VIEWS)
 // -----------------------------------------------------------------|
-
 // Jade options
 var optsJade = {
 	pretty: true,
 	basedir: 'app/jade'
-}
+};
 
 // HTML Prettify options
 var optsPretty = {
@@ -110,21 +103,21 @@ var optsPretty = {
 	preserve_newlines: true,
 	indent_scripts: 'normal',
 	unformatted: ['sub', 'sup', 'b', 'em', 'u']
-}
+};
 
-gulp.task('views', function () {
+gulp.task('views', function() {
 	// Jade (only process changed files)
 	return gulp.src([
 			'app/jade/**/*.jade'
 		])
-		.pipe(changed('.tmp', {extension: '.html'}))
-		.pipe(gulpif(global.isWatching, cached('jade')))
+		.pipe($.changed('.tmp', {extension: '.html'}))
+		.pipe(gulpif(global.isWatching, $.cached('jade')))
 		.pipe(jadeInheritance({basedir: 'app/jade'}))
 		.pipe($.filter([
 			'*',
 			'!app/jade/**/_*.jade'
 		]))
-		.pipe(jade(optsJade))
+		.pipe($.jade(optsJade))
 		.pipe($.prettify(optsPretty))
 		.pipe(gulp.dest('.tmp'));
 });
@@ -137,7 +130,7 @@ gulp.task('setWatch', function() {
 // -----------------------------------------------------------------|
 // DIST VIEWS (COMPILE OUR JADE COMPONENTS + PARTIALS)
 // -----------------------------------------------------------------|
-gulp.task('viewsDist', function () {
+gulp.task('viewsDist', function() {
 	// Compile page partials
 	var partials = gulp.src([
 			'app/jade/layouts/default/partials/**/*.jade'
@@ -161,7 +154,7 @@ gulp.task('viewsDist', function () {
 // -----------------------------------------------------------------|
 // HTMLHINT (HTML LINTING)
 // -----------------------------------------------------------------|
-gulp.task('htmlHint', function () {
+gulp.task('htmlHint', function() {
 	return gulp.src([
 			'.tmp/**/*.html'
 		])
@@ -174,7 +167,7 @@ gulp.task('htmlHint', function () {
 // -----------------------------------------------------------------|
 // ARIALINT (ACCESSIBILITY LINTING)
 // -----------------------------------------------------------------|
-gulp.task('ariaLint', function () {
+gulp.task('ariaLint', function() {
 	return gulp.src([
 			'.tmp/**/*.html'
 		])
@@ -192,7 +185,7 @@ gulp.task('ariaLint', function () {
 // -----------------------------------------------------------------|
 // SCRIPTS (JSHINT + JSCS)
 // -----------------------------------------------------------------|
-gulp.task('scripts', function () {
+gulp.task('scripts', function() {
 	return gulp.src([
 			'app/js/**/*.js'
 		])
@@ -213,7 +206,7 @@ gulp.task('scripts', function () {
 // -----------------------------------------------------------------|
 var assets = $.useref.assets({searchPath: '{.tmp,app}'});
 
-gulp.task('html', ['views', 'styles'], function () {
+gulp.task('html', ['views', 'styles'], function() {
 	var doUseref = gulp.src([
 			'.tmp/*.html',
 			'!.tmp/index.html'
@@ -221,7 +214,8 @@ gulp.task('html', ['views', 'styles'], function () {
 		.pipe($.useref())
 		.pipe(gulp.dest('dist'));
 
-	// Reduces compile time but only searches index file to minify and concat
+	// Reduces compile time but only searches index file to
+	// minify and concat css/js references
 	var doAssets = gulp.src('.tmp/index.html')
 		.pipe(assets)
 		.pipe($.if('*.js', $.uglify()))
@@ -237,7 +231,7 @@ gulp.task('html', ['views', 'styles'], function () {
 // -----------------------------------------------------------------|
 // HTMLFLAT (MINIFY CSS, MINIFY JS, MINIFY HTML, ASSET REVISION)
 // -----------------------------------------------------------------|
-gulp.task('htmlFlat', ['views', 'styles'], function () {
+gulp.task('htmlFlat', ['views', 'styles'], function() {
 	return gulp.src([
 			'.tmp/**/*.html'
 		])
@@ -258,15 +252,15 @@ gulp.task('htmlFlat', ['views', 'styles'], function () {
 // -----------------------------------------------------------------|
 // IMAGES (MINIFY OUR IMAGES + CREATE RESPONSIVE IMAGES)
 // -----------------------------------------------------------------|
-gulp.task('images', function () {
+gulp.task('images', function() {
 	return gulp.src('app/images/**/*')
-		.pipe($.cache($.imagemin({
+		.pipe($.imagemin({
 			progressive: true,
 			interlaced: true,
 			svgoPlugins: [{
 				cleanupIDs: false
 			}]
-		})))
+		}))
 		.pipe(gulp.dest('dist/images'));
 
 	// Responsive images - needs more research
@@ -300,7 +294,7 @@ gulp.task('images', function () {
 // -----------------------------------------------------------------|
 // FONTS (BOWER FONTS + CUSTOM APP FONTS)
 // -----------------------------------------------------------------|
-gulp.task('fonts', function () {
+gulp.task('fonts', function() {
 	return gulp.src(require('main-bower-files')({
 			filter: '**/*.{eot,svg,ttf,woff,woff2}'
 		}).concat('app/css/fonts/**/*'))
@@ -311,14 +305,12 @@ gulp.task('fonts', function () {
 // -----------------------------------------------------------------|
 // EXTRAS (COPY)
 // -----------------------------------------------------------------|
-gulp.task('extras', function () {
-
+gulp.task('extras', function() {
 	// Copy all root assets
 	var copyAssets = gulp.src([
 			'app/*.*',
 			'!app/**/*.html',
-			'!app/**/*.jade',
-			'node_modules/apache-server-configs/dist/.htaccess'
+			'!app/**/*.jade'
 		], {
 			dot: true
 		})
@@ -328,9 +320,6 @@ gulp.task('extras', function () {
 	var unminJs = gulp.src([
 			'app/js/**/*.js'
 		])
-		.pipe($.rename({
-			extname: '.unmin.js'
-		}))
 		.pipe(gulp.dest('dist/dev/js'));
 
 	// Merge streams
@@ -348,7 +337,7 @@ gulp.task('clean', require('del').bind(null, [
 // -----------------------------------------------------------------|
 // SERVE (START LOCAL SERVER + BROWSERSYNC + WATCH)
 // -----------------------------------------------------------------|
-gulp.task('serve', ['styles', 'setWatch', 'views', 'htmlHint', 'ariaLint', 'fonts', 'scripts'], function () {
+gulp.task('serve', ['styles', 'setWatch', 'views', 'htmlHint', 'ariaLint', 'fonts', 'scripts'], function() {
 	browserSync({
 		notify: false,
 		port: 9000,
@@ -377,7 +366,7 @@ gulp.task('serve', ['styles', 'setWatch', 'views', 'htmlHint', 'ariaLint', 'font
 // -----------------------------------------------------------------|
 // SERVE:DIST (SERVE UP OUR DIST FOLDER)
 // -----------------------------------------------------------------|
-gulp.task('serve:dist', ['styles', 'views', 'fonts'], function () {
+gulp.task('serve:dist', ['styles', 'views', 'fonts'], function() {
 	browserSync({
 		notify: false,
 		port: 9000,
@@ -390,7 +379,7 @@ gulp.task('serve:dist', ['styles', 'views', 'fonts'], function () {
 // -----------------------------------------------------------------|
 // WIREDEP (INJECT BOWER COMPONENTS)
 // -----------------------------------------------------------------|
-gulp.task('wiredep', function () {
+gulp.task('wiredep', function() {
 	var wiredep = require('wiredep').stream;
 
 	return gulp.src('app/jade/**/*.jade')
@@ -410,12 +399,12 @@ gulp.task('wiredep', function () {
 // -----------------------------------------------------------------|
 var s = $.size();
 
-gulp.task('build', ['scripts', 'html', 'images', 'fonts', 'extras', 'viewsDist'], function () {
+gulp.task('build', ['scripts', 'html', 'images', 'fonts', 'extras', 'viewsDist'], function() {
 	return gulp.src('dist/**/*')
 		.pipe(s)
 		.pipe($.notify({
 			onLast: true,
-			message: function () {
+			message: function() {
 				return 'Build complete (' + s.prettySize + ')';
 			}
 		}));
@@ -424,12 +413,12 @@ gulp.task('build', ['scripts', 'html', 'images', 'fonts', 'extras', 'viewsDist']
 // -----------------------------------------------------------------|
 // BUILD (FLAT)
 // -----------------------------------------------------------------|
-gulp.task('build:flat', ['scripts', 'htmlFlat', 'images', 'fonts', 'extras'], function () {
+gulp.task('build:flat', ['scripts', 'htmlFlat', 'images', 'fonts', 'extras'], function() {
 	return gulp.src('dist/**/*')
 		.pipe(s)
 		.pipe($.notify({
 			onLast: true,
-			message: function () {
+			message: function() {
 				return 'Build complete (' + s.prettySize + ')';
 			}
 		}));
@@ -438,7 +427,7 @@ gulp.task('build:flat', ['scripts', 'htmlFlat', 'images', 'fonts', 'extras'], fu
 // -----------------------------------------------------------------|
 // DEFAULT
 // -----------------------------------------------------------------|
-gulp.task('default', ['clean'], function () {
+gulp.task('default', ['clean'], function() {
 	gulp.start('build');
 });
 
