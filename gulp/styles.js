@@ -11,7 +11,10 @@ var optsSass = {
 	includePaths: [
 		'.',
 		'app/css/',
-		'bower_components/'
+		'bower_components/',
+		'bower_components/bourbon/app/assets/stylesheets/',
+		'bower_components/flexboxgrid/src/sass/',
+		'bower_components/animate.css/source/',
 	],
 	onError: function(err) {
 		$.notify.onError({
