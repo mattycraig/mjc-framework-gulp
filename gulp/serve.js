@@ -7,7 +7,7 @@ module.exports = function (gulp, $, browserSync, reload) {
 
 	// DEVELOPMENT SERVE
 	// --------------------------------------|
-	gulp.task('serve', ['styles:dev', 'setWatch', 'views:dev', 'lint:html', 'lint:aria', 'lint:scripts', 'fonts:dev'], function() {
+	gulp.task('serve', ['wiredep', 'styles:dev', 'setWatch', 'views:dev', 'lint:html', 'lint:aria', 'lint:scripts', 'fonts:dev'], function() {
 
 		browserSync({
 			notify: false,
@@ -36,7 +36,7 @@ module.exports = function (gulp, $, browserSync, reload) {
 
 	// PRODUCTION SERVE
 	// --------------------------------------|
-	gulp.task('serve:prod', ['styles:prod', 'views:prod', 'fonts:prod'], function() {
+	gulp.task('serve:prod', ['wiredep', 'styles:prod', 'views:prod', 'fonts:prod'], function() {
 		browserSync({
 			notify: false,
 			port: 9000,

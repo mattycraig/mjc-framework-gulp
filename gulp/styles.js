@@ -6,7 +6,7 @@
 // LIBSASS OPTIONS
 // --------------------------------------|
 var optsSass = {
-	outputStyle: 'nested', // libsass doesn't support expanded yet
+	outputStyle: 'nested',
 	precision: 10,
 	includePaths: [
 		'.',
@@ -15,12 +15,7 @@ var optsSass = {
 		'bower_components/bourbon/app/assets/stylesheets/',
 		'bower_components/flexboxgrid/src/sass/',
 		'bower_components/animate.css/source/',
-	],
-	onError: function(err) {
-		$.notify.onError({
-			message: 'SASS failed!\n' + err.message + ' on line ' + err.line + ' in ' + err.file
-		})(err);
-	}
+	]
 };
 
 // AUTOPREFIXER OPTIONS
@@ -55,11 +50,17 @@ module.exports = function (gulp, $, reload, merge) {
 		// Write our sourcemap
 		// Output to our .tmp folder
 		// Reload browser
-		return gulp.src([
+		// NOTE: Can't return stream here as sass errors prevent watch task
+		gulp.src([
 				'app/css/**/*.scss'
 			])
 			.pipe($.sourcemaps.init())
 			.pipe($.sass(optsSass))
+			.on('error', function(err) {
+				$.notify.onError({
+					message: 'SASS failed!\n' + err.message + ' on line ' + err.line
+				})(err)
+			})
 			.pipe($.postcss(optsPostCSS))
 			.pipe($.sourcemaps.write('./'))
 			.pipe(gulp.dest('.tmp/css'))
@@ -97,8 +98,3 @@ module.exports = function (gulp, $, reload, merge) {
 		return merge(styles, sourcemap);
 	});
 };
-
-
-
-
-
