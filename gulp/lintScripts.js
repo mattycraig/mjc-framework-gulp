@@ -3,7 +3,7 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, $, reload, handleError) {
+module.exports = function (gulp, $, reload, handleError, config) {
 
 	// LINT SCRIPTS
 	// --------------------------------------|
@@ -12,9 +12,7 @@ module.exports = function (gulp, $, reload, handleError) {
 		// Lint using JSCS
 		// Lint using JSHint
 		// Report errors
-		return gulp.src([
-				'app/js/**/*.js'
-			])
+		return gulp.src(config.lintscripts.src.js)
 			.pipe(reload({
 				stream: true,
 				once: true
@@ -34,10 +32,7 @@ module.exports = function (gulp, $, reload, handleError) {
 		// Lint using JSCS
 		// Lint using JSHint
 		// Report errors
-		return gulp.src([
-				'gulp/**/*.js',
-				'gulpfile*.js'
-			])
+		return gulp.src(config.lintscripts.src.gulp)
 			.pipe($.jscs())
 			.on('error', handleError('JSCS'))
 			.pipe($.jshint())

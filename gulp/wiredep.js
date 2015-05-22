@@ -3,14 +3,14 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp) {
+module.exports = function (gulp, config) {
 
 	// INJECT VENDOR DEPENDENCIES
 	// --------------------------------------|
 	gulp.task('wiredep', function() {
 		var wiredep = require('wiredep').stream;
 
-		return gulp.src('app/jade/**/*.jade')
+		return gulp.src(config.wiredep.src)
 			.pipe(wiredep({
 				exclude: [
 					'bootstrap-sass-official/assets/javascripts/bootstrap.js',
@@ -19,6 +19,6 @@ module.exports = function (gulp) {
 				],
 				ignorePath: '../../../../'
 			}))
-			.pipe(gulp.dest('app/jade'));
+			.pipe(gulp.dest(config.wiredep.dest));
 	});
 };

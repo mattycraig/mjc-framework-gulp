@@ -3,24 +3,18 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, $, merge) {
+module.exports = function (gulp, $, merge, config) {
 
 	// COPY ALL ROOT FILES + DEV JS FILES FROM TMP TO DIST
 	// --------------------------------------|
 	gulp.task('copy', function() {
-		var rootFiles = gulp.src([
-				'app/*.*',
-				'!app/**/*.html',
-				'!app/**/*.jade'
-			], {
+		var rootFiles = gulp.src(config.copy.src.files, {
 				dot: true
 			})
-			.pipe(gulp.dest('dist'));
+			.pipe(gulp.dest(config.copy.dest.prod));
 
-		var scriptFiles = gulp.src([
-				'app/js/**/*.js'
-			])
-			.pipe(gulp.dest('dist/dev/js'));
+		var scriptFiles = gulp.src(config.copy.src.js)
+			.pipe(gulp.dest(config.copy.dest.dev));
 
 		// Merge streams
 		merge(rootFiles, scriptFiles);

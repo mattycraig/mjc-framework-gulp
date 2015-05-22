@@ -1,4 +1,4 @@
-/* global outdatedBrowser, FastClick */
+/* global outdatedBrowser, FastClick, anchors */
 
 (function ($, window, document, undefined) {
 
@@ -51,6 +51,13 @@
 		// FASTCLICK.JS
 		//----------------------------------------|
 		FastClick.attach(document.body);
+
+		// ANCHOR.JS
+		//----------------------------------------|
+		anchors.options = {
+			icon: '#'
+		};
+		anchors.add();
 
 	})();
 

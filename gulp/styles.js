@@ -6,11 +6,11 @@
 // LIBSASS OPTIONS
 // --------------------------------------|
 var optsSass = {
-	outputStyle: 'nested',
+	outputStyle: 'expanded',
 	precision: 10,
 	includePaths: [
 		'.',
-		'app/css/',
+		'app/scss/',
 		'bower_components/',
 		'bower_components/bourbon/app/assets/stylesheets/',
 		'bower_components/flexboxgrid/src/sass/',
@@ -34,12 +34,12 @@ var optsAutoprefixer = {
 // POSTCSS OPTIONS
 // --------------------------------------|
 var optsPostCSS = [
-	require('autoprefixer-core')(optsAutoprefixer),
+	require('cssnext')(optsAutoprefixer),
 	require('postcss-zindex'),
 	require('css-mqpacker'),
 ];
 
-module.exports = function (gulp, $, reload, merge) {
+module.exports = function (gulp, $, reload, merge, config) {
 
 	// DEVELOPMENT STYLES
 	// --------------------------------------|
@@ -51,19 +51,17 @@ module.exports = function (gulp, $, reload, merge) {
 		// Output to our .tmp folder
 		// Reload browser
 		// NOTE: Can't return stream here as sass errors prevent watch task
-		gulp.src([
-				'app/css/**/*.scss'
-			])
+		gulp.src(config.styles.src.scss)
 			.pipe($.sourcemaps.init())
 			.pipe($.sass(optsSass))
 			.on('error', function(err) {
 				$.notify.onError({
 					message: 'SASS failed!\n' + err.message + ' on line ' + err.line
-				})(err)
+				})(err);
 			})
 			.pipe($.postcss(optsPostCSS))
 			.pipe($.sourcemaps.write('./'))
-			.pipe(gulp.dest('.tmp/css'))
+			.pipe(gulp.dest(config.styles.dest.tmp))
 			.pipe(reload({
 				stream: true
 			}));
@@ -78,21 +76,17 @@ module.exports = function (gulp, $, reload, merge) {
 		// Write our sourcemap
 		// Output to our .tmp folder
 		// Output to our dist/dev/css folder
-		var styles = gulp.src([
-				'app/css/**/*.scss'
-			])
+		var styles = gulp.src(config.styles.src.scss)
 			.pipe($.sourcemaps.init())
 			.pipe($.sass(optsSass))
 			.pipe($.postcss(optsPostCSS))
 			.pipe($.sourcemaps.write('./'))
-			.pipe(gulp.dest('.tmp/css'))
-			.pipe(gulp.dest('dist/dev/css'));
+			.pipe(gulp.dest(config.styles.dest.tmp))
+			.pipe(gulp.dest(config.styles.dest.dev));
 
 		// Copy sourcemap to dist/dev/css folder
-		var sourcemap = gulp.src([
-				'.tmp/css/**/*.map'
-			])
-			.pipe(gulp.dest('dist/dev/css'));
+		var sourcemap = gulp.src(config.styles.src.map)
+			.pipe(gulp.dest(config.styles.dest.dev));
 
 		// Merge streams
 		return merge(styles, sourcemap);

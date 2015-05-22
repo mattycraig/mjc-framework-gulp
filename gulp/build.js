@@ -3,14 +3,14 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, $) {
+module.exports = function (gulp, $, config) {
 
 	var s = $.size();
 
 	// BUILD (UNMINIFIED, WITH CMS)
 	// --------------------------------------|
 	gulp.task('build', ['lint:scripts', 'html:prod', 'images:minify', 'fonts:prod', 'copy'], function() {
-		return gulp.src('dist/**/*')
+		return gulp.src(config.build.src)
 			.pipe(s)
 			.pipe($.notify({
 				onLast: true,
@@ -23,7 +23,7 @@ module.exports = function (gulp, $) {
 	// BUILD (MINIFIED, NO CMS)
 	// --------------------------------------|
 	gulp.task('build:flat', ['lint:scripts', 'html:flat', 'images:minify', 'fonts:prod', 'copy'], function() {
-		return gulp.src('dist/**/*')
+		return gulp.src(config.build.src)
 			.pipe(s)
 			.pipe($.notify({
 				onLast: true,

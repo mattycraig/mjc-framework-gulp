@@ -3,7 +3,7 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, $, merge) {
+module.exports = function (gulp, $, merge, config) {
 
 	// ASSETS OPTIONS
 	// --------------------------------------|
@@ -14,22 +14,19 @@ module.exports = function (gulp, $, merge) {
 	// PRODUCTION HTML (UNMINIFIED / WITH CMS)
 	// --------------------------------------|
 	gulp.task('html:prod', ['views:prod', 'styles:prod'], function() {
-		var doUseref = gulp.src([
-				'.tmp/*.html',
-				'!.tmp/index.html'
-			])
+		var doUseref = gulp.src(config.html.src.prod)
 			.pipe($.useref())
-			.pipe(gulp.dest('dist'));
+			.pipe(gulp.dest(config.html.dest.prod));
 
 		// Reduces compile time but only searches index file to
 		// minify and concat css/js references
-		var doAssets = gulp.src('.tmp/index.html')
+		var doAssets = gulp.src(config.html.src.flat)
 			.pipe(assets)
 			.pipe($.if('*.js', $.uglify()))
 			.pipe($.if('*.css', $.csso()))
 			.pipe(assets.restore())
 			.pipe($.useref())
-			.pipe(gulp.dest('dist'));
+			.pipe(gulp.dest(config.html.dest.prod));
 
 		// Merge streams
 		return merge(doUseref, doAssets);
@@ -38,9 +35,7 @@ module.exports = function (gulp, $, merge) {
 	// FLAT HTML (MINIFIED / NO CMS)
 	// --------------------------------------|
 	gulp.task('html:flat', ['views:prod', 'styles:prod'], function() {
-		return gulp.src([
-				'.tmp/**/*.html'
-			])
+		return gulp.src(config.html.src.flat)
 			.pipe(assets)
 			.pipe($.if('*.js', $.uglify()))
 			.pipe($.if('*.css', $.csso()))
@@ -52,6 +47,6 @@ module.exports = function (gulp, $, merge) {
 				conditionals: true,
 				loose: true
 			})))
-			.pipe(gulp.dest('dist'));
+			.pipe(gulp.dest(config.html.dest.prod));
 	});
 };

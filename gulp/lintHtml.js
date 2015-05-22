@@ -3,16 +3,14 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, $, handleError) {
+module.exports = function (gulp, $, handleError, config) {
 
 	// HTMLHINT (HTML LINTING)
 	// --------------------------------------|
 	gulp.task('lint:html', function() {
 
 		// Lint our HTML files for errors
-		return gulp.src([
-				'.tmp/**/*.html'
-			])
+		return gulp.src(config.linthtml.src)
 			.pipe($.htmlhint('.htmlhintrc'))
 			.pipe($.htmlhint.reporter())
 			.pipe($.htmlhint.reporter('fail'))
@@ -24,9 +22,7 @@ module.exports = function (gulp, $, handleError) {
 	gulp.task('lint:aria', function() {
 
 		// Lint our HTML files for accessbility errors
-		return gulp.src([
-				'.tmp/**/*.html'
-			])
+		return gulp.src(config.linthtml.src)
 			.pipe($.arialinter({
 				level: 'A',
 				rules: {

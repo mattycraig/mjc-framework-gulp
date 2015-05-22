@@ -6,6 +6,7 @@ var merge = require('merge-stream');
 var browserSync = require('browser-sync');
 var reload = browserSync.reload;
 var $ = require('gulp-load-plugins')();
+var config = require('./gulp/config.json');
 
 // ERROR NOTIFICATIONS
 // --------------------------------------|
@@ -20,20 +21,20 @@ function handleError(task) {
 // TASKS
 // --------------------------------------|
 require('./gulp/helpers')(gulp);
-require('./gulp/styles')(gulp, $, reload, merge);
-require('./gulp/views')(gulp, $, merge);
-require('./gulp/lintHtml')(gulp, $, handleError);
-require('./gulp/lintScripts')(gulp, $, reload, handleError);
-require('./gulp/html')(gulp, $, merge);
-require('./gulp/images')(gulp, $);
-require('./gulp/fonts')(gulp);
-require('./gulp/copy')(gulp, $, merge);
+require('./gulp/styles')(gulp, $, reload, merge, config);
+require('./gulp/views')(gulp, $, merge, config);
+require('./gulp/lintHtml')(gulp, $, handleError, config);
+require('./gulp/lintScripts')(gulp, $, reload, handleError, config);
+require('./gulp/html')(gulp, $, merge, config);
+require('./gulp/images')(gulp, $, config);
+require('./gulp/fonts')(gulp, config);
+require('./gulp/copy')(gulp, $, merge, config);
 require('./gulp/serve')(gulp, $, browserSync, reload);
-require('./gulp/wiredep')(gulp);
-require('./gulp/build')(gulp, $);
+require('./gulp/wiredep')(gulp, config);
+require('./gulp/build')(gulp, $, config);
 
 // -----------------------------------------------------------------|
 // TODO
 // -----------------------------------------------------------------|
 // responsive images (gulp-responsive)
-// add testing framework (jasmine/mocha)
+// add js testing framework (jasmine/mocha)

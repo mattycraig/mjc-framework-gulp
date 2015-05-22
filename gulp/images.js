@@ -3,12 +3,12 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, $) {
+module.exports = function (gulp, $, config) {
 
 	// MINIFY IMAGES
 	// --------------------------------------|
 	gulp.task('images:minify', function() {
-		return gulp.src('app/images/**/*')
+		return gulp.src(config.images.src)
 			.pipe($.imagemin({
 				progressive: true,
 				interlaced: true,
@@ -16,7 +16,7 @@ module.exports = function (gulp, $) {
 					cleanupIDs: false
 				}]
 			}))
-			.pipe(gulp.dest('dist/images'));
+			.pipe(gulp.dest(config.images.dest));
 	});
 
 	// CREATE RESPONSIVE IMAGES

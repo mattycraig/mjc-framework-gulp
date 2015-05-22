@@ -16,27 +16,22 @@ var optsPretty = {
 	indent_inner_html: false,
 	preserve_newlines: true,
 	indent_scripts: 'normal',
-	unformatted: ['sub', 'sup', 'b', 'em', 'u']
+	unformatted: ['sub', 'sup', 'b', 'em', 'u', 'script']
 };
 
-module.exports = function (gulp, $, merge) {
+module.exports = function (gulp, $, merge, config) {
 
 	// DEVELOPMENT VIEWS
 	// --------------------------------------|
 	gulp.task('views:dev', function() {
-		return gulp.src([
-				'app/jade/**/*.jade'
-			])
+		return gulp.src(config.views.src.dev)
 			.pipe($.changed('.tmp', {extension: '.html'}))
 			.pipe($.if(global.isWatching, $.cached('jade')))
 			.pipe($.jadeInheritance({basedir: 'app/jade'}))
-			.pipe($.filter([
-				'*',
-				'!app/jade/**/_*.jade'
-			]))
+			.pipe($.filter(config.views.src.filter))
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
-			.pipe(gulp.dest('.tmp'));
+			.pipe(gulp.dest(config.views.dest.tmp));
 	});
 
 	// Setwatch task is required for Jade caching
@@ -49,32 +44,25 @@ module.exports = function (gulp, $, merge) {
 	gulp.task('views:prod', function() {
 
 		// Compile page templates
-		var templates = gulp.src([
-				'app/jade/**/*.jade',
-				'!app/jade/**/_*.jade'
-			])
+		var templates = gulp.src(config.views.src.prod)
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
 			// Have to do this as it causes issues for the moment
 			.pipe($.replace('<!-- bower:js-->', ''))
 			.pipe($.replace('<!-- endbower-->', ''))
-			.pipe(gulp.dest('.tmp'));
+			.pipe(gulp.dest(config.views.dest.tmp));
 
 		// Compile page partials for dev
-		var partials = gulp.src([
-				'app/jade/layouts/default/partials/**/*.jade'
-			])
+		var partials = gulp.src(config.views.src.partials)
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
-			.pipe(gulp.dest('dist/dev/partials'));
+			.pipe(gulp.dest(config.views.dest.partials));
 
 		// Compile page components for dev
-		var components = gulp.src([
-				'app/jade/layouts/default/components/**/*.jade'
-			])
+		var components = gulp.src(config.views.src.components)
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
-			.pipe(gulp.dest('dist/dev/components'));
+			.pipe(gulp.dest(config.views.dest.components));
 
 		// Merge streams
 		return merge(templates, partials, components);

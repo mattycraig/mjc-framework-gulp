@@ -1,0 +1,92 @@
+{
+	"styles" : {
+		"src" : {
+			"scss" : "app/scss/**/*.scss",
+			"map" : ".tmp/css/**/*.map"
+		},
+		"dest" : {
+			"tmp" : ".tmp/css",
+			"dev" : "dist/dev/css",
+			"prod" : "dist/css"
+		}
+	},
+	"views" : {
+		"src" : {
+			"dev" : "app/jade/**/*.jade",
+			"prod" : [
+				"app/jade/**/*.jade",
+				"!app/jade/**/_*.jade"
+			],
+			"filter" : [
+				"*",
+				"!app/jade/**/_*.jade"
+			],
+			"partials" : "app/jade/layouts/default/partials/**/*.jade",
+			"components" : "app/jade/layouts/default/components/**/*.jade"
+		},
+		"dest" : {
+			"tmp" : ".tmp",
+			"partials" : "dist/dev/partials",
+			"components" : "dist/dev/components"
+		}
+	},
+	"linthtml" : {
+		"src" : "dist/**/*"
+	},
+	"lintscripts" : {
+		"src" : {
+			"js" : "app/js/**/*.js",
+			"gulp" : [
+				"gulp/**/*.js",
+				"gulpfile*.js"
+			]
+		}
+	},
+	"html" : {
+		"src" : {
+			"prod" : [
+				".tmp/*.html",
+				"!.tmp/index.html"
+			],
+			"flat" : ".tmp/**/*.html"
+		},
+		"dest" : {
+			"prod" : "dist"
+		}
+	},
+	"images" : {
+		"src" : "app/images/**/*",
+		"dest" : "dist/images"
+	},
+	"fonts" : {
+		"src" : {
+			"filter" : "**/*.{eot,svg,ttf,woff,woff2}",
+			"concat" : "app/css/fonts/**/*"
+		},
+		"dest" : {
+			"dev" : ".tmp/css/fonts",
+			"prod" : "dist/css/fonts"
+		}
+	},
+	"copy" : {
+		"src" : {
+			"files" : [
+				"app/*.*",
+				"!app/**/*.html",
+				"!app/**/*.jade"
+			],
+			"js" : "app/js/**/*.js"
+		},
+		"dest" : {
+			"dev" : "dist/dev/js",
+			"prod" : "dist"
+		}
+	},
+	"wiredep" : {
+		"src" : "app/jade/**/*.jade",
+		"dest" : "app/jade"
+	},
+	"build" : {
+		"src" : ".tmp/**/*.html"
+	}
+}
