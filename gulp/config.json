@@ -61,7 +61,7 @@
 	"fonts" : {
 		"src" : {
 			"filter" : "**/*.{eot,svg,ttf,woff,woff2}",
-			"concat" : "app/css/fonts/**/*"
+			"concat" : "app/scss/fonts/**/*"
 		},
 		"dest" : {
 			"dev" : ".tmp/css/fonts",
