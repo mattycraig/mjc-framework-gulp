@@ -19,7 +19,7 @@ module.exports = function (gulp, config) {
 	gulp.task('fonts:prod', function() {
 		return gulp.src(require('main-bower-files')({
 				filter: config.fonts.src.filter
-			}).concat(config.fonts.src.filter))
+			}).concat(config.fonts.src.concat))
 			.pipe(gulp.dest(config.fonts.dest.prod));
 	});
 };

@@ -23,7 +23,7 @@ module.exports = function (gulp, $, merge, config) {
 		var doAssets = gulp.src(config.html.src.flat)
 			.pipe(assets)
 			.pipe($.if('*.js', $.uglify()))
-			.pipe($.if('*.css', $.csso()))
+			.pipe($.if('*.css', $.minifyCss()))
 			.pipe(assets.restore())
 			.pipe($.useref())
 			.pipe(gulp.dest(config.html.dest.prod));
@@ -38,7 +38,7 @@ module.exports = function (gulp, $, merge, config) {
 		return gulp.src(config.html.src.flat)
 			.pipe(assets)
 			.pipe($.if('*.js', $.uglify()))
-			.pipe($.if('*.css', $.csso()))
+			.pipe($.if('*.css', $.minifyCss()))
 			.pipe($.rev())
 			.pipe(assets.restore())
 			.pipe($.useref())

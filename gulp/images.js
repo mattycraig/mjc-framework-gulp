@@ -26,7 +26,7 @@ module.exports = function (gulp, $, config) {
 	// See gulp-responsive
 
 	// gulp.task('images:responsive', function() {
-	// 	gulp.src('app/images/**/*.{jpg,gif,png}')
+	// 	return gulp.src('app/images/**/*.{jpg,gif,png}')
 	// 		.pipe($.responsive([{
 	// 			'*.{jpg,gif,png}' : [{
 	// 				width: 320,
