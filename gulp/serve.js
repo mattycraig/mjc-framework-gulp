@@ -7,7 +7,7 @@ module.exports = function (gulp, $, browserSync, reload) {
 
 	// DEVELOPMENT SERVE
 	// --------------------------------------|
-	gulp.task('serve', ['wiredep', 'styles:dev', 'setWatch', 'views:dev', 'lint:html', 'lint:aria', 'lint:scripts', 'fonts:dev'], function() {
+	gulp.task('serve', ['wiredep', 'styles:dev', 'setWatch', 'views:dev', 'lint:html', 'lint:scripts', 'fonts:dev'], function() {
 
 		browserSync({
 			notify: false,
@@ -27,7 +27,7 @@ module.exports = function (gulp, $, browserSync, reload) {
 			'app/images/**/*'
 		]).on('change', reload);
 
-		gulp.watch('.tmp/**/*.html', ['lint:html', 'lint:aria']);
+		gulp.watch('.tmp/**/*.html', ['lint:html']);
 		gulp.watch('app/scss/**/*.scss', ['styles:dev']);
 		gulp.watch('app/js/**/*.js', ['lint:scripts']);
 		gulp.watch('app/jade/**/*.jade', ['views:dev']);

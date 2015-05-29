@@ -26,8 +26,9 @@ var optsAutoprefixer = {
 		'last 2 versions',
 		'Firefox ESR',
 		'Opera 12.1',
-		'ie 9',
-		'Safari 6'
+		'Explorer >= 9',
+		'Safari >= 6',
+		'ExplorerMobile >= 10'
 	]
 };
 
@@ -36,7 +37,7 @@ var optsAutoprefixer = {
 var optsPostCSS = [
 	require('cssnext')(optsAutoprefixer),
 	require('postcss-zindex'),
-	require('css-mqpacker'),
+	require('css-mqpacker')
 ];
 
 module.exports = function (gulp, $, reload, merge, config) {

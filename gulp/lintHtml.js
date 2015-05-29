@@ -19,16 +19,18 @@ module.exports = function (gulp, $, handleError, config) {
 
 	// ARIALINT (ACCESSIBILITY LINTING)
 	// --------------------------------------|
-	gulp.task('lint:aria', function() {
+	// Unfortunetly broken with latest version of node =\
 
-		// Lint our HTML files for accessbility errors
-		return gulp.src(config.linthtml.src)
-			.pipe($.arialinter({
-				level: 'A',
-				rules: {
-					uniqueSummaryAttr: false,
-					tableHasSummary: false
-				}
-			}));
-	});
+	// gulp.task('lint:aria', function() {
+
+	// 	// Lint our HTML files for accessbility errors
+	// 	return gulp.src(config.linthtml.src)
+	// 		.pipe($.arialinter({
+	// 			level: 'A',
+	// 			rules: {
+	// 				uniqueSummaryAttr: false,
+	// 				tableHasSummary: false
+	// 			}
+	// 		}));
+	// });
 };

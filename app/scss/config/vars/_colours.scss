@@ -14,6 +14,7 @@ $color-danger: #d9534f;
 
 // GREYS
 // ---------------------------------|
+$color-00: $color-black;
 $color-11: #111;
 $color-22: #222;
 $color-33: #333;
@@ -28,7 +29,7 @@ $color-bb: #bbb;
 $color-cc: #ccc;
 $color-dd: #ddd;
 $color-ee: #eee;
-$color-ff: #fff;
+$color-ff: $color-white;
 
 // SOCIAL MEDIA
 // ---------------------------------|
@@ -60,3 +61,61 @@ $color-gamma-high: lighten($color-gamma, 20%);
 $color-delta: $color-black;
 $color-delta-low: darken($color-delta, 20%);
 $color-delta-high: lighten($color-delta, 20%);
+
+// COLOUR MAP FOR THEME MODIFIERS
+// ---------------------------------|
+$themeMap: (
+	alpha: ($color-alpha, $color-alpha-high, $color-alpha-low),
+	beta: ($color-beta, $color-beta-high, $color-beta-low),
+	gamma: ($color-gamma, $color-gamma-high, $color-gamma-low),
+	delta: ($color-delta, $color-delta-high, $color-delta-low)
+);
+
+// COLOUR MAP FOR STATUS MODIFIERS
+// ---------------------------------|
+$statusMap: (
+	success: $color-success,
+	info: $color-info,
+	warning: $color-warning,
+	danger: $color-danger
+);
+
+// COLOUR MAP FOR COLOUR MODIFIERS
+// ---------------------------------|
+$colorMap: (
+	alpha: $color-alpha,
+	beta: $color-beta,
+	gamma: $color-gamma,
+	delta: $color-delta,
+	white: $color-ff,
+	ee: $color-ee,
+	dd: $color-dd,
+	cc: $color-cc,
+	bb: $color-bb,
+	aa: $color-aa,
+	99: $color-99,
+	88: $color-88,
+	77: $color-77,
+	66: $color-66,
+	55: $color-55,
+	44: $color-44,
+	33: $color-33,
+	22: $color-22,
+	11: $color-11,
+	black: $color-00
+);
+
+// COLOUR MAP FOR SOCIAL MODIFIERS
+// ---------------------------------|
+$socialMap: (
+	facebook: $color-facebook,
+	twitter: $color-twitter,
+	googleplus: $color-googleplus,
+	youtube: $color-youtube,
+	linkedin: $color-linkedin,
+	pinterest: $color-pinterest,
+	instagram: $color-instagram,
+	flickr: $color-flickr,
+	tumblr: $color-tumblr,
+	vine: $color-vine
+);

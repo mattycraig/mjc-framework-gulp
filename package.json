@@ -5,9 +5,9 @@
     "node": ">=0.12.0"
   },
   "devDependencies": {
-    "browser-sync": "^2.7.5",
+    "browser-sync": "^2.7.6",
     "css-mqpacker": "^3.1.0",
-    "cssnext": "^1.5.1",
+    "cssnext": "^1.5.2",
     "del": "^1.2.0",
     "gulp": "^3.8.11",
     "gulp-arialinter": "0.0.1",
@@ -35,13 +35,13 @@
     "gulp-size": "^1.2.1",
     "gulp-sourcemaps": "^1.5.2",
     "gulp-uglify": "^1.2.0",
-    "gulp-useref": "^1.1.2",
+    "gulp-useref": "^1.2.0",
     "gulp-util": "^3.0.4",
     "jshint-stylish": "^2.0.0",
     "main-bower-files": "^2.8.0",
     "merge-stream": "^0.1.7",
     "opn": "^1.0.2",
-    "postcss-zindex": "^1.1.1",
+    "postcss-zindex": "^1.1.2",
     "wiredep": "^2.2.2"
   }
 }

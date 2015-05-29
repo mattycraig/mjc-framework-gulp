@@ -11,4 +11,17 @@
 	@include bp(sm) {
 		@include fontSize($type-base);
 	}
+
+	// COLOUR MODIFIERS
+	// ---------------------------------|
+	// See config/vars/_colours.scss
+	@each $name, $colors in $themeMap {
+		&--#{$name} {
+			background: nth($colors, 1);
+
+			&:hover {
+				background: nth($colors, 3);
+			}
+		}
+	}
 }
