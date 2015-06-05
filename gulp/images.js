@@ -22,7 +22,7 @@ module.exports = function (gulp, $, config) {
 
 	// CREATE RESPONSIVE IMAGES
 	// --------------------------------------|
-	// This needs more research - and doesn't work on windows
+	// This needs more research
 	// See gulp-responsive
 
 	// gulp.task('images:responsive', function() {

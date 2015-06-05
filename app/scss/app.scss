@@ -17,9 +17,7 @@
 @import 'vendor/bootstrap';
 @import 'vendor/fontawesome';
 @import 'vendor/outdated';
-
-// @import 'flexboxgrid';
-// @import 'animate';
+@import 'animate';
 
 // -----------------------------------------------------------------|
 // MODULES
@@ -32,12 +30,13 @@
 @import 'modules/misc';
 
 // -----------------------------------------------------------------|
-// COMPONENTS
-// -----------------------------------------------------------------|
-// @import 'components/myComponent';
-
-// -----------------------------------------------------------------|
 // PARTIALS
 // -----------------------------------------------------------------|
 @import 'partials/header';
 @import 'partials/footer';
+
+// -----------------------------------------------------------------|
+// COMPONENTS
+// -----------------------------------------------------------------|
+// @import 'components/myComponent';
+

@@ -5,33 +5,33 @@
 
 // INITIAL SCALE
 // ---------------------------------|
-$zIndex-1: 100;
-$zIndex-2: 200;
-$zIndex-3: 300;
-$zIndex-4: 400;
-$zIndex-5: 500;
-$zIndex-6: 600;
-$zIndex-7: 700;
-$zIndex-8: 800;
-$zIndex-9: 900;
-$zIndex-10: 1000;
+$z-index-1: 100;
+$z-index-2: 200;
+$z-index-3: 300;
+$z-index-4: 400;
+$z-index-5: 500;
+$z-index-6: 600;
+$z-index-7: 700;
+$z-index-8: 800;
+$z-index-9: 900;
+$z-index-10: 1000;
 
 // 10: MODALS
 // ---------------------------------|
-$zIndex--modal: $zIndex-10;
+$z-index--modal: $z-index-10;
 
 // 09: FIXED HDR/NAV
 // ---------------------------------|
-$zIndex-fixedHdr: $zIndex-9;
-$zIndex-fixedNav: $zIndex-9;
+$z-index-fixedHdr: $z-index-9;
+$z-index-fixedNav: $z-index-9;
 
 // 08: PAGE OVERLAYS
 // ---------------------------------|
-$zIndex-overlay: $zIndex-8;
+$z-index-overlay: $z-index-8;
 
 // 07: HEADER/NAV, TOOLTIP, LOADING
 // ---------------------------------|
-$zIndex--tooltip: $zIndex-7;
-$zIndex--loading: $zIndex-7;
-$zIndex--hdr: $zIndex-7;
-$zIndex--nav: $zIndex-7;
+$z-index--tooltip: $z-index-7;
+$z-index--loading: $z-index-7;
+$z-index--hdr: $z-index-7;
+$z-index--nav: $z-index-7;

@@ -47,9 +47,6 @@ module.exports = function (gulp, $, merge, config) {
 		var templates = gulp.src(config.views.src.prod)
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
-			// Have to do this as it causes issues for the moment
-			.pipe($.replace('<!-- bower:js-->', ''))
-			.pipe($.replace('<!-- endbower-->', ''))
 			.pipe(gulp.dest(config.views.dest.tmp));
 
 		// Compile page partials for dev

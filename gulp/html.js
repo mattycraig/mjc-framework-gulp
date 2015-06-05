@@ -8,8 +8,8 @@ module.exports = function (gulp, $, merge, config) {
 	// ASSETS OPTIONS
 	// --------------------------------------|
 	var assets = $.useref.assets({
-			searchPath: '{.tmp,app}'
-		});
+		searchPath: '{.tmp,app}'
+	});
 
 	// PRODUCTION HTML (UNMINIFIED / WITH CMS)
 	// --------------------------------------|
@@ -20,7 +20,7 @@ module.exports = function (gulp, $, merge, config) {
 
 		// Reduces compile time but only searches index file to
 		// minify and concat css/js references
-		var doAssets = gulp.src(config.html.src.flat)
+		var doAssets = gulp.src(config.html.src.index)
 			.pipe(assets)
 			.pipe($.if('*.js', $.uglify()))
 			.pipe($.if('*.css', $.minifyCss()))

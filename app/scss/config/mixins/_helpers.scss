@@ -19,14 +19,14 @@
 }
 
 @mixin fontSize($size) {
-	// font-size: $size;
+	font-size: $size;
 	font-size: calculateRem($size);
 }
 
 // #B : REM LINE HEIGHT MIXIN
 // ---------------------------------|
 @mixin lineHeight($heightValue: 12) {
-	// line-height: $heightValue + px;
+	line-height: $heightValue + px;
 	line-height: (.125 * $heightValue) + rem;
 }
 

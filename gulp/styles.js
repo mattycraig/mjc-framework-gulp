@@ -13,14 +13,13 @@ var optsSass = {
 		'app/scss/',
 		'bower_components/',
 		'bower_components/bourbon/app/assets/stylesheets/',
-		'bower_components/flexboxgrid/src/sass/',
-		'bower_components/animate.css/source/',
+		'bower_components/animate.css/source/'
 	]
 };
 
 // AUTOPREFIXER OPTIONS
 // --------------------------------------|
-var optsAutoprefixer = {
+var optsCssnext = {
 	browsers: [
 		'> 1%',
 		'last 2 versions',
@@ -29,13 +28,16 @@ var optsAutoprefixer = {
 		'Explorer >= 9',
 		'Safari >= 6',
 		'ExplorerMobile >= 10'
-	]
+	],
+	features: {
+    	rem: false
+  	}
 };
 
 // POSTCSS OPTIONS
 // --------------------------------------|
 var optsPostCSS = [
-	require('cssnext')(optsAutoprefixer),
+	require('cssnext')(optsCssnext),
 	require('postcss-zindex'),
 	require('css-mqpacker')
 ];

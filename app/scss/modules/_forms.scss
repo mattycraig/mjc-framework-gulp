@@ -16,6 +16,14 @@
 			@include fontSize($type-base);
 		}
 	}
+
+	// HAS ERRORS
+	// -------------------------------------|
+	&.has-error {
+		.label {
+			color: $color-danger;
+		}
+	}
 }
 
 // -----------------------------------------------------------------|
@@ -29,6 +37,35 @@
 		// ---------------------------------|
 		@include bp(sm) {
 			@include fontSize($type-base);
+		}
+	}
+
+	// HAS ERRORS
+	// -------------------------------------|
+	&.has-error {
+		.form-control {
+			border-color: $color-danger;
+		}
+	}
+}
+
+// -----------------------------------------------------------------|
+// ERROR MESSAGES
+// -----------------------------------------------------------------|
+.form-group {
+	.help-block {
+		color: $color-danger;
+		@include fontSize($type-smaller);
+		display: none;
+	}
+
+	// HAS ERRORS
+	// -------------------------------------|
+	&.has-error {
+		.help-block {
+			display: block;
+			@extend .animated;
+			@extend .flipInX;
 		}
 	}
 }

@@ -48,6 +48,7 @@
 				".tmp/*.html",
 				"!.tmp/index.html"
 			],
+			"index" : ".tmp/index.html",
 			"flat" : ".tmp/**/*.html"
 		},
 		"dest" : {

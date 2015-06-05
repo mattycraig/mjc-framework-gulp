@@ -1,0 +1,50 @@
+//- -----------------------------------------------------------------|
+//- MIXINS EXAMPLES MIXIN
+//- -----------------------------------------------------------------|
+//- Contains the template for possible mixins and their examples.
+
+mixin mixinsEx()
+	h2 Jade Mixin Examples
+	.row
+		.col-sm-4
+			+hlpTimes(2)
+				p Repeat this 2 times!
+		.col-sm-4
+			label Years
+			+hlpYears('className')
+		.col-sm-4
+			label Months (EN)
+			+hlpMonths('className')
+	.row
+		.col-sm-4
+			label Months (FR)
+			+hlpMonths('className', 'fr')
+		.col-sm-4
+			label Days
+			+hlpDays('className')
+		.col-sm-4
+			label Weekdays (EN)
+			+hlpWeekdays('className')
+	.row
+		.col-sm-4
+			label Weekdays (FR)
+			+hlpWeekdays('className', 'fr')
+		.col-sm-4
+			label ShareThis (With Icon)
+			+shareThis('facebook', true)
+		.col-sm-4
+			label ShareThis (No Icon)
+			+shareThis('twitter')
+	.row
+		.col-sm-4
+			label FB Sharer (With Icon)
+			+fbSharer(true)
+		.col-sm-4
+			label FB Sharer (No Icon)
+			+fbSharer
+		.col-sm-4
+			//- label Responsive Image (srcset)
+			//- +hlpSrcset('', 'test', 'Alt test', 'img-responsive')
+
+			//- label Responsive Image (picture)
+			//- +hlpPicture('sub/', 'sub-test', 'Alt test', 'img-responsive')
