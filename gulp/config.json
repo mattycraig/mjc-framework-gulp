@@ -31,7 +31,7 @@
 		}
 	},
 	"linthtml" : {
-		"src" : "dist/**/*"
+		"src" : ".tmp/*.html"
 	},
 	"lintscripts" : {
 		"src" : {

@@ -2,7 +2,7 @@
   "name": "name",
   "private": true,
   "dependencies": {
-    "bootstrap-sass-official": "~3.3.4",
+    "bootstrap-sass-official": "~3.3.5",
     "modernizr": "~2.8.3",
     "jquery": "~2.1.4",
     "outdated-browser": "~1.1.0",
@@ -10,7 +10,7 @@
     "animate.css": "sass",
     "fastclick": "~1.0.6",
     "bourbon": "~4.2.3",
-    "anchor-js": "~1.1.1"
+    "anchor-js": "~1.2.1"
   },
   "overrides": {
     "bootstrap-sass-official": {

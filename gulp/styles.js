@@ -19,7 +19,7 @@ var optsSass = {
 
 // AUTOPREFIXER OPTIONS
 // --------------------------------------|
-var optsCssnext = {
+var optsCssNext = {
 	browsers: [
 		'> 1%',
 		'last 2 versions',
@@ -30,15 +30,14 @@ var optsCssnext = {
 		'ExplorerMobile >= 10'
 	],
 	features: {
-    	rem: false
-  	}
+		rem: false
+	}
 };
 
 // POSTCSS OPTIONS
 // --------------------------------------|
 var optsPostCSS = [
-	require('cssnext')(optsCssnext),
-	require('postcss-zindex'),
+	require('cssnext')(optsCssNext)
 	require('css-mqpacker')
 ];
 
@@ -47,6 +46,7 @@ module.exports = function (gulp, $, reload, merge, config) {
 	// DEVELOPMENT STYLES
 	// --------------------------------------|
 	gulp.task('styles:dev', function() {
+		// Automatically import scss files
 		// Init our souremaps
 		// Compile our scss files
 		// Use PostCSS
@@ -55,8 +55,9 @@ module.exports = function (gulp, $, reload, merge, config) {
 		// Reload browser
 		// NOTE: Can't return stream here as sass errors prevent watch task
 		gulp.src(config.styles.src.scss)
+			.pipe($.sassBulkImport())
 			.pipe($.sourcemaps.init())
-			.pipe($.sass(optsSass))
+			.pipe($.sass.sync(optsSass))
 			.on('error', function(err) {
 				$.notify.onError({
 					message: 'SASS failed!\n' + err.message + ' on line ' + err.line
@@ -73,6 +74,7 @@ module.exports = function (gulp, $, reload, merge, config) {
 	// PRODUCTION STYLES
 	// --------------------------------------|
 	gulp.task('styles:prod', function() {
+		// Automatically import scss files
 		// Init our souremaps
 		// Compile our scss files
 		// Use PostCSS
@@ -80,8 +82,9 @@ module.exports = function (gulp, $, reload, merge, config) {
 		// Output to our .tmp folder
 		// Output to our dist/dev/css folder
 		var styles = gulp.src(config.styles.src.scss)
+			.pipe($.sassBulkImport())
 			.pipe($.sourcemaps.init())
-			.pipe($.sass(optsSass))
+			.pipe($.sass.sync(optsSass))
 			.pipe($.postcss(optsPostCSS))
 			.pipe($.sourcemaps.write('./'))
 			.pipe(gulp.dest(config.styles.dest.tmp))

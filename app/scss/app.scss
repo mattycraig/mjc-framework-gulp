@@ -11,32 +11,27 @@
 @import 'config/mixins/mixins';
 
 // -----------------------------------------------------------------|
-// VENDOR
+// PROJECT VENDOR
+// -----------------------------------------------------------------|
+@import 'vendor/*';
+
+// -----------------------------------------------------------------|
+// BOWER LIBS
 // -----------------------------------------------------------------|
 @import 'bourbon';
-@import 'vendor/bootstrap';
-@import 'vendor/fontawesome';
-@import 'vendor/outdated';
 @import 'animate';
 
 // -----------------------------------------------------------------|
 // MODULES
 // -----------------------------------------------------------------|
-@import 'modules/defaults';
-@import 'modules/typography';
-@import 'modules/buttons';
-@import 'modules/forms';
-@import 'modules/utilities';
-@import 'modules/misc';
+@import 'modules/*';
 
 // -----------------------------------------------------------------|
 // PARTIALS
 // -----------------------------------------------------------------|
-@import 'partials/header';
-@import 'partials/footer';
+@import 'partials/*';
 
 // -----------------------------------------------------------------|
 // COMPONENTS
 // -----------------------------------------------------------------|
-// @import 'components/myComponent';
-
+@import 'components/*';
