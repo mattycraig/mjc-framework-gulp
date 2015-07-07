@@ -13,6 +13,7 @@ var optsSass = {
 		'app/scss/',
 		'bower_components/',
 		'bower_components/bourbon/app/assets/stylesheets/',
+		'bower_components/bootstrap-sass-official/assets/stylesheets/',
 		'bower_components/animate.css/source/'
 	]
 };
@@ -37,7 +38,7 @@ var optsCssNext = {
 // POSTCSS OPTIONS
 // --------------------------------------|
 var optsPostCSS = [
-	require('cssnext')(optsCssNext)
+	require('cssnext')(optsCssNext),
 	require('css-mqpacker')
 ];
 
