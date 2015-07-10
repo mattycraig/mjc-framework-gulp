@@ -1,13 +1,13 @@
-/* global outdatedBrowser, FastClick, anchors */
+/* global outdatedBrowser, FastClick, anchors, jQuery */
 
-(function ($, window, document, undefined) {
+(function ($, window, document) {
 
 	'use strict';
 
 	//--------------------------------------------|
 	// GLOBAL VARIABLES
 	//--------------------------------------------|
-	var speed = 300;
+	// var speed = 300;
 
 	//--------------------------------------------|
 	// AVOID CONSOLE ERRORS (<= IE9)

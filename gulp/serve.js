@@ -3,11 +3,11 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, $, browserSync, reload) {
+module.exports = (gulp, $, browserSync, reload) => {
 
 	// DEVELOPMENT SERVE
 	// --------------------------------------|
-	gulp.task('serve', ['wiredep', 'styles:dev', 'setWatch', 'views:dev', 'lint:html', 'lint:scripts', 'fonts:dev'], function() {
+	gulp.task('serve', ['wiredep', 'styles:dev', 'setWatch', 'views:dev', 'lint:html', 'lint:scripts', 'fonts:dev'], () => {
 
 		browserSync({
 			notify: false,
@@ -36,7 +36,7 @@ module.exports = function (gulp, $, browserSync, reload) {
 
 	// PRODUCTION SERVE
 	// --------------------------------------|
-	gulp.task('serve:prod', ['wiredep', 'styles:prod', 'views:prod', 'fonts:prod'], function() {
+	gulp.task('serve:prod', ['wiredep', 'styles:prod', 'views:prod', 'fonts:prod'], () => {
 		browserSync({
 			notify: false,
 			port: 9000,

@@ -3,11 +3,11 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, config) {
+module.exports = (gulp, config) => {
 
 	// DEVELOPMENT FONTS
 	// --------------------------------------|
-	gulp.task('fonts:dev', function() {
+	gulp.task('fonts:dev', () => {
 		return gulp.src(require('main-bower-files')({
 				filter: config.fonts.src.filter
 			}).concat(config.fonts.src.concat))
@@ -16,7 +16,7 @@ module.exports = function (gulp, config) {
 
 	// PRODUCTION FONTS
 	// --------------------------------------|
-	gulp.task('fonts:prod', function() {
+	gulp.task('fonts:prod', () => {
 		return gulp.src(require('main-bower-files')({
 				filter: config.fonts.src.filter
 			}).concat(config.fonts.src.concat))

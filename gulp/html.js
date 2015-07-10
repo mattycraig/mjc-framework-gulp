@@ -3,7 +3,7 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, $, merge, config) {
+module.exports = (gulp, $, merge, config) => {
 
 	// ASSETS OPTIONS
 	// --------------------------------------|
@@ -13,7 +13,7 @@ module.exports = function (gulp, $, merge, config) {
 
 	// PRODUCTION HTML (UNMINIFIED / WITH CMS)
 	// --------------------------------------|
-	gulp.task('html:prod', ['views:prod', 'styles:prod'], function() {
+	gulp.task('html:prod', ['views:prod', 'styles:prod'], () => {
 		var doUseref = gulp.src(config.html.src.prod)
 			.pipe($.useref())
 			.pipe(gulp.dest(config.html.dest.prod));
@@ -34,7 +34,7 @@ module.exports = function (gulp, $, merge, config) {
 
 	// FLAT HTML (MINIFIED / NO CMS)
 	// --------------------------------------|
-	gulp.task('html:flat', ['views:prod', 'styles:prod'], function() {
+	gulp.task('html:flat', ['views:prod', 'styles:prod'], () => {
 		return gulp.src(config.html.src.flat)
 			.pipe(assets)
 			.pipe($.if('*.js', $.uglify()))

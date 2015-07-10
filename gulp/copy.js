@@ -3,11 +3,11 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, $, merge, config) {
+module.exports = (gulp, $, merge, config) => {
 
 	// COPY ALL ROOT FILES + DEV JS FILES FROM TMP TO DIST
 	// --------------------------------------|
-	gulp.task('copy', function() {
+	gulp.task('copy', () => {
 		var rootFiles = gulp.src(config.copy.src.files, {
 				dot: true
 			})

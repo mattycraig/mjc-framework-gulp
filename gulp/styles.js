@@ -42,11 +42,11 @@ var optsPostCSS = [
 	require('css-mqpacker')
 ];
 
-module.exports = function (gulp, $, reload, merge, config) {
+module.exports = (gulp, $, reload, merge, config) => {
 
 	// DEVELOPMENT STYLES
 	// --------------------------------------|
-	gulp.task('styles:dev', function() {
+	gulp.task('styles:dev', () => {
 		// Automatically import scss files
 		// Init our souremaps
 		// Compile our scss files
@@ -74,7 +74,7 @@ module.exports = function (gulp, $, reload, merge, config) {
 
 	// PRODUCTION STYLES
 	// --------------------------------------|
-	gulp.task('styles:prod', function() {
+	gulp.task('styles:prod', () => {
 		// Automatically import scss files
 		// Init our souremaps
 		// Compile our scss files

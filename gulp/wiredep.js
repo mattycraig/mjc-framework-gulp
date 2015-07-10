@@ -3,11 +3,11 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, config) {
+module.exports = (gulp, config) => {
 
 	// INJECT VENDOR DEPENDENCIES
 	// --------------------------------------|
-	gulp.task('wiredep', function() {
+	gulp.task('wiredep', () => {
 		var wiredep = require('wiredep').stream;
 
 		return gulp.src(config.wiredep.src)

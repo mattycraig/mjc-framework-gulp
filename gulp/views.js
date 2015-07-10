@@ -19,11 +19,11 @@ var optsPretty = {
 	unformatted: ['sub', 'sup', 'b', 'em', 'u', 'script']
 };
 
-module.exports = function (gulp, $, merge, config) {
+module.exports = (gulp, $, merge, config) => {
 
 	// DEVELOPMENT VIEWS
 	// --------------------------------------|
-	gulp.task('views:dev', function() {
+	gulp.task('views:dev', () => {
 		return gulp.src(config.views.src.dev)
 			.pipe($.changed('.tmp', {extension: '.html'}))
 			.pipe($.if(global.isWatching, $.cached('jade')))
@@ -35,13 +35,13 @@ module.exports = function (gulp, $, merge, config) {
 	});
 
 	// Setwatch task is required for Jade caching
-	gulp.task('setWatch', function() {
+	gulp.task('setWatch', () => {
 		global.isWatching = true;
 	});
 
 	// PRODUCTION VIEWS
 	// --------------------------------------|
-	gulp.task('views:prod', function() {
+	gulp.task('views:prod', () => {
 
 		// Compile page templates
 		var templates = gulp.src(config.views.src.prod)

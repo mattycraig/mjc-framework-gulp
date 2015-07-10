@@ -3,7 +3,7 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp) {
+module.exports = (gulp) => {
 
 	// CLEAN TMP AND DIST FOLDERS
 	// --------------------------------------|

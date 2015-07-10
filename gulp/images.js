@@ -3,11 +3,11 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = function (gulp, $, config) {
+module.exports = (gulp, $, config) => {
 
 	// MINIFY IMAGES
 	// --------------------------------------|
-	gulp.task('images:minify', function() {
+	gulp.task('images:minify', () => {
 		return gulp.src(config.images.src)
 			.pipe($.if($.if.isFile, $.cache($.imagemin({
 				progressive: true,
@@ -25,7 +25,7 @@ module.exports = function (gulp, $, config) {
 	// This needs more research
 	// See gulp-responsive
 
-	// gulp.task('images:responsive', function() {
+	// gulp.task('images:responsive', () => {
 	// 	return gulp.src('app/images/**/*.{jpg,gif,png}')
 	// 		.pipe($.responsive([{
 	// 			'*.{jpg,gif,png}' : [{

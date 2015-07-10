@@ -1,11 +1,14 @@
 /* global -$ */
 'use strict';
 
-var gulp = require('gulp');
-var merge = require('merge-stream');
-var browserSync = require('browser-sync');
-var reload = browserSync.reload;
-var $ = require('gulp-load-plugins')();
+import gulp from 'gulp';
+import gulpLoadPlugins from 'gulp-load-plugins';
+import merge from 'merge-stream';
+import browserSync from 'browser-sync';
+
+const reload = browserSync.reload;
+const $ = gulpLoadPlugins();
+
 var config = require('./gulp/config.json');
 
 // ERROR NOTIFICATIONS
@@ -24,7 +27,7 @@ require('./gulp/helpers')(gulp);
 require('./gulp/styles')(gulp, $, reload, merge, config);
 require('./gulp/views')(gulp, $, merge, config);
 require('./gulp/lintHtml')(gulp, $, handleError, config);
-require('./gulp/lintScripts')(gulp, $, reload, handleError, config);
+require('./gulp/lintScripts')(gulp, $, browserSync, reload, handleError, config);
 require('./gulp/html')(gulp, $, merge, config);
 require('./gulp/images')(gulp, $, config);
 require('./gulp/fonts')(gulp, config);
@@ -37,4 +40,5 @@ require('./gulp/build')(gulp, $, config);
 // TODO
 // -----------------------------------------------------------------|
 // responsive images (gulp-responsive)
-// add js testing framework (jasmine/mocha)
+// add js testing framework (mocha)
+// add es6lint in place of jscs + jshint
