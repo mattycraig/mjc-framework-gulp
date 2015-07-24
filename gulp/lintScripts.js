@@ -3,59 +3,34 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = (gulp, $, browserSync, reload, handleError, config) => {
+module.exports = (gulp, $, reload, config) => {
 
 	// LINT SCRIPTS
 	// --------------------------------------|
-	// gulp.task('lint:scripts', () => {
-	// 	// Lint using ESLint
-	// 	// Report errors
-	// 	return gulp.src(config.lintscripts.src.js)
-	// 		.pipe(reload({
-	// 			stream: true,
-	// 			once: true
-	// 		}))
-	// 		.pipe($.eslint())
-	// 		.pipe($.eslint.format())
-	// });
-
-	gulp.task('lint:scripts', function() {
-		// Lint using JSCS
-		// Lint using JSHint
-		// Report errors
+	gulp.task('lint:scripts', () => {
+		// Lint using ESLint
+		// Report errors in console
+		// Notiify of an error (to be fixed)
 		return gulp.src(config.lintscripts.src.js)
 			.pipe(reload({
 				stream: true,
 				once: true
 			}))
-			.pipe($.jscs())
-			.on('error', handleError('JSCS'))
-			.pipe($.jshint())
-			.pipe($.jshint.reporter('jshint-stylish'))
-			.pipe($.jshint.reporter('fail'))
-			.on('error', handleError('JSHint'));
+			.pipe($.eslint())
+			.pipe($.eslint.format())
+			.pipe($.eslint.format('stylish', $.notify.onError('ESLint failed!\nSee console for details')));
 	});
 
 	// LINT GULPFILE(S)
 	// --------------------------------------|
 	gulp.task('lint:gulp', () => {
 		// Lint using ESLint
-		// Report errors
-		return gulp.src(config.lintscripts.src.js)
+		// Report errors in console
+		// Notiify of an error (to be fixed)
+		return gulp.src(config.lintscripts.src.gulp)
 			.pipe($.eslint())
-			.pipe($.eslint.format());
+			.pipe($.eslint.format())
+			.pipe($.eslint.format('stylish', $.notify.onError('ESLint failed!\nSee console for details')));
 	});
 
-	// gulp.task('lint:gulp', function() {
-	// 	// Lint using JSCS
-	// 	// Lint using JSHint
-	// 	// Report errors
-	// 	return gulp.src(config.lintscripts.src.gulp)
-	// 		.pipe($.jscs())
-	// 		.on('error', handleError('JSCS'))
-	// 		.pipe($.jshint())
-	// 		.pipe($.jshint.reporter('jshint-stylish'))
-	// 		.pipe($.jshint.reporter('fail'))
-	// 		.on('error', handleError('JSHint'));
-	// });
 };

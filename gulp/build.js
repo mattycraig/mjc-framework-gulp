@@ -5,30 +5,26 @@
 
 module.exports = (gulp, $, config) => {
 
-	var s = $.size();
-
 	// BUILD (UNMINIFIED, WITH CMS)
 	// --------------------------------------|
 	gulp.task('build', ['lint:scripts', 'html:prod', 'images:minify', 'fonts:prod', 'copy'], () => {
 		return gulp.src(config.build.src)
-			.pipe(s)
 			.pipe($.notify({
 				onLast: true,
 				message: function() {
-					return 'Build complete (' + s.prettySize + ')';
+					return 'Build complete!';
 				}
 			}));
 	});
 
 	// BUILD (MINIFIED, NO CMS)
 	// --------------------------------------|
-	gulp.task('build:flat', ['lint:scripts', 'html:flat', 'images:minify', 'fonts:prod', 'copy'], () => {
+	gulp.task('build:flat', ['clean', 'lint:scripts', 'html:flat', 'images:minify', 'fonts:prod', 'copy'], () => {
 		return gulp.src(config.build.src)
-			.pipe(s)
 			.pipe($.notify({
 				onLast: true,
 				message: function() {
-					return 'Build complete (' + s.prettySize + ')';
+					return 'Flat build complete!';
 				}
 			}));
 	});

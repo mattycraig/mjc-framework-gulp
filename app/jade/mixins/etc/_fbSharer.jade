@@ -13,7 +13,7 @@ mixin fbSharer(icon, appId, href, redirect)
 		class='share-facebook js-sharing'
 		href='https://www.facebook.com/dialog/share?app_id=#{appId}&amp;display=popup&amp;href=#{href}&amp;redirect_uri=#{redirect}'
 		aria-label='Share this via facebook'
-		target='blank'
+		target='_blank'
 	)
 		if icon
 			i(class='fa fa-facebook' aria-hidden='true')

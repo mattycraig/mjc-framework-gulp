@@ -14,7 +14,7 @@ var optsSass = {
 		'bower_components/',
 		'bower_components/bourbon/app/assets/stylesheets/',
 		'bower_components/bootstrap-sass-official/assets/stylesheets/',
-		'bower_components/animate.css/source/'
+		'bower_components/animate.css-scss/'
 	]
 };
 

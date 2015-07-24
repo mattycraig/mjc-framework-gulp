@@ -13,6 +13,7 @@ var optsJade = {
 // HTML PRETTIFY OPTIONS
 // --------------------------------------|
 var optsPretty = {
+	indent_with_tabs: true,
 	indent_inner_html: false,
 	preserve_newlines: true,
 	indent_scripts: 'normal',

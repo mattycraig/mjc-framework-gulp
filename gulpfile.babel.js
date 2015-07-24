@@ -27,7 +27,7 @@ require('./gulp/helpers')(gulp);
 require('./gulp/styles')(gulp, $, reload, merge, config);
 require('./gulp/views')(gulp, $, merge, config);
 require('./gulp/lintHtml')(gulp, $, handleError, config);
-require('./gulp/lintScripts')(gulp, $, browserSync, reload, handleError, config);
+require('./gulp/lintScripts')(gulp, $, reload, config);
 require('./gulp/html')(gulp, $, merge, config);
 require('./gulp/images')(gulp, $, config);
 require('./gulp/fonts')(gulp, config);
@@ -41,4 +41,3 @@ require('./gulp/build')(gulp, $, config);
 // -----------------------------------------------------------------|
 // responsive images (gulp-responsive)
 // add js testing framework (mocha)
-// add es6lint in place of jscs + jshint
