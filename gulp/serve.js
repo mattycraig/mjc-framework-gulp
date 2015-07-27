@@ -22,7 +22,7 @@ module.exports = (gulp, $, browserSync, reload) => {
 
 		// Watch our files for changes
 		gulp.watch([
-			'.tmp/**/*.html',
+			// '.tmp/**/*.html',
 			'app/js/**/*.js',
 			'app/images/**/*'
 		]).on('change', reload);

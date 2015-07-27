@@ -20,19 +20,25 @@ var optsPretty = {
 	unformatted: ['sub', 'sup', 'b', 'em', 'u', 'script']
 };
 
-module.exports = (gulp, $, merge, config) => {
+module.exports = (gulp, $, merge, reload, config) => {
 
 	// DEVELOPMENT VIEWS
 	// --------------------------------------|
 	gulp.task('views:dev', () => {
+		var destPathExists = false;
+		try { destPathExists = fs.statSync(config.views.dest.tmp).isDirectory(); } catch (ex) {}
+
 		return gulp.src(config.views.src.dev)
 			.pipe($.changed('.tmp', {extension: '.html'}))
 			.pipe($.if(global.isWatching, $.cached('jade')))
-			.pipe($.jadeInheritance({basedir: 'app/jade'}))
+			.pipe($.if(destPathExists, $.jadeInheritance({basedir: 'app/jade'})))
 			.pipe($.filter(config.views.src.filter))
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
-			.pipe(gulp.dest(config.views.dest.tmp));
+			.pipe(gulp.dest(config.views.dest.tmp))
+			.pipe(reload({
+				stream: true
+			}));
 	});
 
 	// Setwatch task is required for Jade caching
