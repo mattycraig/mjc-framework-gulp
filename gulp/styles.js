@@ -98,4 +98,34 @@ module.exports = (gulp, $, reload, merge, config) => {
 		// Merge streams
 		return merge(styles, sourcemap);
 	});
+
+	// INDIVIDUAL TASK: STYLES
+	// --------------------------------------|
+	gulp.task('task:styles', () => {
+		// Automatically import scss files
+		// Compile our scss files
+		// Use PostCSS
+		// Minify CSS
+		// Output to our dist/css folder
+		var styles = gulp.src(config.styles.src.scss)
+			.pipe($.sassBulkImport())
+			.pipe($.sass.sync(optsSass))
+			.pipe($.postcss(optsPostCSS))
+			.pipe($.minifyCss())
+			.pipe(gulp.dest(config.styles.dest.prod));
+
+		// Automatically import scss files
+		// Compile our scss files
+		// Use PostCSS
+		// Output to our dist/dev/css folder
+		var sourcemap = gulp.src(config.styles.src.scss)
+			.pipe($.sassBulkImport())
+			.pipe($.sourcemaps.init())
+			.pipe($.sass.sync(optsSass))
+			.pipe($.postcss(optsPostCSS))
+			.pipe($.sourcemaps.write('./'))
+			.pipe(gulp.dest(config.styles.dest.dev));
+
+		return merge(styles, sourcemap);
+	});
 };

@@ -30,6 +30,15 @@
 			"components" : "dist/dev/components"
 		}
 	},
+	"scripts" : {
+		"src" : {
+			"js" : "app/js/**/*.js"
+		},
+		"dest" : {
+			"dev" : "dist/dev/js",
+			"prod" : "dist/js"
+		}
+	},
 	"linthtml" : {
 		"src" : ".tmp/*.html"
 	},

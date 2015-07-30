@@ -26,6 +26,7 @@ function handleError(task) {
 require('./gulp/helpers')(gulp);
 require('./gulp/styles')(gulp, $, reload, merge, config);
 require('./gulp/views')(gulp, $, merge, reload, config);
+require('./gulp/scripts')(gulp, $, merge, config);
 require('./gulp/lintHtml')(gulp, $, handleError, config);
 require('./gulp/lintScripts')(gulp, $, reload, config);
 require('./gulp/html')(gulp, $, merge, config);

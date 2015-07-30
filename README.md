@@ -30,7 +30,21 @@ To view our dist files locally to ensure all tasks are working properly, simply:
 gulp serve:prod
 ```
 
-### Useful Taks
+### Individual Tasks
+
+Rebuild only our styles + dev styles
+
+```
+gulp task:styles
+```
+
+Rebuild only our scripts + dev scripts
+
+```
+gulp task:scripts
+```
+
+### Useful Tasks
 
 Lint our script file(s) for possible errors:
 
