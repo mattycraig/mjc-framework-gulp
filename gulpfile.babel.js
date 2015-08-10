@@ -23,18 +23,15 @@ function handleError(task) {
 
 // TASKS
 // --------------------------------------|
-require('./gulp/helpers')(gulp);
+require('./gulp/helpers')(gulp, $, merge, config);
 require('./gulp/styles')(gulp, $, reload, merge, config);
 require('./gulp/views')(gulp, $, merge, reload, config);
 require('./gulp/scripts')(gulp, $, merge, config);
-require('./gulp/lintHtml')(gulp, $, handleError, config);
-require('./gulp/lintScripts')(gulp, $, reload, config);
 require('./gulp/html')(gulp, $, merge, config);
 require('./gulp/images')(gulp, $, config);
 require('./gulp/fonts')(gulp, config);
-require('./gulp/copy')(gulp, $, merge, config);
+require('./gulp/lint')(gulp, $, handleError, reload, config);
 require('./gulp/serve')(gulp, $, browserSync, reload);
-require('./gulp/wiredep')(gulp, config);
 require('./gulp/build')(gulp, $, config);
 
 // -----------------------------------------------------------------|

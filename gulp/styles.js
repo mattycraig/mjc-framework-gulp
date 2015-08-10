@@ -110,6 +110,11 @@ module.exports = (gulp, $, reload, merge, config) => {
 		var styles = gulp.src(config.styles.src.scss)
 			.pipe($.sassBulkImport())
 			.pipe($.sass.sync(optsSass))
+			.on('error', function(err) {
+				$.notify.onError({
+					message: 'SASS failed!\n' + err.message + ' on line ' + err.line
+				})(err);
+			})
 			.pipe($.postcss(optsPostCSS))
 			.pipe($.minifyCss())
 			.pipe(gulp.dest(config.styles.dest.prod));

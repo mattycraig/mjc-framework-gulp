@@ -24,9 +24,21 @@ module.exports = (gulp, $, merge, reload, config) => {
 
 	// DEVELOPMENT VIEWS
 	// --------------------------------------|
+	// Process on intial serve
 	gulp.task('views:dev', () => {
+		return gulp.src(config.views.src.dev)
+			.pipe($.jade(optsJade))
+			// .pipe($.prettify(optsPretty))
+			.pipe(gulp.dest(config.views.dest.tmp));
+	});
 
-		// Compile with Jade
+	// Setwatch task is required for Jade caching
+	gulp.task('setWatch', () => {
+		global.isWatching = true;
+	});
+
+	// Only process changed jade files
+	gulp.task('views:devWatch', () => {
 		return gulp.src(config.views.src.dev)
 			.pipe($.changed('.tmp', {extension: '.html'}))
 			.pipe($.if(global.isWatching, $.cached('jade')))
@@ -35,11 +47,6 @@ module.exports = (gulp, $, merge, reload, config) => {
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
 			.pipe(gulp.dest(config.views.dest.tmp));
-	});
-
-	// Setwatch task is required for Jade caching
-	gulp.task('setWatch', () => {
-		global.isWatching = true;
 	});
 
 	// PRODUCTION VIEWS

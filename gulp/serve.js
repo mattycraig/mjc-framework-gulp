@@ -30,7 +30,7 @@ module.exports = (gulp, $, browserSync, reload) => {
 		gulp.watch('.tmp/**/*.html', ['lint:html']);
 		gulp.watch('app/scss/**/*.scss', ['styles:dev']);
 		gulp.watch('app/js/**/*.js', ['lint:scripts']);
-		gulp.watch('app/jade/**/*.jade', ['views:dev']);
+		gulp.watch('app/jade/**/*.jade', ['views:devWatch']);
 		gulp.watch('bower.json', ['wiredep', 'fonts:dev', reload]);
 	});
 
