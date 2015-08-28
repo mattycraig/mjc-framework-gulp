@@ -40,7 +40,7 @@
 		}
 	},
 	"linthtml" : {
-		"src" : ".tmp/*.html"
+		"src" : ".tmp/**/*.html"
 	},
 	"lintscripts" : {
 		"src" : {
@@ -54,7 +54,7 @@
 	"html" : {
 		"src" : {
 			"prod" : [
-				".tmp/*.html",
+				".tmp/**/*.html",
 				"!.tmp/index.html"
 			],
 			"index" : ".tmp/index.html",

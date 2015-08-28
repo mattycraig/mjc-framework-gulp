@@ -28,7 +28,6 @@ module.exports = (gulp, $, merge, reload, config) => {
 	gulp.task('views:dev', () => {
 		return gulp.src(config.views.src.dev)
 			.pipe($.jade(optsJade))
-			// .pipe($.prettify(optsPretty))
 			.pipe(gulp.dest(config.views.dest.tmp));
 	});
 
