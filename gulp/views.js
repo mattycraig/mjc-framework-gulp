@@ -25,8 +25,9 @@ module.exports = (gulp, $, merge, reload, config) => {
 	// DEVELOPMENT VIEWS
 	// --------------------------------------|
 	// Process on intial serve
-	gulp.task('views:dev', () => {
+	gulp.task('views:dev', ['inject:scripts'], () => {
 		return gulp.src(config.views.src.dev)
+			.pipe($.filter(config.views.src.filter))
 			.pipe($.jade(optsJade))
 			.pipe(gulp.dest(config.views.dest.tmp));
 	});
@@ -50,7 +51,7 @@ module.exports = (gulp, $, merge, reload, config) => {
 
 	// PRODUCTION VIEWS
 	// --------------------------------------|
-	gulp.task('views:prod', () => {
+	gulp.task('views:prod', ['inject:scripts'], () => {
 
 		// Compile page templates
 		var templates = gulp.src(config.views.src.prod)

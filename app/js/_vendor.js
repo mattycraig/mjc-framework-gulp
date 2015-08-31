@@ -3,7 +3,7 @@
 //--------------------------------------------|
 // VENDOR PLUGINS
 //--------------------------------------------|
-(function ($, window, document) {
+(function($, window, document) {
 
 	'use strict';
 

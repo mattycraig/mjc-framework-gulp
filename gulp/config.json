@@ -30,6 +30,13 @@
 			"components" : "dist/dev/components"
 		}
 	},
+	"inject" : {
+		"scripts" : {
+			"src" : "app/js/**/*.js",
+			"jade" : "app/jade/layouts/default/inc/_foot.jade",
+			"dest" : "app/jade/layouts/default/inc"
+		}
+	},
 	"scripts" : {
 		"src" : {
 			"js" : "app/js/**/*.js"
@@ -40,7 +47,11 @@
 		}
 	},
 	"linthtml" : {
-		"src" : ".tmp/**/*.html"
+		"src" : [
+			".tmp/**/*.html",
+			"!.tmp/dev/**/*.html",
+			"!.tmp/layouts/**/*.html"
+		]
 	},
 	"lintscripts" : {
 		"src" : {
