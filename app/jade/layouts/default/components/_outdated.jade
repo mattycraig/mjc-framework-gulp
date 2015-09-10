@@ -1,19 +1,22 @@
 //- -----------------------------------------------------------------|
-//- PARTIAL: FOOTER
+//- PARTIAL: OUTDATED BROWSER
 //- -----------------------------------------------------------------|
-//- Contains all HTML for the footer partial.
+//- Contains all HTML for the Outdated Browser plugin.
 
-- var name = 'footer'
-- var type = 'partial'
+- var name = 'outdated'
 
 //- -----------------------------------------------------------------|
 include /mixins/_mixins
-+devHead(name, type)
++devHead(name)
 //- -----------------------------------------------------------------|
 
-footer.footer(role='contentinfo')
+#outdated
+	h6 Your browser is out-of-date!
+	p Update your browser to view this website correctly. #[a#btnUpdateBrowser(href='http://outdatedbrowser.com/' target='_blank') Update my browser now]
+	p.last
+		a#btnCloseUpdateBrowser(href='#' title='Close') Close &times;
 
 
 //- -----------------------------------------------------------------|
-+devFoot(name, type)
++devFoot(name)
 //- -----------------------------------------------------------------|

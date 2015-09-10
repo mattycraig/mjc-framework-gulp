@@ -11,6 +11,7 @@ html {
 }
 
 body {
+	font-family: $type-text;
 	@include fontSize($type-small);
 
 	// TABLET
@@ -51,7 +52,7 @@ h4,
 h5,
 h6 {
 	font-family: $type-heading;
-	font-weight: $type-weight-7;
+	font-weight: $type-weight-bold;
 }
 
 // HEADINGS MAP

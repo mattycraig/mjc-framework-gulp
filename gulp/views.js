@@ -59,19 +59,13 @@ module.exports = (gulp, $, merge, reload, config) => {
 			.pipe($.prettify(optsPretty))
 			.pipe(gulp.dest(config.views.dest.tmp));
 
-		// Compile page partials for dev
-		var partials = gulp.src(config.views.src.partials)
-			.pipe($.jade(optsJade))
-			.pipe($.prettify(optsPretty))
-			.pipe(gulp.dest(config.views.dest.partials));
-
 		// Compile page components for dev
 		var components = gulp.src(config.views.src.components)
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
-			.pipe(gulp.dest(config.views.dest.components));
+			.pipe($.if(global.devEnv, gulp.dest(config.views.dest.components)));
 
-		// Merge streams
-		return merge(templates, partials, components);
+		return merge(templates, components);
+
 	});
 };

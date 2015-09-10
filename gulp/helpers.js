@@ -3,13 +3,35 @@
 // -----------------------------------------------------------------|
 'use strict';
 
+// -----------------------------------------------------------------|
+// SET DEV ENVIRONMENT?
+// -----------------------------------------------------------------|
+// Wehn true, compiles files to /dist/dev folder upon building
+// Outputs non minified css/js files and jade partials/components
+global.devEnv = false;
+// -----------------------------------------------------------------|
+
 module.exports = (gulp, $, merge, config) => {
 
-	// CLEAN TMP AND DIST FOLDERS
+	// CLEAN TMP + DIST FOLDERS
 	// --------------------------------------|
 	gulp.task('clean', require('del').bind(null, [
 		'.tmp',
 		'dist'
+	]));
+
+	// CLEAN CSS + DEV CSS FOLDERS
+	// --------------------------------------|
+	gulp.task('clean:styles', require('del').bind(null, [
+		'dist/css',
+		'dist/dev/css'
+	]));
+
+	// CLEAN JS + DEV JS FOLDERS
+	// --------------------------------------|
+	gulp.task('clean:scripts', require('del').bind(null, [
+		'dist/js/app.js',
+		'dist/dev/js'
 	]));
 
 	// INJECT BOWER DEPENDENCIES
@@ -32,15 +54,18 @@ module.exports = (gulp, $, merge, config) => {
 	// COPY ALL ROOT FILES + DEV JS FILES FROM TMP TO DIST
 	// --------------------------------------|
 	gulp.task('copy', () => {
+
+		// Root files
 		var rootFiles = gulp.src(config.copy.src.files, {
 				dot: true
 			})
 			.pipe(gulp.dest(config.copy.dest.prod));
 
+		// Script files
 		var scriptFiles = gulp.src(config.copy.src.js)
-			.pipe(gulp.dest(config.copy.dest.dev));
+			.pipe($.if(global.devEnv, gulp.dest(config.copy.dest.dev)));
 
-		// Merge streams
-		merge(rootFiles, scriptFiles);
+		return merge(rootFiles, scriptFiles);
+
 	});
 };

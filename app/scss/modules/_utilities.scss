@@ -56,32 +56,32 @@ $e: 10;
 
 // UTILITY DISPLAY
 // ---------------------------------|
-.u-block {
+.u-displayBlock {
 	display: block !important;
 }
 
-.u-hidden {
+.u-displayNone {
 	display: none !important;
 }
 
-.u-inline {
+.u-displayInline {
 	display: inline !important;
 }
 
-.u-inlineBlock {
+.u-displayInlineBlock {
 	display: inline-block !important;
 	max-width: 100%;
 }
 
-.u-table {
+.u-displayTable {
 	display: table !important;
 }
 
-.u-tableCell {
+.u-displayTableCell {
 	display: table-cell !important;
 }
 
-.u-tableRow {
+.u-displayTableRow {
 	display: table-row !important;
 }
 

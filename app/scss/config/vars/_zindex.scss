@@ -16,22 +16,3 @@ $z-index-8: 800;
 $z-index-9: 900;
 $z-index-10: 1000;
 
-// 10: MODALS
-// ---------------------------------|
-$z-index--modal: $z-index-10;
-
-// 09: FIXED HDR/NAV
-// ---------------------------------|
-$z-index-fixedHdr: $z-index-9;
-$z-index-fixedNav: $z-index-9;
-
-// 08: PAGE OVERLAYS
-// ---------------------------------|
-$z-index-overlay: $z-index-8;
-
-// 07: HEADER/NAV, TOOLTIP, LOADING
-// ---------------------------------|
-$z-index--tooltip: $z-index-7;
-$z-index--loading: $z-index-7;
-$z-index--hdr: $z-index-7;
-$z-index--nav: $z-index-7;

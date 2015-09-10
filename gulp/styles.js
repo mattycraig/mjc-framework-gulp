@@ -75,6 +75,7 @@ module.exports = (gulp, $, reload, merge, config) => {
 	// PRODUCTION STYLES
 	// --------------------------------------|
 	gulp.task('styles:prod', () => {
+
 		// Automatically import scss files
 		// Init our souremaps
 		// Compile our scss files
@@ -89,19 +90,20 @@ module.exports = (gulp, $, reload, merge, config) => {
 			.pipe($.postcss(optsPostCSS))
 			.pipe($.sourcemaps.write('./'))
 			.pipe(gulp.dest(config.styles.dest.tmp))
-			.pipe(gulp.dest(config.styles.dest.dev));
+			.pipe($.if(global.devEnv, gulp.dest(config.styles.dest.dev)));
 
 		// Copy sourcemap to dist/dev/css folder
 		var sourcemap = gulp.src(config.styles.src.map)
-			.pipe(gulp.dest(config.styles.dest.dev));
+			.pipe($.if(global.devEnv, gulp.dest(config.styles.dest.dev)));
 
-		// Merge streams
 		return merge(styles, sourcemap);
+
 	});
 
 	// INDIVIDUAL TASK: STYLES
 	// --------------------------------------|
-	gulp.task('task:styles', () => {
+	gulp.task('task:styles', ['clean:styles'], () => {
+
 		// Automatically import scss files
 		// Compile our scss files
 		// Use PostCSS
@@ -117,7 +119,8 @@ module.exports = (gulp, $, reload, merge, config) => {
 			})
 			.pipe($.postcss(optsPostCSS))
 			.pipe($.minifyCss())
-			.pipe(gulp.dest(config.styles.dest.prod));
+			.pipe(gulp.dest(config.styles.dest.prod))
+			.pipe($.if(global.devEnv, gulp.dest(config.styles.dest.dev)));
 
 		// Automatically import scss files
 		// Compile our scss files
@@ -129,8 +132,9 @@ module.exports = (gulp, $, reload, merge, config) => {
 			.pipe($.sass.sync(optsSass))
 			.pipe($.postcss(optsPostCSS))
 			.pipe($.sourcemaps.write('./'))
-			.pipe(gulp.dest(config.styles.dest.dev));
+			.pipe($.if(global.devEnv, gulp.dest(config.styles.dest.dev)));
 
 		return merge(styles, sourcemap);
+
 	});
 };

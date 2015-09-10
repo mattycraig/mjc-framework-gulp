@@ -1,20 +1,18 @@
 //- -----------------------------------------------------------------|
-//- COMPONENT: TEST
+//- PARTIAL: FOOTER
 //- -----------------------------------------------------------------|
-//- Contains all HTML for a test component.
+//- Contains all HTML for the footer partial.
 
-- var name = 'test'
-- var type = 'component'
+- var name = 'footer'
 
 //- -----------------------------------------------------------------|
 include /mixins/_mixins
-+devHead(name, type, '/test')
++devHead(name)
 //- -----------------------------------------------------------------|
 
-p Lorem ipsum dolor sit amet, consectetur adipisicing elit. Commodi necessitatibus sit dolore aperiam beatae consectetur doloremque at excepturi, quisquam inventore! Sunt illo natus recusandae. Ex nihil, et nemo sapiente culpa!
+footer.footer(role='contentinfo')
 
 
 //- -----------------------------------------------------------------|
-+devFoot(name, type, '/test')
++devFoot(name)
 //- -----------------------------------------------------------------|
-

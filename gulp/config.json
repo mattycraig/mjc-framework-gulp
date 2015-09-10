@@ -21,12 +21,10 @@
 				"*",
 				"!app/jade/**/_*.jade"
 			],
-			"partials" : "app/jade/layouts/default/partials/**/*.jade",
 			"components" : "app/jade/layouts/default/components/**/*.jade"
 		},
 		"dest" : {
 			"tmp" : ".tmp",
-			"partials" : "dist/dev/partials",
 			"components" : "dist/dev/components"
 		}
 	},
