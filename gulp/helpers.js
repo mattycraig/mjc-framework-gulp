@@ -7,7 +7,7 @@
 // SET DEV ENVIRONMENT?
 // -----------------------------------------------------------------|
 // Wehn true, compiles files to /dist/dev folder upon building
-// Outputs non minified css/js files and jade partials/components
+// Outputs non minified css/js files and jade components
 global.devEnv = false;
 // -----------------------------------------------------------------|
 

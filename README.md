@@ -30,6 +30,14 @@ To view our dist files locally to ensure all tasks are working properly, simply:
 gulp serve:prod
 ```
 
+### Setting the 'dev' Environment
+
+To output dev verions (unminified versions of css/components/js files), open up gulp/helpers.js and set
+
+```
+global.devEnv = true;
+```
+
 ### Individual Tasks
 
 Rebuild only our styles + dev styles

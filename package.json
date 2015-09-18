@@ -4,7 +4,7 @@
     "node": ">=0.12.0"
   },
   "devDependencies": {
-    "babel-core": "^5.8.23",
+    "babel-core": "^5.8.24",
     "browser-sync": "^2.9.3",
     "css-mqpacker": "^4.0.0",
     "cssnext": "^1.8.4",
@@ -19,7 +19,7 @@
     "gulp-htmlhint": "0.3.0",
     "gulp-if": "^1.2.5",
     "gulp-imagemin": "^2.3.0",
-    "gulp-inject": "^1.5.0",
+    "gulp-inject": "^2.2.0",
     "gulp-jade": "^1.1.0",
     "gulp-jade-inheritance": "^0.5.3",
     "gulp-load-plugins": "^1.0.0-rc",
