@@ -6,9 +6,9 @@
 
 meta(charset='utf-8')
 meta(http-equiv='x-ua-compatible' content='ie=edge')
-if responsive
+if config.responsive
 	meta(name='viewport' content='width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no')
-meta(name='theme-color' content='#{themeColor}')
+meta(name='theme-color' content= vars.color.alpha)
 link(rel='apple-touch-icon' href='apple-touch-icon.png')
 
 // build:css(.tmp) css/app.css

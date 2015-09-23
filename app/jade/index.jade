@@ -18,8 +18,8 @@ block variables
 	- var ogTitle = pageTitle
 	- var pageDesc = 'PageDescription'
 	- var ogDesc = pageDesc
-	- var pageUrl = siteUrl + '/' + pageName + '.html'
-	- var pageImage = siteUrl + '/images/share/' + pageName + '.jpg'
+	- var pageUrl = config.site.url + '/' + pageName + '.html'
+	- var pageImage = config.site.url + '/images/share/' + pageName + '.jpg'
 
 
 //- -----------------------------------------------------------------|
@@ -30,6 +30,8 @@ block content
 		.container
 			.row
 				.col-sm-12
+					h1= config.content.test
+					p= config.content.lorem
 					+kitchenSink
 
 			include /layouts/default/components/_test

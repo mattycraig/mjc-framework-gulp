@@ -5,7 +5,7 @@
 
 mixin fbSharer(icon, appId, href, redirect)
 	- icon = icon || false
-	- appId = appId || facebookAppID
+	- appId = appId || config.social.fb.id
 	- href = href || pageUrl
 	- redirect = redirect || pageUrl
 

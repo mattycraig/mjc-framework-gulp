@@ -3,7 +3,7 @@
   "private": true,
   "dependencies": {
     "bootstrap-sass-official": "~3.3.5",
-    "modernizr": "~3.0.0",
+    "modernizr": "~2.8.3",
     "jquery": "~2.1.4",
     "outdated-browser": "~1.1.2",
     "font-awesome": "4.4.0",

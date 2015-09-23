@@ -3,7 +3,6 @@
 //- -----------------------------------------------------------------|
 //- Contains all HTML and blocks for the foot include.
 //- This includes all dependency scripts, our app script, and Google Analytics.
-
 // build:js js/vendor.js
 // bower:js
 script(src='../bower_components/jquery/dist/jquery.js')
@@ -24,18 +23,15 @@ script(src='../bower_components/fastclick/lib/fastclick.js')
 script(src='../bower_components/anchor-js/anchor.js')
 // endbower
 // endbuild
-
 // build:js js/app.js
 //- inject:js
-script(src="js/jq.js")
-script(src="js/ng.js")
 script(src="js/_helpers.js")
 script(src="js/_vendor.js")
+script(src="js/jq.js")
+script(src="js/ng.js")
 //- endinject
 // endbuild
-
 script.
 	ga=function(){ga.q.push(arguments)};ga.q=[];ga.l=+new Date;
 	ga('create','#{siteAnalytics}','auto');ga('send','pageview')
-
 script(src='https://www.google-analytics.com/analytics.js' async defer)

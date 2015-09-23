@@ -7,10 +7,10 @@
 // ---------------------------------|
 $color-white: #fff;
 $color-black: #000;
-$color-success: #5cb85c;
-$color-info: #5bc0de;
-$color-warning: #f0ad4e;
-$color-danger: #d9534f;
+$color-success: #5cb85c !default;
+$color-info: #5bc0de !default;
+$color-warning: #f0ad4e !default;
+$color-danger: #d9534f !default;
 
 // GREYS
 // ---------------------------------|
@@ -46,19 +46,19 @@ $color-vine: #00bf8f;
 
 // THEME
 // ---------------------------------|
-$color-alpha: $color-black;
+$color-alpha: $color-black !default;
 $color-alpha-low: darken($color-alpha, 10%);
 $color-alpha-high: lighten($color-alpha, 10%);
 
-$color-beta: $color-black;
+$color-beta: $color-black !default;
 $color-beta-low: darken($color-beta, 10%);
 $color-beta-high: lighten($color-beta, 10%);
 
-$color-gamma: $color-black;
+$color-gamma: $color-black !default;
 $color-gamma-low: darken($color-gamma, 10%);
 $color-gamma-high: lighten($color-gamma, 10%);
 
-$color-delta: $color-black;
+$color-delta: $color-black !default;
 $color-delta-low: darken($color-delta, 10%);
 $color-delta-high: lighten($color-delta, 10%);
 

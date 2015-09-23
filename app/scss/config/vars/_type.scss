@@ -17,8 +17,8 @@ $type-times: TimesNewRoman, "Times New Roman", Times, Baskerville, Georgia, seri
 
 // THEME FONTS
 // ---------------------------------|
-$type-text: $type-helvetica;
-$type-heading: $type-text;
+$type-text: $type-helvetica !default;
+$type-heading: $type-text !default;
 $type-icon: "FontAwesome", serif;
 
 // -----------------------------------------------------------------|

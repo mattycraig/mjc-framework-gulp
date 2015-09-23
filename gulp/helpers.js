@@ -13,11 +13,13 @@ global.devEnv = false;
 
 module.exports = (gulp, $, merge, config) => {
 
-	// CLEAN TMP + DIST FOLDERS
+	// CLEAN TMP + DIST FOLDERS + OUTPUT JSON
 	// --------------------------------------|
 	gulp.task('clean', require('del').bind(null, [
 		'.tmp',
-		'dist'
+		'dist',
+		'app/json/__output.json',
+		'app/scss/config/vars/__output.scss'
 	]));
 
 	// CLEAN CSS + DEV CSS FOLDERS
@@ -32,6 +34,12 @@ module.exports = (gulp, $, merge, config) => {
 	gulp.task('clean:scripts', require('del').bind(null, [
 		'dist/js/app.js',
 		'dist/dev/js'
+	]));
+
+	// CLEAN SASS JSON VARS
+	// --------------------------------------|
+	gulp.task('clean:json', require('del').bind(null, [
+		'app/json/__output.json'
 	]));
 
 	// INJECT BOWER DEPENDENCIES

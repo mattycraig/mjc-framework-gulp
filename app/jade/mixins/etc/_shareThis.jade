@@ -8,7 +8,7 @@ mixin shareThis(type, icon, title, desc, image, url, via)
 	- desc = desc || pageDesc
 	- image = image || pageImage
 	- url = url || pageUrl
-	- via = via || twitterName
+	- via = via || config.social.tw.name
 	- icon = icon || false
 
 	if type === 'twitter'

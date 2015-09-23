@@ -1,0 +1,21 @@
+{
+	"site": {
+		"name": "Site",
+		"url": "http://www.test.com",
+		"analytics": "UA-XXXXX-X"
+	},
+	"social": {
+		"fb": {
+			"name": "FacebookPageName",
+			"id": "123456789"
+		},
+		"tw": {
+			"name": "TwitterUsername"
+		}
+	},
+	"responsive": "true",
+	"content": {
+		"test": "This is jsut a test of new content",
+		"lorem": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla officia voluptate iusto reiciendis nam rerum ad aliquam provident fuga ipsum esse harum odit debitis, qui consequuntur voluptas ullam, hic enim."
+	}
+}

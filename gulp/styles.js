@@ -46,7 +46,7 @@ module.exports = (gulp, $, reload, merge, config) => {
 
 	// DEVELOPMENT STYLES
 	// --------------------------------------|
-	gulp.task('styles:dev', () => {
+	gulp.task('styles:dev', ['json:styles'], () => {
 		// Automatically import scss files
 		// Init our souremaps
 		// Compile our scss files
@@ -74,7 +74,7 @@ module.exports = (gulp, $, reload, merge, config) => {
 
 	// PRODUCTION STYLES
 	// --------------------------------------|
-	gulp.task('styles:prod', () => {
+	gulp.task('styles:prod', ['json:styles'], () => {
 
 		// Automatically import scss files
 		// Init our souremaps
@@ -102,7 +102,7 @@ module.exports = (gulp, $, reload, merge, config) => {
 
 	// INDIVIDUAL TASK: STYLES
 	// --------------------------------------|
-	gulp.task('task:styles', ['clean:styles'], () => {
+	gulp.task('task:styles', ['json:styles', 'clean:styles'], () => {
 
 		// Automatically import scss files
 		// Compile our scss files

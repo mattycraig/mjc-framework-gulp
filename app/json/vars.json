@@ -1,0 +1,21 @@
+{
+	"spacing": "15px",
+	"speed": "300",
+	"bp": {
+		"xs": "480px",
+		"sm": "768px",
+		"md": "992px",
+		"lg": "1200px",
+		"lgst": "1600px"
+	},
+	"color": {
+		"success": "#5cb85c",
+		"warning": "#f0ad4e",
+		"info": "#5bc0de",
+		"danger": "#d9534f",
+		"alpha": "#000000",
+		"beta": "#000000",
+		"delta": "#000000",
+		"gamma": "#000000"
+	}
+}

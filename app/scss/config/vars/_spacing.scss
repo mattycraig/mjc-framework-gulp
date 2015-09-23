@@ -18,7 +18,7 @@ $space-50: 50px;
 
 // SET DEFAULT VALUE (LOWEST)
 // ---------------------------------|
-$spacing: $space-15;
+$spacing: $space-15 !default;
 
 // MULTIPLES OF DEFAULT
 // ---------------------------------|

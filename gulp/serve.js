@@ -31,6 +31,8 @@ module.exports = (gulp, $, browserSync, reload) => {
 		gulp.watch('app/scss/**/*.scss', ['styles:dev']);
 		gulp.watch('app/js/**/*.js', ['lint:scripts', 'inject:scripts']);
 		gulp.watch('app/jade/**/*.jade', ['views:devWatch']);
+		gulp.watch('app/json/config.json', ['views:dev']);
+		gulp.watch('app/json/vars.json', ['styles:json', reload]);
 		gulp.watch('bower.json', ['wiredep', 'fonts:dev', reload]);
 	});
 

@@ -1,111 +1,130 @@
 {
-	"styles" : {
-		"src" : {
-			"scss" : "app/scss/**/*.scss",
-			"map" : ".tmp/css/**/*.map"
+	"json": {
+		"src": {
+			"styles": "app/json/vars.json",
+			"views": [
+				"app/json/**/*.json",
+				"!app/json/output.json"
+			]
 		},
-		"dest" : {
-			"tmp" : ".tmp/css",
-			"dev" : "dist/dev/css",
-			"prod" : "dist/css"
+		"dest": {
+			"styles": "app/scss/config/vars",
+			"views": "app/json"
+		},
+		"output": {
+			"styles": "__output.scss",
+			"views": "__output.json"
 		}
 	},
-	"views" : {
-		"src" : {
-			"dev" : "app/jade/**/*.jade",
-			"prod" : [
+	"styles": {
+		"src": {
+			"scss": "app/scss/**/*.scss",
+			"map": ".tmp/css/**/*.map",
+			"json": ""
+		},
+		"dest": {
+			"tmp": ".tmp/css",
+			"dev": "dist/dev/css",
+			"prod": "dist/css",
+			"json": "app/scss/config/vars"
+		}
+	},
+	"views": {
+		"src": {
+			"dev": "app/jade/**/*.jade",
+			"prod": [
 				"app/jade/**/*.jade",
 				"!app/jade/**/_*.jade"
 			],
-			"filter" : [
+			"filter": [
 				"*",
 				"!app/jade/**/_*.jade"
 			],
-			"components" : "app/jade/layouts/default/components/**/*.jade"
+			"components": "app/jade/layouts/default/components/**/*.jade"
 		},
-		"dest" : {
-			"tmp" : ".tmp",
-			"components" : "dist/dev/components"
+		"dest": {
+			"tmp": ".tmp",
+			"components": "dist/dev/components"
 		}
 	},
-	"inject" : {
-		"scripts" : {
-			"src" : "app/js/**/*.js",
-			"jade" : "app/jade/layouts/default/inc/_foot.jade",
-			"dest" : "app/jade/layouts/default/inc"
+	"inject": {
+		"scripts": {
+			"src": "app/js/**/*.js",
+			"jade": "app/jade/layouts/default/inc/_foot.jade",
+			"dest": "app/jade/layouts/default/inc"
 		}
 	},
-	"scripts" : {
-		"src" : {
-			"js" : "app/js/**/*.js"
+	"scripts": {
+		"src": {
+			"js": "app/js/**/*.js"
 		},
-		"dest" : {
-			"dev" : "dist/dev/js",
-			"prod" : "dist/js"
+		"dest": {
+			"dev": "dist/dev/js",
+			"prod": "dist/js"
 		}
 	},
-	"linthtml" : {
-		"src" : [
+	"linthtml": {
+		"src": [
 			".tmp/**/*.html",
 			"!.tmp/dev/**/*.html",
 			"!.tmp/layouts/**/*.html"
 		]
 	},
-	"lintscripts" : {
-		"src" : {
-			"js" : "app/js/**/*.js",
-			"gulp" : [
+	"lintscripts": {
+		"src": {
+			"js": "app/js/**/*.js",
+			"gulp": [
 				"gulp/**/*.js",
 				"gulpfile*.js"
 			]
 		}
 	},
-	"html" : {
-		"src" : {
-			"prod" : [
+	"html": {
+		"src": {
+			"prod": [
 				".tmp/**/*.html",
 				"!.tmp/index.html"
 			],
-			"index" : ".tmp/index.html",
-			"flat" : ".tmp/**/*.html"
+			"index": ".tmp/index.html",
+			"flat": ".tmp/**/*.html"
 		},
-		"dest" : {
-			"prod" : "dist"
+		"dest": {
+			"prod": "dist"
 		}
 	},
-	"images" : {
-		"src" : "app/images/**/*",
-		"dest" : "dist/images"
+	"images": {
+		"src": "app/images/**/*",
+		"dest": "dist/images"
 	},
-	"fonts" : {
-		"src" : {
-			"filter" : "**/*.{eot,svg,ttf,woff,woff2}",
-			"concat" : "app/scss/fonts/**/*"
+	"fonts": {
+		"src": {
+			"filter": "**/*.{eot,svg,ttf,woff,woff2}",
+			"concat": "app/scss/fonts/**/*"
 		},
-		"dest" : {
-			"dev" : ".tmp/css/fonts",
-			"prod" : "dist/css/fonts"
+		"dest": {
+			"dev": ".tmp/css/fonts",
+			"prod": "dist/css/fonts"
 		}
 	},
-	"copy" : {
-		"src" : {
-			"files" : [
+	"copy": {
+		"src": {
+			"files": [
 				"app/*.*",
 				"!app/**/*.html",
 				"!app/**/*.jade"
 			],
-			"js" : "app/js/**/*.js"
+			"js": "app/js/**/*.js"
 		},
-		"dest" : {
-			"dev" : "dist/dev/js",
-			"prod" : "dist"
+		"dest": {
+			"dev": "dist/dev/js",
+			"prod": "dist"
 		}
 	},
-	"wiredep" : {
-		"src" : "app/jade/**/*.jade",
-		"dest" : "app/jade"
+	"wiredep": {
+		"src": "app/jade/**/*.jade",
+		"dest": "app/jade"
 	},
-	"build" : {
-		"src" : ".tmp/**/*.html"
+	"build": {
+		"src": ".tmp/**/*.html"
 	}
 }

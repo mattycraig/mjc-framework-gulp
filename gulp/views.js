@@ -10,6 +10,11 @@ var optsJade = {
 	basedir: 'app/jade'
 };
 
+function requireUncached($module) {
+    delete require.cache[require.resolve($module)];
+    return require($module);
+}
+
 // HTML PRETTIFY OPTIONS
 // --------------------------------------|
 var optsPretty = {
@@ -25,8 +30,11 @@ module.exports = (gulp, $, merge, reload, config) => {
 	// DEVELOPMENT VIEWS
 	// --------------------------------------|
 	// Process on intial serve
-	gulp.task('views:dev', ['inject:scripts'], () => {
+	gulp.task('views:dev', ['json:views', 'inject:scripts'], () => {
 		return gulp.src(config.views.src.dev)
+			.pipe($.data(function(file) {
+				return requireUncached('../app/json/__output.json');
+			}))
 			.pipe($.filter(config.views.src.filter))
 			.pipe($.jade(optsJade))
 			.pipe(gulp.dest(config.views.dest.tmp));
@@ -43,6 +51,9 @@ module.exports = (gulp, $, merge, reload, config) => {
 			.pipe($.changed('.tmp', {extension: '.html'}))
 			.pipe($.if(global.isWatching, $.cached('jade')))
 			.pipe($.jadeInheritance({basedir: 'app/jade'}))
+			.pipe($.data(function(file) {
+				return requireUncached('../app/json/__output.json');
+			}))
 			.pipe($.filter(config.views.src.filter))
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
@@ -51,16 +62,22 @@ module.exports = (gulp, $, merge, reload, config) => {
 
 	// PRODUCTION VIEWS
 	// --------------------------------------|
-	gulp.task('views:prod', ['inject:scripts'], () => {
+	gulp.task('views:prod', ['json:views', 'inject:scripts'], () => {
 
 		// Compile page templates
 		var templates = gulp.src(config.views.src.prod)
+			.pipe($.data(function(file) {
+				return requireUncached('../app/json/__output.json');
+			}))
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
 			.pipe(gulp.dest(config.views.dest.tmp));
 
 		// Compile page components for dev
 		var components = gulp.src(config.views.src.components)
+			.pipe($.data(function(file) {
+				return requireUncached('../app/json/__output.json');
+			}))
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
 			.pipe($.if(global.devEnv, gulp.dest(config.views.dest.components)));

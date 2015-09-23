@@ -24,6 +24,7 @@ function handleError(task) {
 // TASKS
 // --------------------------------------|
 require('./gulp/helpers')(gulp, $, merge, config);
+require('./gulp/json')(gulp, $, config);
 require('./gulp/styles')(gulp, $, reload, merge, config);
 require('./gulp/inject')(gulp, $, merge, config);
 require('./gulp/views')(gulp, $, merge, reload, config);

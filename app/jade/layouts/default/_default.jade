@@ -5,7 +5,6 @@
 
 //- VARIABLES
 //- ---------------------------------|
-include /variables/_variables
 block variables
 
 //- MIXINS
@@ -13,7 +12,7 @@ block variables
 include /mixins/_mixins
 
 doctype html
-html(class='no-js' lang= siteLang)
+html(class='no-js' lang='en')
 	head
 		//- PAGE TITLE
 		//- -------------------------|
@@ -31,7 +30,7 @@ html(class='no-js' lang= siteLang)
 		)
 		meta(
 			property='og:site_name'
-			content= siteName
+			content= config.site.name
 		)
 		meta(
 			property='og:title'

@@ -19,7 +19,7 @@ module.exports = (gulp, $, config) => {
 
 	// BUILD (MINIFIED, NO CMS)
 	// --------------------------------------|
-	gulp.task('build:flat', ['clean', 'lint:scripts', 'html:flat', 'images:minify', 'fonts:prod', 'copy'], () => {
+	gulp.task('build:flat', ['lint:scripts', 'html:flat', 'images:minify', 'fonts:prod', 'copy'], () => {
 		return gulp.src(config.build.src)
 			.pipe($.notify({
 				onLast: true,
