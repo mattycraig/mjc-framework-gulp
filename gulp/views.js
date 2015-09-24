@@ -29,7 +29,7 @@ module.exports = (gulp, $, merge, reload, config) => {
 
 	// DEVELOPMENT VIEWS
 	// --------------------------------------|
-	// Process on intial serve
+	// Process on intial serve & when config.json changes
 	gulp.task('views:dev', ['json:views', 'inject:scripts'], () => {
 		return gulp.src(config.views.src.dev)
 			.pipe($.data(function(file) {
@@ -37,6 +37,7 @@ module.exports = (gulp, $, merge, reload, config) => {
 			}))
 			.pipe($.filter(config.views.src.filter))
 			.pipe($.jade(optsJade))
+			.pipe($.prettify(optsPretty))
 			.pipe(gulp.dest(config.views.dest.tmp));
 	});
 

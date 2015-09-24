@@ -7,7 +7,7 @@ module.exports = (gulp, $, browserSync, reload) => {
 
 	// DEVELOPMENT SERVE
 	// --------------------------------------|
-	gulp.task('serve', ['wiredep', 'styles:dev', 'setWatch', 'views:dev', 'lint:html', 'lint:scripts', 'fonts:dev'], () => {
+	gulp.task('serve', ['clean', 'wiredep', 'styles:dev', 'setWatch', 'views:dev', 'lint:html', 'lint:scripts', 'fonts:dev'], () => {
 
 		browserSync({
 			notify: false,
@@ -28,11 +28,14 @@ module.exports = (gulp, $, browserSync, reload) => {
 		]).on('change', reload);
 
 		gulp.watch('.tmp/**/*.html', ['lint:html']);
-		gulp.watch('app/scss/**/*.scss', ['styles:dev']);
+		gulp.watch([
+			'app/scss/**/*.scss',
+			'!app/scss/config/vars/__output.scss',
+		], ['styles:dev']);
 		gulp.watch('app/js/**/*.js', ['lint:scripts', 'inject:scripts']);
 		gulp.watch('app/jade/**/*.jade', ['views:devWatch']);
 		gulp.watch('app/json/config.json', ['views:dev']);
-		gulp.watch('app/json/vars.json', ['styles:json', reload]);
+		gulp.watch('app/json/vars.json', ['styles:dev', 'views:dev']);
 		gulp.watch('bower.json', ['wiredep', 'fonts:dev', reload]);
 	});
 
