@@ -10,9 +10,9 @@ var optsJade = {
 	basedir: 'app/jade'
 };
 
-function requireUncached($module) {
-    delete require.cache[require.resolve($module)];
-    return require($module);
+function requireUncached(module) {
+    delete require.cache[require.resolve(module)];
+    return require(module);
 }
 
 // HTML PRETTIFY OPTIONS

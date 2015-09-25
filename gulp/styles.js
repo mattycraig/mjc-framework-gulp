@@ -20,7 +20,7 @@ var optsSass = {
 
 // AUTOPREFIXER OPTIONS
 // --------------------------------------|
-var optsCssNext = {
+var optsAutoprefixer = {
 	browsers: [
 		'> 1%',
 		'last 2 versions',
@@ -29,16 +29,13 @@ var optsCssNext = {
 		'Explorer >= 9',
 		'Safari >= 6',
 		'ExplorerMobile >= 10'
-	],
-	features: {
-		rem: false
-	}
+	]
 };
 
 // POSTCSS OPTIONS
 // --------------------------------------|
 var optsPostCSS = [
-	require('cssnext')(optsCssNext),
+	require('autoprefixer')(optsAutoprefixer),
 	require('css-mqpacker')
 ];
 

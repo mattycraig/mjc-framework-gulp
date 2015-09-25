@@ -27,16 +27,43 @@ module.exports = (gulp, $, browserSync, reload) => {
 			'app/images/**/*'
 		]).on('change', reload);
 
-		gulp.watch('.tmp/**/*.html', ['lint:html']);
+		// Watch html files for html linting
+		gulp.watch(
+			'.tmp/**/*.html',
+			['lint:html']);
+
+		// Watch sass files
 		gulp.watch([
 			'app/scss/**/*.scss',
 			'!app/scss/config/vars/__output.scss',
-		], ['styles:dev']);
-		gulp.watch('app/js/**/*.js', ['lint:scripts', 'inject:scripts']);
-		gulp.watch('app/jade/**/*.jade', ['views:devWatch']);
-		gulp.watch('app/json/config.json', ['views:dev']);
-		gulp.watch('app/json/vars.json', ['styles:dev', 'views:dev']);
-		gulp.watch('bower.json', ['wiredep', 'fonts:dev', reload]);
+			], ['styles:dev']);
+
+		// Watch scripts
+		gulp.watch(
+			'app/js/**/*.js',
+			['lint:scripts', 'inject:scripts']);
+
+		// Watch jade files
+		gulp.watch(
+			'app/jade/**/*.jade',
+			['views:devWatch']);
+
+		// Watch json files
+		gulp.watch([
+			'app/json/**/*.json',
+			'!app/json/vars.json',
+			'!app/json/__output.scss'
+			], ['views:dev']);
+
+		// Watch json scss vars
+		gulp.watch(
+			'app/json/vars.json',
+			['styles:dev', 'views:dev']);
+
+		// Watch bower.json
+		gulp.watch(
+			'bower.json',
+			['wiredep', 'fonts:dev', reload]);
 	});
 
 	// PRODUCTION SERVE

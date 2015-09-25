@@ -36,7 +36,7 @@ module.exports = (gulp, $, merge, config) => {
 		'dist/dev/js'
 	]));
 
-	// CLEAN SASS JSON VARS
+	// CLEAN JSON OUTPUT
 	// --------------------------------------|
 	gulp.task('clean:json', require('del').bind(null, [
 		'app/json/__output.json'
