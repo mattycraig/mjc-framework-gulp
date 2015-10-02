@@ -47,18 +47,29 @@ module.exports = (gulp, $, handleError, reload, config) => {
 
 	// ARIALINT (ACCESSIBILITY LINTING)
 	// --------------------------------------|
-	// Unfortunetly broken with latest version of node =\
+	gulp.task('lint:aria', () => {
+		// Lint our HTML files for accessbility errors
+		return gulp.src(config.linthtml.src)
+			.pipe($.a11y())
+    		.pipe($.a11y.reporter());
+	});
 
-	// gulp.task('lint:aria', () => {
-
-	// 	// Lint our HTML files for accessbility errors
-	// 	return gulp.src(config.linthtml.src)
-	// 		.pipe($.arialinter({
-	// 			level: 'A',
-	// 			rules: {
-	// 				uniqueSummaryAttr: false,
-	// 				tableHasSummary: false
-	// 			}
-	// 		}));
-	// });
+	// LINT TESTS
+	// --------------------------------------|
+	gulp.task('lint:test', () => {
+		// Lint our test spec files
+		return gulp.src(config.lintscripts.src.test)
+			.pipe(reload({
+				stream: true,
+				once: true
+			}))
+			.pipe($.eslint({
+				env: {
+					mocha: true
+				}
+			}))
+			.pipe($.eslint.format())
+			.pipe($.eslint.format('stylish', $.notify.onError('ESLint failed!\nSee console for details')))
+			.pipe($.if(!browserSync.active, $.eslint.failAfterError()));
+	});
 };

@@ -27,10 +27,11 @@ module.exports = (gulp, $, browserSync, reload) => {
 			'app/images/**/*'
 		]).on('change', reload);
 
-		// Watch html files for html linting
+		// Watch html files for linting
 		gulp.watch(
 			'.tmp/**/*.html',
 			['lint:html']);
+			// ['lint:html', 'lint:aria']);
 
 		// Watch sass files
 		gulp.watch([
@@ -77,4 +78,24 @@ module.exports = (gulp, $, browserSync, reload) => {
 			}
 		});
 	});
+
+	// TEST SERVE
+	// --------------------------------------|
+	gulp.task('serve:test', ['inject:tests'], () => {
+		browserSync({
+			notify: false,
+			port: 9000,
+			ui: false,
+			server: {
+				baseDir: ['test', 'app'],
+				routes: {
+					'/bower_components': 'bower_components'
+				}
+			}
+		});
+
+		gulp.watch('test/spec/**/*.js').on('change', reload);
+		gulp.watch('test/spec/**/*.js', ['lint:test']);
+	});
+
 };

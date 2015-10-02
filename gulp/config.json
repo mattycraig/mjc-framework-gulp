@@ -52,6 +52,14 @@
 			"src": "app/js/**/*.js",
 			"jade": "app/jade/layouts/default/inc/_foot.jade",
 			"dest": "app/jade/layouts/default/inc"
+		},
+		"tests": {
+			"src": [
+				"app/js/**/*.js",
+				"test/spec/**/*.js"
+			],
+			"test": "test/index.html",
+			"dest": "test"
 		}
 	},
 	"scripts": {
@@ -76,7 +84,8 @@
 			"gulp": [
 				"gulp/**/*.js",
 				"gulpfile*.js"
-			]
+			],
+			"test": "test/spec/**/*.js"
 		}
 	},
 	"html": {

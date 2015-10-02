@@ -30,6 +30,12 @@ To view our dist files locally to ensure all tasks are working properly, simply:
 gulp serve:prod
 ```
 
+To run our test files, simply
+
+```
+gulp serve:test
+```
+
 ### Setting the 'dev' Environment
 
 To output dev verions (unminified versions of css/components/js files), open up gulp/helpers.js and set
@@ -54,19 +60,25 @@ gulp task:scripts
 
 ### Useful Tasks
 
-Lint our script file(s) for possible errors:
+Lint our script file(s) for possible errors/warnings
 
 ```
 gulp lint:scripts
 ```
 
-Lint our html file(s) for possible errors:
+Lint our html file(s) for possible html errors/warnings:
 
 ```
 gulp lint:html
 ```
 
-Lint our gulp file(s) for possible errors:
+Lint our html file(s) for possible ARIA errors/warnings:
+
+```
+gulp lint:aria
+```
+
+Lint our gulp file(s) for possible errors/warnings:
 
 ```
 gulp lint:gulp
