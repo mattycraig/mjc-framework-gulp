@@ -3,23 +3,24 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = (gulp, config) => {
+module.exports = function(gulp, config) {
+
+	function fonts(dest) {
+		return gulp.src(require('main-bower-files')({
+				filter: config.fonts.src.filter
+			}).concat(config.fonts.src.concat))
+			.pipe(gulp.dest(dest));
+	}
 
 	// DEVELOPMENT FONTS
 	// --------------------------------------|
 	gulp.task('fonts:dev', () => {
-		return gulp.src(require('main-bower-files')({
-				filter: config.fonts.src.filter
-			}).concat(config.fonts.src.concat))
-			.pipe(gulp.dest(config.fonts.dest.dev));
+		fonts(config.fonts.dest.dev);
 	});
 
 	// PRODUCTION FONTS
 	// --------------------------------------|
 	gulp.task('fonts:prod', () => {
-		return gulp.src(require('main-bower-files')({
-				filter: config.fonts.src.filter
-			}).concat(config.fonts.src.concat))
-			.pipe(gulp.dest(config.fonts.dest.prod));
+		fonts(config.fonts.dest.prod);
 	});
 };

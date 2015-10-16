@@ -3,11 +3,11 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = (gulp, $, browserSync, reload) => {
+module.exports = function(gulp, $, browserSync, reload) {
 
 	// DEVELOPMENT SERVE
 	// --------------------------------------|
-	gulp.task('serve', ['clean', 'wiredep', 'styles:dev', 'setWatch', 'views:dev', 'lint:html', 'lint:scripts', 'fonts:dev'], () => {
+	gulp.task('serve', ['clean', 'wiredep', 'styles:dev', 'setWatch', 'views:dev', 'fonts:dev'], () => {
 
 		browserSync({
 			notify: false,
@@ -53,7 +53,7 @@ module.exports = (gulp, $, browserSync, reload) => {
 		gulp.watch([
 			'app/json/**/*.json',
 			'!app/json/vars.json',
-			'!app/json/__output.scss'
+			'!app/json/__output.json'
 			], ['views:dev']);
 
 		// Watch json scss vars

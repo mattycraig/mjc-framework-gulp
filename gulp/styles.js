@@ -39,7 +39,7 @@ var optsPostCSS = [
 	require('css-mqpacker')
 ];
 
-module.exports = (gulp, $, reload, merge, config) => {
+module.exports = function(gulp, $, reload, merge, config) {
 
 	// DEVELOPMENT STYLES
 	// --------------------------------------|

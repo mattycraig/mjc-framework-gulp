@@ -20,7 +20,7 @@
 	// HAS ERRORS
 	// -------------------------------------|
 	&.has-error {
-		.label {
+		label {
 			color: $color-danger;
 		}
 	}
@@ -64,7 +64,7 @@
 	&.has-error {
 		.help-block {
 			display: block;
-			@include flipInX();
+			@include fadeIn();
 		}
 	}
 }

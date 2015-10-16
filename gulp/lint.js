@@ -3,7 +3,7 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = (gulp, $, handleError, reload, config) => {
+module.exports = function(gulp, $, handleError, reload, config) {
 
 	// HTMLHINT (HTML LINTING)
 	// --------------------------------------|

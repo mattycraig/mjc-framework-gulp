@@ -11,40 +11,31 @@
 global.devEnv = false;
 // -----------------------------------------------------------------|
 
-module.exports = (gulp, $, merge, config) => {
+module.exports = function(gulp, $, merge, config) {
+
+	function clean(name, paths) {
+		gulp.task(name, require('del').bind(null, paths));
+	}
 
 	// CLEAN TMP + DIST FOLDERS + OUTPUT JSON
 	// --------------------------------------|
-	gulp.task('clean', require('del').bind(null, [
-		'.tmp',
-		'dist',
-		'app/json/__output.json',
-		'app/scss/config/vars/__output.scss'
-	]));
+	clean('clean', config.clean.tmp);
 
 	// CLEAN CSS + DEV CSS FOLDERS
 	// --------------------------------------|
-	gulp.task('clean:styles', require('del').bind(null, [
-		'dist/css',
-		'dist/dev/css'
-	]));
+	clean('clean:styles', config.clean.styles);
 
 	// CLEAN JS + DEV JS FOLDERS
 	// --------------------------------------|
-	gulp.task('clean:scripts', require('del').bind(null, [
-		'dist/js/app.js',
-		'dist/dev/js'
-	]));
+	clean('clean:scripts', config.clean.scripts);
 
 	// CLEAN JSON OUTPUT
 	// --------------------------------------|
-	gulp.task('clean:json', require('del').bind(null, [
-		'app/json/__output.json'
-	]));
+	clean('clean:json', config.clean.json);
 
 	// INJECT BOWER DEPENDENCIES
 	// --------------------------------------|
-	gulp.task('wiredep', () => {
+	gulp.task('wiredep', ['inject:scripts'], () => {
 		var wiredep = require('wiredep').stream;
 
 		return gulp.src(config.wiredep.src)

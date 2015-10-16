@@ -22,10 +22,10 @@
 		// var md = data.vars.bp.md;
 		// var lg = data.vars.bp.lg;
 		// var lgst = data.vars.bp.lgst;
-		// var alpha = data.vars.color.alpha;
-		// var beta = data.vars.color.beta;
-		// var delta = data.vars.color.delta;
-		// var gamma = data.vars.color.gamma;
+		// var colorAlpha = data.vars.color.alpha;
+		// var colorBeta = data.vars.color.beta;
+		// var colorDelta = data.vars.color.delta;
+		// var colorGamma = data.vars.color.gamma;
 
 		// LET'S GO!
 		//------------------------------------|

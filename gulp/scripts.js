@@ -3,7 +3,7 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = (gulp, $, merge, config) => {
+module.exports = function(gulp, $, merge, config) {
 
 	// INDIVIDUAL TASK: SCRIPTS
 	// --------------------------------------|

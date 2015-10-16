@@ -15,7 +15,7 @@
 	},
 	"responsive": true,
 	"content": {
-		"test": "This is jsut a test of new content",
-		"lorem": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla officia voluptate iusto reiciendis nam rerum ad aliquam provident fuga ipsum esse harum odit debitis, qui consequuntur voluptas ullam, hic enim."
+		"test": "This is just a test",
+		"lorem": "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Nulla officia voluptate iusto reiciendis nam rerum ad aliquam provident fuga ipsum esse harum odit debitis, qui consequuntur voluptas ullam, hic enim. Lorem ipsum dolar set imet."
 	}
 }

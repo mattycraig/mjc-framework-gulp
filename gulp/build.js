@@ -3,30 +3,28 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = (gulp, $, config) => {
+module.exports = function(gulp, $, config) {
 
-	// BUILD (UNMINIFIED, WITH CMS)
-	// --------------------------------------|
-	gulp.task('build', ['lint:scripts', 'html:prod', 'images:minify', 'fonts:prod', 'copy'], () => {
+	function build(type) {
 		return gulp.src(config.build.src)
 			.pipe($.notify({
 				onLast: true,
 				message: function() {
-					return 'Build complete!';
+					return type + ' complete!';
 				}
 			}));
+	}
+
+	// BUILD (UNMINIFIED, WITH CMS)
+	// --------------------------------------|
+	gulp.task('build', ['lint:scripts', 'html:prod', 'images:minify', 'fonts:prod', 'copy'], () => {
+		build('Build');
 	});
 
 	// BUILD (MINIFIED, NO CMS)
 	// --------------------------------------|
 	gulp.task('build:flat', ['lint:scripts', 'html:flat', 'images:minify', 'fonts:prod', 'copy'], () => {
-		return gulp.src(config.build.src)
-			.pipe($.notify({
-				onLast: true,
-				message: function() {
-					return 'Flat build complete!';
-				}
-			}));
+		build('Flat build');
 	});
 
 	// DEFAULT GULP TASK

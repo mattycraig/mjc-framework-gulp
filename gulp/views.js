@@ -25,12 +25,12 @@ var optsPretty = {
 	unformatted: ['sub', 'sup', 'b', 'em', 'u', 'script']
 };
 
-module.exports = (gulp, $, merge, reload, config) => {
+module.exports = function(gulp, $, merge, reload, config) {
 
 	// DEVELOPMENT VIEWS
 	// --------------------------------------|
 	// Process on intial serve & when config.json changes
-	gulp.task('views:dev', ['json:views', 'inject:scripts'], () => {
+	gulp.task('views:dev', ['json:views'], () => {
 		return gulp.src(config.views.src.dev)
 			.pipe($.data(function(file) {
 				return requireUncached('../app/json/__output.json');
@@ -63,7 +63,7 @@ module.exports = (gulp, $, merge, reload, config) => {
 
 	// PRODUCTION VIEWS
 	// --------------------------------------|
-	gulp.task('views:prod', ['json:views', 'inject:scripts'], () => {
+	gulp.task('views:prod', ['json:views'], () => {
 
 		// Compile page templates
 		var templates = gulp.src(config.views.src.prod)

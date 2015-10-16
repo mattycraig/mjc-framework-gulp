@@ -3,7 +3,7 @@
 // -----------------------------------------------------------------|
 'use strict';
 
-module.exports = (gulp, $, config) => {
+module.exports = function(gulp, $, config) {
 
 	// EXPORT JSON VARIABLES TO SASS
 	// --------------------------------------|

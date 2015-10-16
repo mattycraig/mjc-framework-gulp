@@ -40,4 +40,4 @@ require('./gulp/build')(gulp, $, config);
 // TODO
 // -----------------------------------------------------------------|
 // responsive images (gulp-responsive)
-// add js testing framework (mocha)
+// specific watch tasks so tasks arent duplicated

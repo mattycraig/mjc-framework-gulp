@@ -1,4 +1,21 @@
 {
+	"clean": {
+		"tmp": [
+			".tmp",
+			"dist",
+			"app/json/__output.json",
+			"app/scss/config/vars/__output.scss"
+		],
+		"styles": [
+			"dist/css",
+			"dist/dev/css"
+		],
+		"scripts": [
+			"dist/js/app.js",
+			"dist/dev/js"
+		],
+		"json": "app/json/__output.json"
+	},
 	"json": {
 		"src": {
 			"styles": "app/json/vars.json",
@@ -31,10 +48,13 @@
 	},
 	"views": {
 		"src": {
-			"dev": "app/jade/**/*.jade",
+			"dev": [
+				"app/jade/**/*.jade"
+			],
 			"prod": [
 				"app/jade/**/*.jade",
-				"!app/jade/**/_*.jade"
+				"!app/jade/**/_*.jade",
+				"!app/jade/**/styles.jade"
 			],
 			"filter": [
 				"*",
@@ -51,7 +71,8 @@
 		"scripts": {
 			"src": "app/js/**/*.js",
 			"jade": "app/jade/layouts/default/inc/_foot.jade",
-			"dest": "app/jade/layouts/default/inc"
+			"dest": "app/jade/layouts/default/inc",
+			"ignore": "app"
 		},
 		"tests": {
 			"src": [
@@ -59,7 +80,11 @@
 				"test/spec/**/*.js"
 			],
 			"test": "test/index.html",
-			"dest": "test"
+			"dest": "test",
+			"ignore": [
+				"app",
+				"test"
+			]
 		}
 	},
 	"scripts": {
