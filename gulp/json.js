@@ -1,9 +1,8 @@
 // -----------------------------------------------------------------|
 // JSON TASKS
 // -----------------------------------------------------------------|
-'use strict';
 
-module.exports = function(gulp, $, config) {
+export default (gulp, $, config) => {
 
 	// EXPORT JSON VARIABLES TO SASS
 	// --------------------------------------|
@@ -21,7 +20,7 @@ module.exports = function(gulp, $, config) {
 		return gulp.src(config.json.src.views)
 			.pipe($.jsoncombine(config.json.output.views, function(data) {
 				// return new Buffer(JSON.stringify(data, null, 4)); // Formatted
-				return new Buffer(JSON.stringify(data)); // Unformated
+				return new Buffer(JSON.stringify(data)); // Unformatted
 			}))
 			.pipe(gulp.dest(config.json.dest.views))
 			.pipe(gulp.dest('dist/json'));

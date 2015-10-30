@@ -1,19 +1,10 @@
 // -----------------------------------------------------------------|
 // HELPERS TASKS
 // -----------------------------------------------------------------|
-'use strict';
 
-// -----------------------------------------------------------------|
-// SET DEV ENVIRONMENT?
-// -----------------------------------------------------------------|
-// Wehn true, compiles files to /dist/dev folder upon building
-// Outputs non minified css/js files and jade components
-global.devEnv = false;
-// -----------------------------------------------------------------|
+export default (gulp, $, merge, config) => {
 
-module.exports = function(gulp, $, merge, config) {
-
-	function clean(name, paths) {
+	let clean = (name, paths) => {
 		gulp.task(name, require('del').bind(null, paths));
 	}
 
@@ -36,7 +27,7 @@ module.exports = function(gulp, $, merge, config) {
 	// INJECT BOWER DEPENDENCIES
 	// --------------------------------------|
 	gulp.task('wiredep', ['inject:scripts'], () => {
-		var wiredep = require('wiredep').stream;
+		let wiredep = require('wiredep').stream;
 
 		return gulp.src(config.wiredep.src)
 			.pipe(wiredep({
@@ -55,16 +46,15 @@ module.exports = function(gulp, $, merge, config) {
 	gulp.task('copy', () => {
 
 		// Root files
-		var rootFiles = gulp.src(config.copy.src.files, {
+		let rootFiles = gulp.src(config.copy.src.files, {
 				dot: true
 			})
 			.pipe(gulp.dest(config.copy.dest.prod));
 
 		// Script files
-		var scriptFiles = gulp.src(config.copy.src.js)
+		let scriptFiles = gulp.src(config.copy.src.js)
 			.pipe($.if(global.devEnv, gulp.dest(config.copy.dest.dev)));
 
 		return merge(rootFiles, scriptFiles);
-
 	});
 };

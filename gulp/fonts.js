@@ -1,11 +1,10 @@
 // -----------------------------------------------------------------|
 // FONTS TASKS
 // -----------------------------------------------------------------|
-'use strict';
 
-module.exports = function(gulp, config) {
+export default (gulp, config) => {
 
-	function fonts(dest) {
+	let fonts = (dest) => {
 		return gulp.src(require('main-bower-files')({
 				filter: config.fonts.src.filter
 			}).concat(config.fonts.src.concat))

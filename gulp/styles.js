@@ -1,51 +1,50 @@
 // -----------------------------------------------------------------|
 // STYLES TASKS
 // -----------------------------------------------------------------|
-'use strict';
 
-// LIBSASS OPTIONS
-// --------------------------------------|
-var optsSass = {
-	outputStyle: 'expanded',
-	precision: 10,
-	includePaths: [
-		'.',
-		'app/scss/',
-		'bower_components/',
-		'bower_components/bourbon/app/assets/stylesheets/',
-		'bower_components/bootstrap-sass-official/assets/stylesheets/',
-		'bower_components/animate.css-scss/'
-	]
-};
+export default (gulp, $, reload, merge, config) => {
 
-// AUTOPREFIXER OPTIONS
-// --------------------------------------|
-var optsAutoprefixer = {
-	browsers: [
-		'> 1%',
-		'last 2 versions',
-		'Firefox ESR',
-		'Opera 12.1',
-		'Explorer >= 9',
-		'Safari >= 6',
-		'ExplorerMobile >= 10'
-	]
-};
+	// LIBSASS OPTIONS
+	// --------------------------------------|
+	let optsSass = {
+		outputStyle: 'expanded',
+		precision: 10,
+		includePaths: [
+			'.',
+			'app/scss/',
+			'bower_components/',
+			'bower_components/bourbon/app/assets/stylesheets/',
+			'bower_components/bootstrap-sass-official/assets/stylesheets/',
+			'bower_components/animate.css-scss/'
+		]
+	};
 
-// POSTCSS OPTIONS
-// --------------------------------------|
-var optsPostCSS = [
-	require('autoprefixer')(optsAutoprefixer),
-	require('css-mqpacker')
-];
+	// AUTOPREFIXER OPTIONS
+	// --------------------------------------|
+	let optsAutoprefixer = {
+		browsers: [
+			'> 1%',
+			'last 2 versions',
+			'Firefox ESR',
+			'Opera 12.1',
+			'Explorer >= 9',
+			'Safari >= 6',
+			'ExplorerMobile >= 10'
+		]
+	};
 
-module.exports = function(gulp, $, reload, merge, config) {
+	// POSTCSS OPTIONS
+	// --------------------------------------|
+	let optsPostCSS = [
+		require('autoprefixer')(optsAutoprefixer),
+		require('css-mqpacker')
+	];
 
 	// DEVELOPMENT STYLES
 	// --------------------------------------|
 	gulp.task('styles:dev', ['json:styles'], () => {
 		// Automatically import scss files
-		// Init our souremaps
+		// Init our sourcemaps
 		// Compile our scss files
 		// Use PostCSS
 		// Write our sourcemap
@@ -74,13 +73,13 @@ module.exports = function(gulp, $, reload, merge, config) {
 	gulp.task('styles:prod', ['json:styles'], () => {
 
 		// Automatically import scss files
-		// Init our souremaps
+		// Init our sourcemaps
 		// Compile our scss files
 		// Use PostCSS
 		// Write our sourcemap
 		// Output to our .tmp folder
 		// Output to our dist/dev/css folder
-		var styles = gulp.src(config.styles.src.scss)
+		let styles = gulp.src(config.styles.src.scss)
 			.pipe($.sassBulkImport())
 			.pipe($.sourcemaps.init())
 			.pipe($.sass.sync(optsSass))
@@ -90,7 +89,7 @@ module.exports = function(gulp, $, reload, merge, config) {
 			.pipe($.if(global.devEnv, gulp.dest(config.styles.dest.dev)));
 
 		// Copy sourcemap to dist/dev/css folder
-		var sourcemap = gulp.src(config.styles.src.map)
+		let sourcemap = gulp.src(config.styles.src.map)
 			.pipe($.if(global.devEnv, gulp.dest(config.styles.dest.dev)));
 
 		return merge(styles, sourcemap);
@@ -106,7 +105,7 @@ module.exports = function(gulp, $, reload, merge, config) {
 		// Use PostCSS
 		// Minify CSS
 		// Output to our dist/css folder
-		var styles = gulp.src(config.styles.src.scss)
+		let styles = gulp.src(config.styles.src.scss)
 			.pipe($.sassBulkImport())
 			.pipe($.sass.sync(optsSass))
 			.on('error', function(err) {
@@ -123,7 +122,7 @@ module.exports = function(gulp, $, reload, merge, config) {
 		// Compile our scss files
 		// Use PostCSS
 		// Output to our dist/dev/css folder
-		var sourcemap = gulp.src(config.styles.src.scss)
+		let sourcemap = gulp.src(config.styles.src.scss)
 			.pipe($.sassBulkImport())
 			.pipe($.sourcemaps.init())
 			.pipe($.sass.sync(optsSass))

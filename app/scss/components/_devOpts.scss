@@ -1,0 +1,78 @@
+// -----------------------------------------------------------------|
+//	DEVOPTS COMPONENT
+// -----------------------------------------------------------------|
+// Common elements used in the dev options component.
+
+.devOpts {
+	position: fixed;
+	bottom: 0;
+	right: 0;
+	z-index: 2000;
+
+	span {
+		@include fontSize(14px);
+		color: $color-black;
+		padding: 5px 10px;
+		opacity: 0.5;
+		cursor: pointer;
+		display: block;
+		transition: all $speed;
+	}
+
+	ul {
+		margin: 0;
+		padding: 0;
+		position: absolute;
+		bottom: 100%;
+		right: 0;
+		width: 100px;
+		list-style: none;
+		background: $color-black;
+		transform: translateX(100px);
+		transition: transform $speed;
+
+		&:after {
+			position: absolute;
+			top: 100%;
+			right: 11px;
+			@include triangle(12px, $color-black, down);
+			content: ' ';
+		}
+
+		&.is-active {
+			transform: translateX(0);
+		}
+	}
+
+	li {
+		background: $color-alpha;
+		border-bottom: 1px solid $color-22;
+
+		&:last-child {
+			border-bottom: 0;
+		}
+	}
+
+	a {
+		@include fontSize(10px);
+		text-transform: uppercase;
+		display: block;
+		color: $color-white;
+		padding: 8px 10px;
+		line-height: 1.2;
+		text-align: right;
+		transition: all $speed;
+
+		&:hover {
+			color: $color-white;
+			background: $color-11;
+		}
+	}
+
+	&:hover,
+	&.is-active {
+		span {
+			opacity: 1;
+		}
+	}
+}

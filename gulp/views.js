@@ -1,35 +1,34 @@
 // -----------------------------------------------------------------|
 // VIEWS TASKS
 // -----------------------------------------------------------------|
-'use strict';
 
-// JADE OPTIONS
-// --------------------------------------|
-var optsJade = {
-	pretty: true,
-	basedir: 'app/jade'
-};
+export default (gulp, $, merge, reload, config) => {
 
-function requireUncached(module) {
-    delete require.cache[require.resolve(module)];
-    return require(module);
-}
+	// JADE OPTIONS
+	// --------------------------------------|
+	let optsJade = {
+		pretty: true,
+		basedir: 'app/jade'
+	};
 
-// HTML PRETTIFY OPTIONS
-// --------------------------------------|
-var optsPretty = {
-	indent_with_tabs: true,
-	indent_inner_html: false,
-	preserve_newlines: true,
-	indent_scripts: 'normal',
-	unformatted: ['sub', 'sup', 'b', 'em', 'u', 'script']
-};
+	let requireUncached = (module) => {
+	    delete require.cache[require.resolve(module)];
+	    return require(module);
+	}
 
-module.exports = function(gulp, $, merge, reload, config) {
+	// HTML PRETTIFY OPTIONS
+	// --------------------------------------|
+	let optsPretty = {
+		indent_with_tabs: true,
+		indent_inner_html: false,
+		preserve_newlines: true,
+		indent_scripts: 'normal',
+		unformatted: ['sub', 'sup', 'b', 'em', 'u', 'script']
+	};
 
 	// DEVELOPMENT VIEWS
 	// --------------------------------------|
-	// Process on intial serve & when config.json changes
+	// Process on initial serve & when config.json changes
 	gulp.task('views:dev', ['json:views'], () => {
 		return gulp.src(config.views.src.dev)
 			.pipe($.data(function(file) {
@@ -38,7 +37,8 @@ module.exports = function(gulp, $, merge, reload, config) {
 			.pipe($.filter(config.views.src.filter))
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
-			.pipe(gulp.dest(config.views.dest.tmp));
+			.pipe(gulp.dest(config.views.dest.tmp))
+			.pipe(reload({stream: true}));
 	});
 
 	// Setwatch task is required for Jade caching
@@ -58,15 +58,16 @@ module.exports = function(gulp, $, merge, reload, config) {
 			.pipe($.filter(config.views.src.filter))
 			.pipe($.jade(optsJade))
 			.pipe($.prettify(optsPretty))
-			.pipe(gulp.dest(config.views.dest.tmp));
+			.pipe(gulp.dest(config.views.dest.tmp))
+			.pipe(reload({stream: true}));
 	});
 
 	// PRODUCTION VIEWS
 	// --------------------------------------|
-	gulp.task('views:prod', ['json:views'], () => {
+	gulp.task('views:prod', ['wiredep', 'json:views'], () => {
 
 		// Compile page templates
-		var templates = gulp.src(config.views.src.prod)
+		let templates = gulp.src(config.views.src.prod)
 			.pipe($.data(function(file) {
 				return requireUncached('../app/json/__output.json');
 			}))
@@ -75,7 +76,7 @@ module.exports = function(gulp, $, merge, reload, config) {
 			.pipe(gulp.dest(config.views.dest.tmp));
 
 		// Compile page components for dev
-		var components = gulp.src(config.views.src.components)
+		let components = gulp.src(config.views.src.components)
 			.pipe($.data(function(file) {
 				return requireUncached('../app/json/__output.json');
 			}))

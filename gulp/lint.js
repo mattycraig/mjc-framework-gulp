@@ -1,9 +1,8 @@
 // -----------------------------------------------------------------|
 // LINT TASKS
 // -----------------------------------------------------------------|
-'use strict';
 
-module.exports = function(gulp, $, handleError, reload, config) {
+export default (gulp, $, handleError, reload, config) => {
 
 	// HTMLHINT (HTML LINTING)
 	// --------------------------------------|
@@ -48,7 +47,7 @@ module.exports = function(gulp, $, handleError, reload, config) {
 	// ARIALINT (ACCESSIBILITY LINTING)
 	// --------------------------------------|
 	gulp.task('lint:aria', () => {
-		// Lint our HTML files for accessbility errors
+		// Lint our HTML files for accessibility errors
 		return gulp.src(config.linthtml.src)
 			.pipe($.a11y())
     		.pipe($.a11y.reporter());

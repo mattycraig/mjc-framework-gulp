@@ -1,6 +1,6 @@
 {
 	"spacing": "15px",
-	"speed": "300",
+	"speed": "0.3s",
 	"bp": {
 		"xs": "480px",
 		"sm": "768px",

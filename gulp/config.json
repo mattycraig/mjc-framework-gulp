@@ -85,6 +85,12 @@
 				"app",
 				"test"
 			]
+		},
+		"devopts": {
+			"src": "app/jade/*.jade",
+			"jade": "app/jade/layouts/default/inc/_devOpts.jade",
+			"dest": "app/jade/layouts/default/inc",
+			"ignore": "app/jade"
 		}
 	},
 	"scripts": {

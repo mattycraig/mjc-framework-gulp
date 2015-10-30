@@ -1,11 +1,10 @@
 // -----------------------------------------------------------------|
 // INJECT TASKS
 // -----------------------------------------------------------------|
-'use strict';
 
-module.exports = function(gulp, $, merge, config) {
+export default (gulp, $, merge, config) => {
 
-	function inject(src, injectSrc, ignorePath, dest) {
+	let inject = (src, injectSrc, ignorePath, dest) => {
 		return gulp.src(src)
 			.pipe($.inject(gulp.src(injectSrc, {read: false}),
 				{
@@ -22,6 +21,28 @@ module.exports = function(gulp, $, merge, config) {
 	gulp.task('inject:scripts', () => {
 		// Inject our script tags into our jade foot partial
 		inject(config.inject.scripts.jade, config.inject.scripts.src, config.inject.scripts.ignore, config.inject.scripts.dest);
+	});
+
+	// INJECT DEVOPTS
+	// --------------------------------------|
+	gulp.task('setDevopts', () => {
+		global.devOpts = true;
+	});
+
+	gulp.task('inject:devopts', ['setDevopts'], () => {
+		// Inject devOpts into our layout (easy page navigation)
+		return gulp.src(config.inject.devopts.jade)
+				.pipe($.inject(gulp.src(config.inject.devopts.src, {read: false}),
+					{
+						ignorePath: config.inject.devopts.ignore,
+						relative: false,
+						addRootSlash: false,
+						transform: function (filepath) {
+							return 'li: a(href="' + filepath.slice(0, -5) + '.html") ' + filepath.slice(0, -5);
+						}
+					}
+				))
+				.pipe(gulp.dest(config.inject.devopts.dest));
 	});
 
 	// INJECT SCRIPTS FOR TESTS

@@ -1,0 +1,22 @@
+//- -----------------------------------------------------------------|
+//- DEVOPTS
+//- -----------------------------------------------------------------|
+//- Contains all HTML and blocks for the dev options include.
+
+//- Only output these options on serve, not when building
+- if (global.devOpts)
+	.devOpts
+		span
+			i.fa.fa-cog
+		ul
+			//- Inject all of our pages for easy navigation
+			//- inject:jade
+			li: a(href="index.html") index
+			li: a(href="styles.html") styles
+			//- endinject
+
+	script.
+		$('.devOpts span').click(function() {
+			$(this).parent().toggleClass('is-active');
+			$('.devOpts ul').toggleClass('is-active');
+		});

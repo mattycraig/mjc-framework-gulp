@@ -1,13 +1,12 @@
 // -----------------------------------------------------------------|
 // SERVE TASKS
 // -----------------------------------------------------------------|
-'use strict';
 
-module.exports = function(gulp, $, browserSync, reload) {
+export default (gulp, $, browserSync, reload) => {
 
 	// DEVELOPMENT SERVE
 	// --------------------------------------|
-	gulp.task('serve', ['clean', 'wiredep', 'styles:dev', 'setWatch', 'views:dev', 'fonts:dev'], () => {
+	gulp.task('serve', ['clean', 'wiredep', 'inject:devopts', 'styles:dev', 'setWatch', 'views:dev', 'fonts:dev'], () => {
 
 		browserSync({
 			notify: false,
@@ -22,7 +21,7 @@ module.exports = function(gulp, $, browserSync, reload) {
 
 		// Watch our files for changes
 		gulp.watch([
-			'.tmp/**/*.html',
+			// '.tmp/**/*.html',
 			'app/js/**/*.js',
 			'app/images/**/*'
 		]).on('change', reload);
@@ -47,7 +46,7 @@ module.exports = function(gulp, $, browserSync, reload) {
 		// Watch jade files
 		gulp.watch(
 			'app/jade/**/*.jade',
-			['views:devWatch']);
+			['inject:devopts', 'views:devWatch']);
 
 		// Watch json files
 		gulp.watch([

@@ -1,11 +1,10 @@
 // -----------------------------------------------------------------|
 // BUILD TASKS
 // -----------------------------------------------------------------|
-'use strict';
 
-module.exports = function(gulp, $, config) {
+export default (gulp, $, config) => {
 
-	function build(type) {
+	let build = (type) => {
 		return gulp.src(config.build.src)
 			.pipe($.notify({
 				onLast: true,
@@ -17,13 +16,13 @@ module.exports = function(gulp, $, config) {
 
 	// BUILD (UNMINIFIED, WITH CMS)
 	// --------------------------------------|
-	gulp.task('build', ['lint:scripts', 'html:prod', 'images:minify', 'fonts:prod', 'copy'], () => {
+	gulp.task('build', ['html:prod', 'images:minify', 'fonts:prod', 'copy'], () => {
 		build('Build');
 	});
 
 	// BUILD (MINIFIED, NO CMS)
 	// --------------------------------------|
-	gulp.task('build:flat', ['lint:scripts', 'html:flat', 'images:minify', 'fonts:prod', 'copy'], () => {
+	gulp.task('build:flat', ['clean', 'html:flat', 'images:minify', 'fonts:prod', 'copy'], () => {
 		build('Flat build');
 	});
 
