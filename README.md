@@ -6,7 +6,7 @@ To get started, we need to install all dependencies for our new project:
 npm install && bower install
 ```
 
-Next, let's start our local webserver. Our watch task will compile all necessary files when changed (Jade, SCSS, JS, etc):
+Next, let's start our local web server. Our watch task will compile all necessary files when changed (Jade, SCSS, JS, etc):
 
 ```
 gulp serve
@@ -36,9 +36,9 @@ To run our test files, simply
 gulp serve:test
 ```
 
-### Setting the 'dev' Environment
+### Output dev files
 
-To output dev verions (unminified versions of css/components/js files), open up gulp/helpers.js and set
+To output dev verions (unminified versions of css/jade components/js files), open up gulpfile.babel.js and set
 
 ```
 global.devEnv = true;
@@ -66,7 +66,7 @@ Lint our script file(s) for possible errors/warnings
 gulp lint:scripts
 ```
 
-Lint our html file(s) for possible html errors/warnings:
+<!-- Lint our html file(s) for possible html errors/warnings:
 
 ```
 gulp lint:html
@@ -76,12 +76,18 @@ Lint our html file(s) for possible ARIA errors/warnings:
 
 ```
 gulp lint:aria
-```
+``` -->
 
 Lint our gulp file(s) for possible errors/warnings:
 
 ```
 gulp lint:gulp
+```
+
+Inject our app's script files to our _foot.jade file:
+
+```
+gulp inject:scripts
 ```
 
 Inject our vendor dependencies from Bower to our _foot.jade file:

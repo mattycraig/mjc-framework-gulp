@@ -71,7 +71,6 @@ export default (gulp, $, reload, merge, config) => {
 	// PRODUCTION STYLES
 	// --------------------------------------|
 	gulp.task('styles:prod', ['json:styles'], () => {
-
 		// Automatically import scss files
 		// Init our sourcemaps
 		// Compile our scss files
@@ -93,13 +92,11 @@ export default (gulp, $, reload, merge, config) => {
 			.pipe($.if(global.devEnv, gulp.dest(config.styles.dest.dev)));
 
 		return merge(styles, sourcemap);
-
 	});
 
 	// INDIVIDUAL TASK: STYLES
 	// --------------------------------------|
 	gulp.task('task:styles', ['json:styles', 'clean:styles'], () => {
-
 		// Automatically import scss files
 		// Compile our scss files
 		// Use PostCSS
@@ -131,6 +128,5 @@ export default (gulp, $, reload, merge, config) => {
 			.pipe($.if(global.devEnv, gulp.dest(config.styles.dest.dev)));
 
 		return merge(styles, sourcemap);
-
 	});
 };

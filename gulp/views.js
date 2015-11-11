@@ -65,7 +65,6 @@ export default (gulp, $, merge, reload, config) => {
 	// PRODUCTION VIEWS
 	// --------------------------------------|
 	gulp.task('views:prod', ['wiredep', 'json:views'], () => {
-
 		// Compile page templates
 		let templates = gulp.src(config.views.src.prod)
 			.pipe($.data(function(file) {
@@ -85,6 +84,5 @@ export default (gulp, $, merge, reload, config) => {
 			.pipe($.if(global.devEnv, gulp.dest(config.views.dest.components)));
 
 		return merge(templates, components);
-
 	});
 };

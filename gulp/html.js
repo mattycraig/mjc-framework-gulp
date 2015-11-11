@@ -6,7 +6,7 @@ export default (gulp, $, merge, config) => {
 
 	// ASSETS OPTIONS
 	// --------------------------------------|
-	let assets = $.useref.assets({
+	let assets = $.useref({
 		searchPath: '{.tmp,app}'
 	});
 
@@ -23,11 +23,8 @@ export default (gulp, $, merge, config) => {
 			.pipe(assets)
 			.pipe($.if('*.js', $.uglify()))
 			.pipe($.if('*.css', $.minifyCss()))
-			.pipe(assets.restore())
-			.pipe($.useref())
 			.pipe(gulp.dest(config.html.dest.prod));
 
-		// Merge streams
 		return merge(doUseref, doAssets);
 	});
 
@@ -39,8 +36,6 @@ export default (gulp, $, merge, config) => {
 			.pipe($.if('*.js', $.uglify()))
 			.pipe($.if('*.css', $.minifyCss()))
 			.pipe($.rev())
-			.pipe(assets.restore())
-			.pipe($.useref())
 			.pipe($.revReplace())
 			.pipe($.if('*.html', $.minifyHtml({
 				conditionals: true,

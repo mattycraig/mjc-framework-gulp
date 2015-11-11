@@ -7,7 +7,6 @@ export default (gulp, $, merge, config) => {
 	// INDIVIDUAL TASK: SCRIPTS
 	// --------------------------------------|
 	gulp.task('task:scripts', ['clean:scripts', 'lint:scripts'], () => {
-
 		// Uglify
 		// Copy to dist/js
 		let scripts = gulp.src(config.scripts.src.js)
@@ -20,6 +19,5 @@ export default (gulp, $, merge, config) => {
 			.pipe($.if(global.devEnv, gulp.dest(config.scripts.dest.dev)));
 
 		return merge(scripts, scriptsDev);
-
 	});
 };

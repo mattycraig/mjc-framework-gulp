@@ -7,7 +7,6 @@ export default (gulp, $, handleError, reload, config) => {
 	// HTMLHINT (HTML LINTING)
 	// --------------------------------------|
 	gulp.task('lint:html', () => {
-
 		// Lint our HTML files for errors
 		return gulp.src(config.linthtml.src)
 			.pipe($.htmlhint('.htmlhintrc'))
@@ -21,7 +20,7 @@ export default (gulp, $, handleError, reload, config) => {
 	gulp.task('lint:scripts', () => {
 		// Lint using ESLint
 		// Report errors in console
-		// Notiify of an error (to be fixed)
+		// Notify of an error (to be fixed)
 		return gulp.src(config.lintscripts.src.js)
 			.pipe(reload({
 				stream: true,
@@ -37,7 +36,7 @@ export default (gulp, $, handleError, reload, config) => {
 	gulp.task('lint:gulp', () => {
 		// Lint using ESLint
 		// Report errors in console
-		// Notiify of an error (to be fixed)
+		// Notify of an error (to be fixed)
 		return gulp.src(config.lintscripts.src.gulp)
 			.pipe($.eslint())
 			.pipe($.eslint.format())

@@ -44,7 +44,6 @@ export default (gulp, $, merge, config) => {
 	// COPY ALL ROOT FILES + DEV JS FILES FROM TMP TO DIST
 	// --------------------------------------|
 	gulp.task('copy', () => {
-
 		// Root files
 		let rootFiles = gulp.src(config.copy.src.files, {
 				dot: true

@@ -1,6 +1,7 @@
 // -----------------------------------------------------------------|
 // GULPFILE.BABEL.JS
 // -----------------------------------------------------------------|
+'use strict';
 
 import gulp from 'gulp';
 import gulpLoadPlugins from 'gulp-load-plugins';
@@ -16,7 +17,7 @@ const config = require('./gulp/config.json');
 // If true, compiles files to /dist/dev
 // Outputs non-min css/js & jade cmpnts
 // --------------------------------------|
-global.devEnv = true;
+global.devEnv = false;
 
 // ERROR NOTIFICATIONS
 // --------------------------------------|
