@@ -8,7 +8,7 @@
 	'use strict';
 
 	function json(callback) {
-		$.getJSON('json/__output.json', function(data) {
+		$.getJSON('js/json/__output.json', function(data) {
 			callback(data);
 		});
 	}

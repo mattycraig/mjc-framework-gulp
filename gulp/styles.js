@@ -97,36 +97,39 @@ export default (gulp, $, reload, merge, config) => {
 	// INDIVIDUAL TASK: STYLES
 	// --------------------------------------|
 	gulp.task('task:styles', ['json:styles', 'clean:styles'], () => {
-		// Automatically import scss files
-		// Compile our scss files
-		// Use PostCSS
-		// Minify CSS
-		// Output to our dist/css folder
-		let styles = gulp.src(config.styles.src.scss)
-			.pipe($.sassBulkImport())
-			.pipe($.sass.sync(optsSass))
-			.on('error', function(err) {
-				$.notify.onError({
-					message: 'SASS failed!\n' + err.message + ' on line ' + err.line
-				})(err);
-			})
-			.pipe($.postcss(optsPostCSS))
-			.pipe($.minifyCss())
-			.pipe(gulp.dest(config.styles.dest.prod))
-			.pipe($.if(global.devEnv, gulp.dest(config.styles.dest.dev)));
 
-		// Automatically import scss files
-		// Compile our scss files
-		// Use PostCSS
-		// Output to our dist/dev/css folder
-		let sourcemap = gulp.src(config.styles.src.scss)
-			.pipe($.sassBulkImport())
-			.pipe($.sourcemaps.init())
-			.pipe($.sass.sync(optsSass))
-			.pipe($.postcss(optsPostCSS))
-			.pipe($.sourcemaps.write('./'))
-			.pipe($.if(global.devEnv, gulp.dest(config.styles.dest.dev)));
+		let styles = () => {
+			// Automatically import scss files
+			// Compile our scss files
+			// Use PostCSS
+			// Minify CSS
+			// Output to our dist/css folder
+			return gulp.src(config.styles.src.scss)
+				.pipe($.sassBulkImport())
+				.pipe($.sass.sync(optsSass))
+				.on('error', function(err) {
+					$.notify.onError({
+						message: 'SASS failed!\n' + err.message + ' on line ' + err.line
+					})(err);
+				})
+				.pipe($.postcss(optsPostCSS))
+				.pipe($.minifyCss())
+				.pipe(gulp.dest(config.styles.dest.prod));
+		}
 
-		return merge(styles, sourcemap);
+		if(global.devEnv) {
+			let doStyles = styles();
+			let sourcemap = gulp.src(config.styles.src.scss)
+				.pipe($.sassBulkImport())
+				.pipe($.sourcemaps.init())
+				.pipe($.sass.sync(optsSass))
+				.pipe($.postcss(optsPostCSS))
+				.pipe($.sourcemaps.write('./'))
+				.pipe(gulp.dest(config.styles.dest.dev));
+			return merge(doStyles, sourcemap);
+		} else {
+			styles();
+		}
+
 	});
 };

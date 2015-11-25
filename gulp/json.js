@@ -4,7 +4,7 @@
 
 export default (gulp, $, config) => {
 
-	// EXPORT JSON VARIABLES TO SASS
+	// EXPORT JSON VARS TO SASS
 	// --------------------------------------|
 	gulp.task('json:styles', () => {
 		return gulp.src(config.json.src.styles)
@@ -14,7 +14,7 @@ export default (gulp, $, config) => {
 
 	});
 
-	// COMBINE CONFIG/VARS JSON FOR USE IN JADE
+	// COMBINE JSON FOR USE IN JADE/JS
 	// --------------------------------------|
 	gulp.task('json:views', ['clean:json'], () => {
 		return gulp.src(config.json.src.views)
@@ -23,7 +23,7 @@ export default (gulp, $, config) => {
 				return new Buffer(JSON.stringify(data)); // Unformatted
 			}))
 			.pipe(gulp.dest(config.json.dest.views))
-			.pipe(gulp.dest('dist/json'));
+			.pipe(gulp.dest(config.json.dest.dist));
 	});
 
 };

@@ -26,7 +26,9 @@
 		},
 		"dest": {
 			"styles": "app/scss/config/vars",
-			"views": "app/json"
+			"views": "app/json",
+			"dev": "dist/dev/js/json",
+			"dist": "dist/js/json"
 		},
 		"output": {
 			"styles": "__output.scss",

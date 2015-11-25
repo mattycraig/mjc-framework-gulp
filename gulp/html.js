@@ -4,7 +4,7 @@
 
 export default (gulp, $, merge, config) => {
 
-	// ASSETS OPTIONS
+	// USEREF OPTIONS
 	// --------------------------------------|
 	let assets = $.useref({
 		searchPath: '{.tmp,app}'
@@ -13,19 +13,11 @@ export default (gulp, $, merge, config) => {
 	// PRODUCTION HTML (UNMINIFIED / WITH CMS)
 	// --------------------------------------|
 	gulp.task('html:prod', ['views:prod', 'styles:prod'], () => {
-		let doUseref = gulp.src(config.html.src.prod)
-			.pipe($.useref())
-			.pipe(gulp.dest(config.html.dest.prod));
-
-		// Reduces compile time but only searches index file to
-		// minify and concat css/js references
-		let doAssets = gulp.src(config.html.src.index)
+		return gulp.src(config.html.src.flat)
 			.pipe(assets)
 			.pipe($.if('*.js', $.uglify()))
 			.pipe($.if('*.css', $.minifyCss()))
 			.pipe(gulp.dest(config.html.dest.prod));
-
-		return merge(doUseref, doAssets);
 	});
 
 	// FLAT HTML (MINIFIED / NO CMS)

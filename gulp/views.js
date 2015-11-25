@@ -65,24 +65,38 @@ export default (gulp, $, merge, reload, config) => {
 	// PRODUCTION VIEWS
 	// --------------------------------------|
 	gulp.task('views:prod', ['wiredep', 'json:views'], () => {
-		// Compile page templates
-		let templates = gulp.src(config.views.src.prod)
-			.pipe($.data(function(file) {
-				return requireUncached('../app/json/__output.json');
-			}))
-			.pipe($.jade(optsJade))
-			.pipe($.prettify(optsPretty))
-			.pipe(gulp.dest(config.views.dest.tmp));
+		let templates = () => {
+			// Compile page templates
+			return gulp.src(config.views.src.prod)
+				.pipe($.data(function(file) {
+					return requireUncached('../app/json/__output.json');
+				}))
+				.pipe($.jade(optsJade))
+				.pipe($.prettify(optsPretty))
+				.pipe(gulp.dest(config.views.dest.tmp));
+		}
 
-		// Compile page components for dev
-		let components = gulp.src(config.views.src.components)
-			.pipe($.data(function(file) {
-				return requireUncached('../app/json/__output.json');
-			}))
-			.pipe($.jade(optsJade))
-			.pipe($.prettify(optsPretty))
-			.pipe($.if(global.devEnv, gulp.dest(config.views.dest.components)));
+		if(global.devEnv) {
+			let doTemplates = templates();
+			// Compile page components for dev
+			let components = gulp.src(config.views.src.components)
+				.pipe($.data(function(file) {
+					return requireUncached('../app/json/__output.json');
+				}))
+				.pipe($.jade(optsJade))
+				.pipe($.prettify(optsPretty))
+				.pipe(gulp.dest(config.views.dest.components));
+			return merge(doTemplates, components);
+		} else {
+			// templates(); // why doesn't this work?
 
-		return merge(templates, components);
+			return gulp.src(config.views.src.prod)
+				.pipe($.data(function(file) {
+					return requireUncached('../app/json/__output.json');
+				}))
+				.pipe($.jade(optsJade))
+				.pipe($.prettify(optsPretty))
+				.pipe(gulp.dest(config.views.dest.tmp));
+		}
 	});
 };
